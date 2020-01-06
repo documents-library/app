@@ -14,6 +14,12 @@ export default class MyApp extends App {
     return (
       <ThemeProvider theme={theme}>
         <Component {...pageProps} />
+
+        <style global jsx>{`
+          body {
+            margin: 0;
+          }
+        `}</style>
       </ThemeProvider>
     )
   }
