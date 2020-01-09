@@ -10,7 +10,7 @@ import { withTheme } from '@material-ui/core/styles'
 
 export default function Layout({ title, onGoBack, actions, children }) {
   return (
-    <section className="Layout-Container">
+    <LayoutWrapper>
       <AppBarWrapper position="static">
         <Toolbar>
           {onGoBack && (
@@ -54,7 +54,7 @@ export default function Layout({ title, onGoBack, actions, children }) {
       </AppBarWrapper>
 
       <section className="Layout-Main">{children}</section>
-    </section>
+    </LayoutWrapper>
   )
 }
 
@@ -78,3 +78,15 @@ const AppBarWrapper = withTheme(styled(AppBar)`
     flex-grow: 1;
   }
 `)
+
+const LayoutWrapper = styled.section`
+  &,
+  .Layout-Main {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #e8eaf6;
+  }
+`

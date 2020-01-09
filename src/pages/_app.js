@@ -1,6 +1,7 @@
 import App from 'next/app'
 import React from 'react'
 import { ThemeProvider } from 'styled-components'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 const theme = {
   colors: {
@@ -13,11 +14,17 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props
     return (
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Component {...pageProps} />
 
         <style global jsx>{`
-          body {
-            margin: 0;
+          html,
+          body,
+          #__next {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
           }
         `}</style>
       </ThemeProvider>
