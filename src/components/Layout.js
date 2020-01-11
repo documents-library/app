@@ -11,29 +11,30 @@ import { withTheme } from '@material-ui/core/styles'
 export default function Layout({ title, onGoBack, actions, children }) {
   return (
     <LayoutWrapper>
-      <AppBarWrapper position="static">
-        <Toolbar>
-          {onGoBack && (
-            <IconButton
-              edge="start"
-              className="Layout-Appbar-MenuButton"
-              color="inherit"
-              aria-label="go back"
-              onClick={onGoBack}
-            >
-              <ArrowBackIcon />
-            </IconButton>
-          )}
-          <Typography variant="h6" noWrap>
-            {title}
-          </Typography>
+      <>
+        <AppBarWrapper position="fixed">
+          <Toolbar>
+            {onGoBack && (
+              <IconButton
+                edge="start"
+                className="Layout-Appbar-MenuButton"
+                color="inherit"
+                aria-label="go back"
+                onClick={onGoBack}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            )}
+            <Typography variant="h6" noWrap>
+              {title}
+            </Typography>
 
-          <div className="Layout-Appbar-Grow" />
+            <div className="Layout-Appbar-Grow" />
 
-          {actions && (
-            <div className="Layout-Appbar-Actions">
-              {actions}
-              {/* For furter use
+            {actions && (
+              <div className="Layout-Appbar-Actions">
+                {actions}
+                {/* For furter use
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
@@ -48,10 +49,12 @@ export default function Layout({ title, onGoBack, actions, children }) {
                 </Badge>
               </IconButton>
               */}
-            </div>
-          )}
-        </Toolbar>
-      </AppBarWrapper>
+              </div>
+            )}
+          </Toolbar>
+        </AppBarWrapper>
+        <AppBarOffset />
+      </>
 
       <section className="Layout-Main">{children}</section>
     </LayoutWrapper>
@@ -76,6 +79,12 @@ const AppBarWrapper = withTheme(styled(AppBar)`
 
   .Layout-Appbar-Grow {
     flex-grow: 1;
+  }
+`)
+
+const AppBarOffset = withTheme(styled.div`
+  & {
+    ${({ theme }) => theme.mixins.toolbar}
   }
 `)
 
