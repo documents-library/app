@@ -10,11 +10,9 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 
-import { fileType } from '../../helpers/files'
+import { isFileType, canReadOnline, getFileIcon } from '../../helpers/files'
 
 export default function FileItem({ site, data }) {
-  console.log(data)
-
   // if (data.fileExtension
 
   return (

@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
 import { withTheme, useTheme } from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import List from '@material-ui/core/List'
 
 export const itemType = {
   folder: 'application/vnd.google-apps.folder'
@@ -52,10 +53,19 @@ function Files({ site, files }) {
   )
 }
 
+Files.propTypes = {
+  site: PropTypes.object,
+  files: PropTypes.array
+}
+
 function Sections({ site, sections }) {
-  return sections
-    ? sections.map(item => <FolderItem key={item.id} site={site} data={item} />)
-    : null
+  return sections ? (
+    <List>
+      {sections.map(item => (
+        <FolderItem key={item.id} site={site} data={item} />
+      ))}
+    </List>
+  ) : null
 }
 
 const FolderWrapper = withTheme(styled(Container)`
