@@ -1,21 +1,8 @@
-import { es, enCA, it, ptBR } from 'date-fns/locale'
-import {
-  format,
-  formatDistance,
-  formatDistanceToNow,
-  formatDistanceStrict,
-  formatRelative,
-  addDays
-} from 'date-fns'
+import { es } from 'date-fns/locale'
+import { formatDistance } from 'date-fns'
 
 // Dates
-const defaultOptions = { numeric: 'auto', unit: 'day' }
-export function dateRelativeFormat({
-  date,
-  lan = 'es',
-  options = defaultOptions
-}) {
-  console.log('------------------------------------- ', date)
+export function dateRelativeFormat({ date, lan = 'es' }) {
   return formatDistance(new Date(date), new Date(Date.now()), {
     locale: es,
     addSuffix: true

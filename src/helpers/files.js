@@ -90,6 +90,13 @@ export function getFileIcon({ extension }) {
   else return '' // TODO add icon for default file
 }
 
+export function getPreview({ thumbnailLink, size = 'w606' }) {
+  const sliceTo = thumbnailLink.indexOf('=')
+  const baseLink = thumbnailLink.slice(0, sliceTo)
+
+  return `${baseLink}=${size}`
+}
+
 function getFileType({ extension }) {
   let currentFileType = null
 
@@ -101,4 +108,3 @@ function getFileType({ extension }) {
 
   return currentFileType
 }
-

@@ -1,13 +1,18 @@
 import App from 'next/app'
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeProvider
+} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-const theme = {
+let theme = createMuiTheme({
   colors: {
     primary: 'blue'
   }
-}
+})
+theme = responsiveFontSizes(theme)
 
 export default class MyApp extends App {
   render() {
