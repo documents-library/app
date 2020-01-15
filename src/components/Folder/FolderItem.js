@@ -7,7 +7,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Router from 'next/router'
 
 export default function FolderItem({ site, data }) {
-  console.log(data)
   return (
     <ListItem
       onClick={() =>

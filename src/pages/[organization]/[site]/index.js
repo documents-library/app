@@ -42,7 +42,9 @@ Site.getInitialProps = async ctx => {
   if (folderId) {
     // TODO: check if the folder is a children of the main folder id
     // Probably I need to do this on the BE
-    const getFolder = await fetch(`http://localhost:8080/folders/${folderId}`)
+    const getFolder = await fetch(
+      `http://localhost:8080/folders/${site.name}/${folderId}`
+    )
     folder = await getFolder.json()
   }
 
