@@ -1,8 +1,8 @@
 export const filetype = {
   // Documents and PDFs *read online*
   doc: {
-    name: 'document',
-    icon: '',
+    name: 'doc',
+    icon: '/img/document.svg',
     extensions: [
       'doc',
       'dot',
@@ -18,12 +18,13 @@ export const filetype = {
       'html',
       'rtf',
       'txt'
-    ]
+    ],
+    mimeTypes: ['application/vnd.google-apps.document']
   },
   // presentations *read online*
   pres: {
-    name: 'presentation',
-    icon: '',
+    name: 'pres',
+    icon: '/img/presentation.svg',
     extensions: [
       'odp',
       'otp',
@@ -34,18 +35,20 @@ export const filetype = {
       'potx',
       'ppsx',
       'sldx'
-    ]
+    ],
+    mimeTypes: ['application/vnd.google-apps.presentation']
   },
   // spreadsheet (download)
   calc: {
-    name: 'spreadsheet',
-    icon: '',
-    extensions: ['ods', 'ots', 'xls', 'xlt', 'xlsx', 'xltx']
+    name: 'calc',
+    icon: '/img/spreadsheet.svg',
+    extensions: ['ods', 'ots', 'xls', 'xlt', 'xlsx', 'xltx'],
+    mimeTypes: ['application/vnd.google-apps.spreadsheet']
   },
   // photos *view online*
   img: {
-    name: 'image',
-    icon: '',
+    name: 'img',
+    icon: '/img/picture.svg',
     extensions: [
       'jpg',
       'jpeg',
@@ -59,37 +62,48 @@ export const filetype = {
       'bmp',
       'tiff',
       'webp'
-    ]
+    ],
+    mimeTypes: ['application/vnd.google-apps.photo']
   },
   // photos and drawings (download)
   pict: {
-    name: 'pictures',
-    icon: '',
-    extensions: ['odg', 'eps', 'ai', 'cdr', 'wmf']
+    name: 'pict',
+    icon: '/img/picture.svg',
+    extensions: ['odg', 'eps', 'ai', 'cdr', 'wmf'],
+    mimeTypes: ['application/vnd.google-apps.drawing']
   },
   // cad drawings (download)
-  cad: { name: 'cadDrawing', icon: '', extensions: ['dwg', 'dxf'] }
+  cad: {
+    name: 'cad',
+    icon: '/img/cad.svg',
+    extensions: ['dwg', 'dxf', '3ds', 'blend'],
+    mimeTypes: []
+  }
 }
 
-export function isFileType({ extension, typeNames }) {
-  const type = getFileType({ extension })
+export function isFileType({ file, typeNames }) {
+  const type = getFileType({ file })
 
-  return typeNames.include(type.name)
+  if (type) {
+    return typeNames.includes(type)
+  }
+  return null
 }
 
-export function canReadOnline({ extension }) {
-  const typeNames = [filetype.doc, filetype.pres, filetype.img]
+export function canReadOnline({ file }) {
+  const typeNames = [filetype.doc.name, filetype.pres.name, filetype.img.name]
 
-  return isFileType({ extension, typeNames })
+  return isFileType({ file, typeNames })
 }
 
-export function getFileIcon({ extension }) {
-  const type = getFileType({ extension })
+export function getFileIcon({ file }) {
+  const type = getFileType({ file })
 
-  if (type) return type.icon
-  else return '' // TODO add icon for default file
+  if (type) return filetype[type].icon
+  else return '/img/file.svg'
 }
 
+// size values: 'w200', 'h200', 's200'
 export function getPreview({ thumbnailLink, size = 'w606' }) {
   const sliceTo = thumbnailLink.indexOf('=')
   const baseLink = thumbnailLink.slice(0, sliceTo)
@@ -97,14 +111,24 @@ export function getPreview({ thumbnailLink, size = 'w606' }) {
   return `${baseLink}=${size}`
 }
 
-function getFileType({ extension }) {
+function getFileType({ file }) {
+  const { fileExtension, mimeType } = file
   let currentFileType = null
 
-  Object.keys(filetype).forEach(type => {
-    const { extensions } = filetype[type]
+  if (fileExtension) {
+    Object.keys(filetype).forEach(type => {
+      const { extensions } = filetype[type]
 
-    if (extensions.include(extension)) currentFileType = type
-  })
+      if (extensions.includes(fileExtension.toLowerCase()))
+        currentFileType = filetype[type].name
+    })
+  } else if (mimeType) {
+    Object.keys(filetype).forEach(type => {
+      const { mimeTypes } = filetype[type]
+
+      if (mimeTypes.includes(mimeType)) currentFileType = filetype[type].name
+    })
+  }
 
   return currentFileType
 }

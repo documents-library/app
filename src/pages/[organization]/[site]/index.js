@@ -8,17 +8,17 @@ import FilePage from '../../../components/site/FilePage'
 
 // Site main page
 export default function Site({ site, isSiteMainPage, folder, fileId }) {
-  if (!site) {
-    return <p>{`404: the site not belong to the current organization`}</p>
-  } else if (isSiteMainPage) {
-    return <SiteHomePage site={site} folder={folder} />
-  } else if (fileId) {
-    return <FilePage site={site} folder={folder} />
-  } else if (folder.kind === 'drive#fileList') {
-    return <FolderPage site={site} folder={folder} />
-  } else {
-    return <p>{`Can't get the data`}</p>
-  }
+  // if (!site) {
+  //   return <p>{`404: the site not belong to the current organization`}</p>
+  // } else if (isSiteMainPage) {
+  //   return <SiteHomePage site={site} folder={folder} />
+  // } else if (fileId) {
+  //   return <FilePage site={site} folder={folder} />
+  // } else if (folder.kind === 'drive#fileList') {
+  return <FolderPage site={site} folder={folder} />
+  // } else {
+  //   return <p>{`Can't get the data`}</p>
+  // }
 }
 
 Site.propTypes = {

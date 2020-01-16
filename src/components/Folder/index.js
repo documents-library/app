@@ -67,11 +67,7 @@ function Sections({ site, sections }) {
   return sections ? (
     <SectionsWrapper>
       <List
-        subheader={
-          <ListSubheader component="div" divider>
-            Secciones
-          </ListSubheader>
-        }
+        subheader={<ListSubheader component="div">Secciones</ListSubheader>}
       >
         <>
           <Divider />
