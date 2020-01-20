@@ -87,7 +87,8 @@ Folder.propTypes = {
 
 Files.propTypes = {
   site: PropTypes.object,
-  files: PropTypes.array
+  files: PropTypes.array,
+  columnWidth: PropTypes.number
 }
 
 Sections.propTypes = {

@@ -1,5 +1,36 @@
 import React from 'react'
+import Router from 'next/router'
+import PropTypes from 'prop-types'
+
+import Layout from '../../components/Layout'
+import Folder from '../../components/Folder'
 
 export default function SiteHomePage({ site, folder }) {
-  return <p>SiteHomePage</p>
+  const { files, currentFolder } = folder
+
+  return (
+    <Layout
+      title={currentFolder.name}
+      onGoBack={() =>
+        Router.push({
+          pathname: `/${site.organizationName}/${site.name}/`,
+          query: { folderId: currentFolder.parents[0] }
+        })
+      }
+    >
+      <>
+        <div>Bienvenidos a la home page del sitio</div>
+        {files.length > 0 ? (
+          <Folder site={site} folder={folder} />
+        ) : (
+          <p>The home page have not files :(</p>
+        )}
+      </>
+    </Layout>
+  )
+}
+
+SiteHomePage.propTypes = {
+  site: PropTypes.object,
+  folder: PropTypes.object
 }
