@@ -31,26 +31,7 @@ export default function Layout({ title, onGoBack, actions, children }) {
 
             <div className="Layout-Appbar-Grow" />
 
-            {actions && (
-              <div className="Layout-Appbar-Actions">
-                {actions}
-                {/* For furter use
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              */}
-              </div>
-            )}
+            {actions && <div className="Layout-Appbar-Actions">{actions}</div>}
           </Toolbar>
         </AppBarWrapper>
         <AppBarOffset />
@@ -96,6 +77,5 @@ const LayoutWrapper = styled.section`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: #e8eaf6;
   }
 `

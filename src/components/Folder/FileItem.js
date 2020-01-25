@@ -13,15 +13,10 @@ import { withTheme } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 import { dateRelativeFormat } from '../../helpers/format'
-import {
-  isFileType,
-  canReadOnline,
-  getFileIcon,
-  getPreview
-} from '../../helpers/files'
+import { canReadOnline, getFileIcon, getPreview } from '../../helpers/files'
 
 export default function FileItem({ site, data, columnWidth }) {
-  const { id, name, icon, thumbnailLink, webContentLink, exportLinks } = data
+  const { id, name, thumbnailLink, webContentLink, exportLinks } = data
 
   return (
     <CardWrapper>
@@ -117,7 +112,7 @@ const CardPreview = withTheme(styled(CardMedia)`
   padding-right: ${({ theme }) => theme.spacing(6)}px;
   padding-bottom: 0;
   overflow: hidden;
-  background: #666;
+  background: #29434e;
   justify-content: center;
   display: flex;
   align-items: baseline;

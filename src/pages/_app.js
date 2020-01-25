@@ -1,18 +1,9 @@
 import App from 'next/app'
 import React from 'react'
-import {
-  createMuiTheme,
-  responsiveFontSizes,
-  ThemeProvider
-} from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-let theme = createMuiTheme({
-  colors: {
-    primary: 'blue'
-  }
-})
-theme = responsiveFontSizes(theme)
+import { theme } from '../helpers/theme'
 
 export default class MyApp extends App {
   render() {
@@ -31,6 +22,8 @@ export default class MyApp extends App {
             flex-direction: column;
             justify-content: space-between;
           }
+
+          @import url('https://fonts.googleapis.com/css?family=Domine:400,700&display=swap');
         `}</style>
       </ThemeProvider>
     )
