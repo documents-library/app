@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
 import Folder from '../../components/Folder'
+import WelcomeSection from './WelcomeSection'
 
 export default function SiteHomePage({ site, folder }) {
   const { files, currentFolder } = folder
@@ -13,13 +14,14 @@ export default function SiteHomePage({ site, folder }) {
       title={currentFolder.name}
       onGoBack={() =>
         Router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: currentFolder.parents[0] }
+          pathname: `/${site.organizationName}`
         })
       }
+      elvateOnScroll
     >
       <>
-        <div>Bienvenidos a la home page del sitio</div>
+        <WelcomeSection title={site.longName} subtitle={site.description} />
+
         {files.length > 0 ? (
           <Folder site={site} folder={folder} />
         ) : (

@@ -187,7 +187,15 @@ function fileHtmlStyles() {
     .filehtml-wrapper a {
       ${robotoSlab}
       border-bottom: .15em solid ${theme.palette.primary.main};
+      background-color: transparent;
     }
+
+      .filehtml-wrapper a:hover,
+      .filehtml-wrapper a:active {
+        background-color: ${theme.palette.primary.main};
+        color: ${theme.palette.primary.contrastText};
+        transition: background-color ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn};
+      }
 
     @media (max-width: ${theme.breakpoints.values.sm}px) {
       .filehtml-wrapper p span,

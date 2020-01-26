@@ -7,33 +7,44 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { withTheme } from '@material-ui/core/styles'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
-export default function Layout({ title, onGoBack, actions, children }) {
+export default function Layout({
+  title,
+  onGoBack,
+  actions,
+  children,
+  elvateOnScroll = false
+}) {
   return (
     <LayoutWrapper>
       <>
-        <AppBarWrapper position="fixed">
-          <Toolbar>
-            {onGoBack && (
-              <IconButton
-                edge="start"
-                className="Layout-Appbar-MenuButton"
-                color="inherit"
-                aria-label="go back"
-                onClick={onGoBack}
-              >
-                <ArrowBackIcon />
-              </IconButton>
-            )}
-            <Typography variant="h6" noWrap>
-              {title}
-            </Typography>
+        <ElevationScroll elvateOnScroll={elvateOnScroll}>
+          <AppBarWrapper position="fixed">
+            <Toolbar>
+              {onGoBack && (
+                <IconButton
+                  edge="start"
+                  className="Layout-Appbar-MenuButton"
+                  color="inherit"
+                  aria-label="go back"
+                  onClick={onGoBack}
+                >
+                  <ArrowBackIcon />
+                </IconButton>
+              )}
+              <Typography variant="h6" noWrap>
+                {title}
+              </Typography>
 
-            <div className="Layout-Appbar-Grow" />
+              <div className="Layout-Appbar-Grow" />
 
-            {actions && <div className="Layout-Appbar-Actions">{actions}</div>}
-          </Toolbar>
-        </AppBarWrapper>
+              {actions && (
+                <div className="Layout-Appbar-Actions">{actions}</div>
+              )}
+            </Toolbar>
+          </AppBarWrapper>
+        </ElevationScroll>
         <AppBarOffset />
       </>
 
@@ -42,11 +53,34 @@ export default function Layout({ title, onGoBack, actions, children }) {
   )
 }
 
+function ElevationScroll({ children, elvateOnScroll }) {
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0
+  })
+
+  function elevation() {
+    if (!elvateOnScroll) return 4
+    else if (trigger) return 4
+    else return 0
+  }
+
+  return React.cloneElement(children, {
+    elevation: elevation()
+  })
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+  elvateOnScroll: PropTypes.bool
+}
+
 Layout.propTypes = {
   title: PropTypes.string.isRequired,
   onGoBack: PropTypes.func,
   actions: PropTypes.node,
-  children: PropTypes.node
+  children: PropTypes.node,
+  elvateOnScroll: PropTypes.bool
 }
 
 const AppBarWrapper = withTheme(styled(AppBar)`
@@ -76,6 +110,6 @@ const LayoutWrapper = styled.section`
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 `

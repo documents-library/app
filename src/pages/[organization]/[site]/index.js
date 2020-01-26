@@ -35,6 +35,9 @@ Site.getInitialProps = async ctx => {
   // TODO: add organizations to BE
   const siteMockedOrgnName = {
     ...site,
+    longName: 'Cátedra de Construcciones 1',
+    description:
+      'Cátedra de Construcciones 1 de la Facultad de Arquitectura Urbanismo y Diseño de la Universidad Nacional de Mar del Plata."M"',
     organizationName: 'taller@'
   }
 
@@ -48,7 +51,8 @@ Site.getInitialProps = async ctx => {
     // TODO: check if the folder is a children of the main folder id
     // Probably I need to do this on the BE
     const getFolder = await fetch(
-      `http://localhost:8080/folders/${site.name}/${folderId}`
+      `http://localhost:8080/folders/${site.name}/${folderId ||
+        site.googleFolderId}`
     )
     const folder = await getFolder.json()
 
