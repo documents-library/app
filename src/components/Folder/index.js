@@ -64,7 +64,7 @@ function Files({ site, files, columnWidth }) {
 }
 
 function Sections({ site, sections }) {
-  return sections ? (
+  return sections && sections.length > 0 ? (
     <SectionsWrapper>
       <List
         subheader={<ListSubheader component="div">Secciones</ListSubheader>}
@@ -100,7 +100,7 @@ const SectionsWrapper = withTheme(styled.section`
   margin-bottom: ${({ theme }) => theme.spacing(2)}px;
 `)
 
-const FolderWrapper = withTheme(styled(Container)`
+export const FolderWrapper = withTheme(styled(Container)`
   padding-top: ${({ theme }) => theme.spacing(3)}px;
   padding-bottom: ${({ theme }) => theme.spacing(3)}px;
 `)

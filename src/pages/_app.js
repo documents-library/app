@@ -17,13 +17,14 @@ export default class MyApp extends App {
           html,
           body,
           #__next {
-            height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            flex-grow: 1;
+            min-height: 100vh;
           }
 
-          @import url('https://fonts.googleapis.com/css?family=Domine:400,700&display=swap');
+          @import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i&display=swap');
         `}</style>
       </ThemeProvider>
     )

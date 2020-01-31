@@ -14,10 +14,11 @@ export default function Layout({
   onGoBack,
   actions,
   children,
-  elvateOnScroll = false
+  elvateOnScroll = false,
+  background
 }) {
   return (
-    <LayoutWrapper>
+    <LayoutWrapper background={background}>
       <>
         <ElevationScroll elvateOnScroll={elvateOnScroll}>
           <AppBarWrapper position="fixed">
@@ -80,7 +81,8 @@ Layout.propTypes = {
   onGoBack: PropTypes.func,
   actions: PropTypes.node,
   children: PropTypes.node,
-  elvateOnScroll: PropTypes.bool
+  elvateOnScroll: PropTypes.bool,
+  background: PropTypes.string
 }
 
 const AppBarWrapper = withTheme(styled(AppBar)`
@@ -107,9 +109,13 @@ const LayoutWrapper = styled.section`
   &,
   .Layout-Main {
     margin: 0;
-    height: 100%;
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     justify-content: flex-start;
+    background: ${props => {
+      console.log(props)
+      return props.background ? props.background : 'transparent'
+    }};
   }
 `

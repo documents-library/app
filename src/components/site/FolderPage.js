@@ -3,7 +3,7 @@ import Router from 'next/router'
 import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
-import Folder from '../../components/Folder'
+import Folder, { FolderWrapper } from '../../components/Folder'
 
 export default function FolderPage({ site, folder }) {
   const { files, currentFolder } = folder
@@ -21,7 +21,9 @@ export default function FolderPage({ site, folder }) {
       {files.length > 0 ? (
         <Folder site={site} folder={folder} />
       ) : (
-        <p>This folder is empty</p>
+        <FolderWrapper>
+          <p>Esta carpeta está vacía</p>
+        </FolderWrapper>
       )}
     </Layout>
   )

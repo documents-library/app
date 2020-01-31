@@ -18,6 +18,7 @@ export default function WelcomeSection({ title, subtitle }) {
             align="center"
             gutterBottom
             paragraph
+            className="vollkorn"
           >
             {title}
           </Typography>
@@ -29,6 +30,7 @@ export default function WelcomeSection({ title, subtitle }) {
             align="center"
             gutterBottom
             paragraph
+            className="vollkorn"
           >
             {subtitle}
           </Typography>
@@ -48,4 +50,8 @@ const OrganizationWelcomeWrapper = styled.section`
   padding-top: ${theme.spacing(6)}px;
   padding-bottom: ${theme.spacing(10)}px;
   color: ${theme.palette.primary.contrastText};
+
+  .vollkorn {
+    font-family: 'Vollkorn', serif;
+  }
 `

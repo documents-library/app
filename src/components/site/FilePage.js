@@ -50,6 +50,7 @@ export default function File({ site, file }) {
           </IconButton>
         )
       }
+      background="#fafafa"
     >
       {file.html && embedHtml ? (
         <FileHtml html={file.html} styles={fileHtmlStyles()} />
@@ -103,19 +104,19 @@ FileHtml.propTypes = {
 
 const FileHtmlContainer = styled(Container)`
   width: 100%;
-  max-width
 `
 
 const IframeWrapper = styled.iframe`
   width: 100%;
   height: 100%;
   border: none;
+  flex-grow: 1;
 `
 function fileHtmlStyles() {
   const robotoSlab = `
-    color: ${theme.palette.primary.dark};
-    font-family: 'Domine', serif;
-    text-align: justify;
+    color: #324249;
+    font-family: 'Vollkorn', serif;
+    text-align: left;
     text-decoration: none;
     hyphens: auto;
   `
@@ -137,7 +138,7 @@ function fileHtmlStyles() {
     .filehtml-wrapper p span,
     .filehtml-wrapper li,
     .filehtml-wrapper li span {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       ${robotoSlab}
       line-height: ${theme.typography.body1.lineHeight};
     }
@@ -188,20 +189,22 @@ function fileHtmlStyles() {
       ${robotoSlab}
       border-bottom: .15em solid ${theme.palette.primary.main};
       background-color: transparent;
+      position: relative;
     }
 
       .filehtml-wrapper a:hover,
       .filehtml-wrapper a:active {
         background-color: ${theme.palette.primary.main};
         color: ${theme.palette.primary.contrastText};
-        transition: background-color ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.easeIn};
+        transition: background-color ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.aseIn};
+        border: 0;
       }
 
     @media (max-width: ${theme.breakpoints.values.sm}px) {
       .filehtml-wrapper p span,
       .filehtml-wrapper li,
       .filehtml-wrapper li span {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
     }
   `

@@ -49,6 +49,7 @@ export default function FileItem({ site, data, columnWidth }) {
                 justify="space-between"
                 alignItems="center"
                 spacing={2}
+                wrap="nowrap"
               >
                 <Grid item>
                   <CardContentText data={data} />
@@ -61,6 +62,7 @@ export default function FileItem({ site, data, columnWidth }) {
           </CardContent>
         </CardActionArea>
       </Link>
+
       {!canReadOnline({ file: data }) && webContentLink ? (
         <CardActions>
           <Button href={webContentLink} rel="noopener" target="_blank">
@@ -112,10 +114,26 @@ const CardPreview = withTheme(styled(CardMedia)`
   padding-right: ${({ theme }) => theme.spacing(6)}px;
   padding-bottom: 0;
   overflow: hidden;
-  background: #29434e;
   justify-content: center;
   display: flex;
   align-items: baseline;
+  position: relative;
+  background: rgb(250, 250, 250);
+  background: linear-gradient(
+    180deg,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(238, 238, 238, 1) 100%
+  );
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.14);
+  }
 
   @media (max-width: 500px) {
     padding-left: ${({ theme }) => theme.spacing(4)}px;
