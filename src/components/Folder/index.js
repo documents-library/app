@@ -11,22 +11,44 @@ import Divider from '@material-ui/core/Divider'
 
 import FileItem from './FileItem'
 import FolderItem from './FolderItem'
+import PhotoGalleryItem from './PhotoGalleryItem'
+import { isFileType, filetype } from '../../helpers/files'
 
-export const itemType = {
-  folder: 'application/vnd.google-apps.folder'
-}
+const SectionsWrapper = withTheme(styled.section`
+  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+`)
+
+export const FolderWrapper = withTheme(styled(Container)`
+  padding-top: ${({ theme }) => theme.spacing(3)}px;
+  padding-bottom: ${({ theme }) => theme.spacing(3)}px;
+`)
 
 export default function Folder({ site, folder }) {
   const columnFilesEl = useRef()
   const [columnWidth, setColumnWidth] = useState()
   const theme = useTheme()
   const isDesktopDevice = useMediaQuery(theme.breakpoints.up('sm'))
-  const files = folder.files.filter(item => item.mimeType !== itemType.folder)
-  const sections = folder.files.filter(
-    item => item.mimeType === itemType.folder
+  const sections = folder.files.filter(file =>
+    isFileType({ file, typeNames: [filetype.folder.name] })
   )
+  const photos = folder.files.filter(file =>
+    isFileType({ file, typeNames: [filetype.img.name] })
+  )
+  const files = folder.files.filter(
+    file =>
+      !isFileType({ file, typeNames: [filetype.folder.name] }) &&
+      !isFileType({ file, typeNames: [filetype.img.name] })
+  )
+  const hasSections =
+    sections && sections.length && sections.length > 0 ? true : false
+  const emptyFolder =
+    (!files || !files.length || files.length === 0) &&
+    (!photos || !photos.length || photos.length === 0)
+      ? true
+      : false
 
   useEffect(() => {
+    // to have a nice height proportion for the preview images
     setColumnWidth(columnFilesEl.current.clientWidth)
   }, [])
 
@@ -34,11 +56,28 @@ export default function Folder({ site, folder }) {
     <FolderWrapper maxWidth="lg">
       <Grid container spacing={2} direction="row">
         <Grid item xs={12} sm={7} ref={columnFilesEl}>
-          {!isDesktopDevice && <Sections site={site} sections={sections} />}
-          <Files site={site} files={files} columnWidth={columnWidth} />
+          {!isDesktopDevice && hasSections && (
+            <Sections site={site} sections={sections} />
+          )}
+          {emptyFolder ? (
+            <p>Esta seccieon no contiene documentos</p>
+          ) : (
+            <>
+              <Files site={site} files={files} columnWidth={columnWidth} />
+              {photos.length > 1 ? (
+                <PhotoGalleryItem
+                  site={site}
+                  photos={photos}
+                  columnWidth={columnWidth}
+                />
+              ) : photos.length === 1 ? (
+                <Files site={site} files={photos} columnWidth={columnWidth} />
+              ) : null}
+            </>
+          )}
         </Grid>
 
-        {isDesktopDevice && (
+        {isDesktopDevice && hasSections && (
           <Grid item sm={5}>
             <Sections site={site} sections={sections} />
           </Grid>
@@ -49,22 +88,13 @@ export default function Folder({ site, folder }) {
 }
 
 function Files({ site, files, columnWidth }) {
-  return files ? (
-    files.map(item => (
-      <FileItem
-        key={item.id}
-        site={site}
-        data={item}
-        columnWidth={columnWidth}
-      />
-    ))
-  ) : (
-    <p>No hay documentos en esta sección.. continuá navegando 🐭</p>
-  )
+  return files.map(item => (
+    <FileItem key={item.id} site={site} data={item} columnWidth={columnWidth} />
+  ))
 }
 
 function Sections({ site, sections }) {
-  return sections && sections.length > 0 ? (
+  return (
     <SectionsWrapper>
       <List
         subheader={<ListSubheader component="div">Secciones</ListSubheader>}
@@ -77,7 +107,7 @@ function Sections({ site, sections }) {
         </>
       </List>
     </SectionsWrapper>
-  ) : null
+  )
 }
 
 Folder.propTypes = {
@@ -96,11 +126,3 @@ Sections.propTypes = {
   sections: PropTypes.array
 }
 
-const SectionsWrapper = withTheme(styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
-`)
-
-export const FolderWrapper = withTheme(styled(Container)`
-  padding-top: ${({ theme }) => theme.spacing(3)}px;
-  padding-bottom: ${({ theme }) => theme.spacing(3)}px;
-`)

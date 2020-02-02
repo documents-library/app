@@ -114,7 +114,6 @@ const LayoutWrapper = styled.section`
     flex-grow: 1;
     justify-content: flex-start;
     background: ${props => {
-      console.log(props)
       return props.background ? props.background : 'transparent'
     }};
   }

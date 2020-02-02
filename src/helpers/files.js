@@ -78,6 +78,12 @@ export const filetype = {
     icon: '/img/cad.svg',
     extensions: ['dwg', 'dxf', '3ds', 'blend'],
     mimeTypes: []
+  },
+  folder: {
+    name: 'folder',
+    icon: '',
+    extensions: [],
+    mimeTypes: ['application/vnd.google-apps.folder']
   }
 }
 
@@ -104,7 +110,7 @@ export function getFileIcon({ file }) {
 }
 
 // size values: 'w200', 'h200', 's200'
-export function getPreview({ thumbnailLink, size = 'w606' }) {
+export function getPreview({ thumbnailLink, size = 's150' }) {
   const sliceTo = thumbnailLink.indexOf('=')
   const baseLink = thumbnailLink.slice(0, sliceTo)
 

@@ -17,7 +17,6 @@ export default function Site({ site, isSiteMainPage, folder, file }) {
   } else if (folder.kind === 'drive#fileList') {
     return <FolderPage site={site} folder={folder} />
   } else {
-    console.log('🎪', folder)
     return <p>{`Can't get the data`}</p>
   }
 }

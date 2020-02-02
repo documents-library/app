@@ -15,6 +15,55 @@ import Grid from '@material-ui/core/Grid'
 import { dateRelativeFormat } from '../../helpers/format'
 import { canReadOnline, getFileIcon, getPreview } from '../../helpers/files'
 
+const IconImage = styled.img`
+  height: 50px;
+  width: auto;
+`
+
+const CardPreview = withTheme(styled(CardMedia)`
+  height: ${({ height }) => height}px;
+  padding-top: ${({ theme }) => theme.spacing(4)}px;
+  padding-left: ${({ theme }) => theme.spacing(6)}px;
+  padding-right: ${({ theme }) => theme.spacing(6)}px;
+  padding-bottom: 0;
+  overflow: hidden;
+  justify-content: center;
+  display: flex;
+  align-items: baseline;
+  position: relative;
+  background: rgb(250, 250, 250);
+  background: linear-gradient(
+    180deg,
+    rgba(250, 250, 250, 1) 0%,
+    rgba(238, 238, 238, 1) 100%
+  );
+
+  &:before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.14);
+  }
+
+  @media (max-width: 500px) {
+    padding-left: ${({ theme }) => theme.spacing(4)}px;
+    padding-right: ${({ theme }) => theme.spacing(4)}px;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+    box-shadow: ${({ theme }) => theme.shadows[6]};
+  }
+`)
+
+const CardWrapper = withTheme(styled(Card)`
+  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+`)
+
 export default function FileItem({ site, data, columnWidth }) {
   const { id, name, thumbnailLink, webContentLink, exportLinks } = data
 
@@ -101,52 +150,3 @@ FileItem.propTypes = {
 CardContentText.propTypes = {
   data: PropTypes.object
 }
-
-const IconImage = styled.img`
-  height: 50px;
-  width: auto;
-`
-
-const CardPreview = withTheme(styled(CardMedia)`
-  height: ${({ height }) => height}px;
-  padding-top: ${({ theme }) => theme.spacing(4)}px;
-  padding-left: ${({ theme }) => theme.spacing(6)}px;
-  padding-right: ${({ theme }) => theme.spacing(6)}px;
-  padding-bottom: 0;
-  overflow: hidden;
-  justify-content: center;
-  display: flex;
-  align-items: baseline;
-  position: relative;
-  background: rgb(250, 250, 250);
-  background: linear-gradient(
-    180deg,
-    rgba(250, 250, 250, 1) 0%,
-    rgba(238, 238, 238, 1) 100%
-  );
-
-  &:before {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.14);
-  }
-
-  @media (max-width: 500px) {
-    padding-left: ${({ theme }) => theme.spacing(4)}px;
-    padding-right: ${({ theme }) => theme.spacing(4)}px;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-    box-shadow: ${({ theme }) => theme.shadows[6]};
-  }
-`)
-
-const CardWrapper = withTheme(styled(Card)`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
-`)
