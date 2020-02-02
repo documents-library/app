@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import GetAppIcon from '@material-ui/icons/GetApp'
 import LinkIcon from '@material-ui/icons/Link'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
@@ -22,7 +23,7 @@ export default function File({ site, file }) {
   const cookies = Cookie()
   // TODO: if is a crawler show allways the embedhtml version
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
-  const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview` // same viewer on another url: `https://docs.google.com/viewer?srcid=${file.id}&pid=explorer&efh=false&a=v&chrome=false&embedded=true`
+  const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
@@ -63,6 +64,7 @@ export default function File({ site, file }) {
           )}
 
           <CopyUrlButton />
+          <DownloadButton file={file} />
         </>
       }
       background="#fafafa"
@@ -133,6 +135,24 @@ function CopyUrlButton() {
   )
 }
 
+function DownloadButton({ file }) {
+  const downloadUrl =
+    file.webContentLink ||
+    `https://docs.google.com/feeds/download/documents/export/Export?id=${file.id}&exportFormat=pdf`
+  function onDownload() {
+    if (typeof window !== 'undefined') {
+      window.location.href = downloadUrl
+    }
+    return null
+  }
+
+  return (
+    <IconButton color="inherit" onClick={onDownload}>
+      <GetAppIcon />
+    </IconButton>
+  )
+}
+
 File.propTypes = {
   site: PropTypes.object,
   file: PropTypes.object
@@ -141,6 +161,10 @@ File.propTypes = {
 FileHtml.propTypes = {
   styles: PropTypes.string,
   html: PropTypes.string
+}
+
+DownloadButton.propTypes = {
+  file: PropTypes.object
 }
 
 const FileHtmlContainer = styled(Container)`

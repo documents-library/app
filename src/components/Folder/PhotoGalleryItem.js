@@ -117,6 +117,6 @@ export default function PhotoGalleryItem({ site, photos, columnWidth }) {
 
 PhotoGalleryItem.propTypes = {
   site: PropTypes.object,
-  photos: PropTypes.object,
+  photos: PropTypes.array,
   columnWidth: PropTypes.number
 }
