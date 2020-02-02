@@ -14,6 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
+import NoSsr from '@material-ui/core/NoSsr'
 
 import Layout from '../../components/Layout'
 import { theme } from '../../helpers/theme'
@@ -63,8 +64,10 @@ export default function File({ site, file }) {
             </IconButton>
           )}
 
-          <CopyUrlButton />
-          <DownloadButton file={file} />
+          <NoSsr>
+            <CopyUrlButton />
+            <DownloadButton file={file} />
+          </NoSsr>
         </>
       }
       background="#fafafa"
