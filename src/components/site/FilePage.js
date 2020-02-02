@@ -142,6 +142,7 @@ function DownloadButton({ file }) {
   const downloadUrl =
     file.webContentLink ||
     `https://docs.google.com/feeds/download/documents/export/Export?id=${file.id}&exportFormat=pdf`
+
   function onDownload() {
     if (typeof window !== 'undefined') {
       window.location.href = downloadUrl
