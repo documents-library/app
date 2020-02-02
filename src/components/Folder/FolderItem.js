@@ -25,7 +25,7 @@ export default function FolderItem({ site, data }) {
       <ListItemText primary={formatFolderName({ name })} />
 
       <ListItemSecondaryAction>
-        <ArrowForwardIosIcon />
+        <ArrowForwardIosIcon color="action" />
       </ListItemSecondaryAction>
     </ListItem>
   )

@@ -6,9 +6,13 @@ import { createPortal } from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import LinkIcon from '@material-ui/icons/Link'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
 import Tooltip from '@material-ui/core/Tooltip'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import Chip from '@material-ui/core/Chip'
+import Box from '@material-ui/core/Box'
 
 import Layout from '../../components/Layout'
 import { theme } from '../../helpers/theme'
@@ -34,22 +38,32 @@ export default function File({ site, file }) {
         })
       }
       actions={
-        file.html && (
-          <IconButton color="inherit" onClick={() => setEmbedHtml(!embedHtml)}>
-            {embedHtml ? (
-              <Tooltip
-                title="Desactivar vista de lectura"
-                placement="bottom-end"
-              >
-                <VisibilityOffIcon />
-              </Tooltip>
-            ) : (
-              <Tooltip title="Activar vista de lectura" placement="bottom-end">
-                <VisibilityIcon />
-              </Tooltip>
-            )}
-          </IconButton>
-        )
+        <>
+          {file.html && (
+            <IconButton
+              color="inherit"
+              onClick={() => setEmbedHtml(!embedHtml)}
+            >
+              {embedHtml ? (
+                <Tooltip
+                  title="Desactivar vista de lectura"
+                  placement="bottom-end"
+                >
+                  <VisibilityOffIcon />
+                </Tooltip>
+              ) : (
+                <Tooltip
+                  title="Activar vista de lectura"
+                  placement="bottom-end"
+                >
+                  <VisibilityIcon />
+                </Tooltip>
+              )}
+            </IconButton>
+          )}
+
+          <CopyUrlButton />
+        </>
       }
       background="#fafafa"
     >
@@ -90,6 +104,32 @@ function FileHtml({ styles, html }) {
     <FileHtmlContainer maxWidth="md" ref={ref}>
       <>{shadowDom && createPortal(nodeToRender, shadowDom)}</>
     </FileHtmlContainer>
+  )
+}
+
+function CopyUrlButton() {
+  const [copied, setCopied] = useState(false)
+  const currentUrl = typeof window !== 'undefined' ? window.location.href : null
+
+  function handleOnCopy() {
+    setCopied(true)
+    setTimeout(() => setCopied(false), 3000)
+  }
+
+  return (
+    currentUrl && (
+      <CopyToClipboard text={currentUrl} onCopy={handleOnCopy}>
+        {!copied ? (
+          <IconButton color="inherit">
+            <LinkIcon />
+          </IconButton>
+        ) : (
+          <Box alignItems="center" display="flex">
+            <Chip label="URL copiada al portapapeles" clickable={false} />
+          </Box>
+        )}
+      </CopyToClipboard>
+    )
   )
 }
 
