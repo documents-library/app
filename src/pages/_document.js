@@ -59,8 +59,47 @@ export default class MyDocument extends Document {
             href="/img/favicon/safari-pinned-tab.svg"
             color="#546e7a"
           />
-          <meta name="msapplication-TileColor" content="#ffffff" />
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="msapplication-TileColor" content="#ECEFF1" />
+          <meta name="theme-color" content="#546e7a" />
+
+          {/* For PWA */}
+          <meta name="application-name" content="documents.li" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="default"
+          />
+          <meta name="apple-mobile-web-app-title" content="documents.li" />
+          <meta name="description" content="Documents Library" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          {/* <meta name='msapplication-config' content='/static/icons/browserconfig.xml' /> */}
+          <meta name="msapplication-TileColor" content="#455a64" />
+          <meta name="msapplication-tap-highlight" content="no" />
+          <meta name="theme-color" content="#546e7a" />
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+          />
+          <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:url" content="https://documents.li" />
+          <meta name="twitter:title" content="documents.li" />
+          <meta name="twitter:description" content="Documents Library" />
+          <meta
+            name="twitter:image"
+            content="https://documents.li/img/favicon/android-chrome-192x192.png"
+          />
+          <meta name="twitter:creator" content="@ggsalas" />
+          <meta property="og:type" content="documents.li" />
+          <meta property="og:title" content="documents.li" />
+          <meta property="og:description" content="Documents Library" />
+          <meta property="og:site_name" content="documents.li" />
+          <meta property="og:url" content="https://documents.li" />
+          <meta
+            property="og:image"
+            content="https://documents.li/img/favicon/apple-touch-icon.png"
+          />
         </Head>
 
         <body>
