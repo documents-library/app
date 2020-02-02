@@ -13,7 +13,12 @@ import { withTheme } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 import { dateRelativeFormat } from '../../helpers/format'
-import { canReadOnline, getFileIcon, getPreview } from '../../helpers/files'
+import {
+  canReadOnline,
+  getFileIcon,
+  getPreview,
+  formatFileName
+} from '../../helpers/files'
 
 const IconImage = styled.img`
   height: 50px;
@@ -66,6 +71,7 @@ const CardWrapper = withTheme(styled(Card)`
 
 export default function FileItem({ site, data, columnWidth }) {
   const { id, name, thumbnailLink, webContentLink, exportLinks } = data
+  const fileName = formatFileName({ name })
 
   return (
     <CardWrapper>
@@ -83,7 +89,7 @@ export default function FileItem({ site, data, columnWidth }) {
                   thumbnailLink,
                   size: `w${columnWidth - 64}`
                 })}
-                alt={`Preview image of ${name}`}
+                alt={`Preview image of ${fileName}`}
               />
             </CardPreview>
           )}
@@ -104,7 +110,7 @@ export default function FileItem({ site, data, columnWidth }) {
                   <CardContentText data={data} />
                 </Grid>
                 <Grid item>
-                  <IconImage src={getFileIcon({ file: data })} alt={name} />
+                  <IconImage src={getFileIcon({ file: data })} alt={fileName} />
                 </Grid>
               </Grid>
             )}
@@ -132,7 +138,7 @@ function CardContentText({ data }) {
   return (
     <>
       <Typography variant="h5" component="h2">
-        {name}
+        {formatFileName({ name })}
       </Typography>
       <Typography color="textSecondary" gutterBottom>
         {dateRelativeFormat({ date: modifiedTime })}

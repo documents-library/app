@@ -12,6 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import Layout from '../../components/Layout'
 import { theme } from '../../helpers/theme'
+import { formatFileName } from '../../helpers/files'
 
 export default function File({ site, file }) {
   const cookies = Cookie()
@@ -25,7 +26,7 @@ export default function File({ site, file }) {
 
   return (
     <Layout
-      title={file.name}
+      title={formatFileName({ name: file.name })}
       onGoBack={() =>
         Router.push({
           pathname: `/${site.organizationName}/${site.name}/`,

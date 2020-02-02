@@ -81,7 +81,7 @@ export default function PhotoGalleryItem({ site, photos, columnWidth }) {
   return (
     <CardWrapper>
       <CardPreview height={imageHeight + 32}>
-        <Gallery maxImgWidth={Math.round(columnWidth - photoPadding)}>
+        <Gallery maxImgWidth={Math.round(columnWidth * 0.9 - photoPadding)}>
           {photos.map(photo => (
             <Link
               href={{
@@ -120,4 +120,3 @@ PhotoGalleryItem.propTypes = {
   photos: PropTypes.object,
   columnWidth: PropTypes.number
 }
-

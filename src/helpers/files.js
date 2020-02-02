@@ -117,6 +117,17 @@ export function getPreview({ thumbnailLink, size = 's150' }) {
   return `${baseLink}=${size}`
 }
 
+export function formatFileName({ name }) {
+  const sliceTo = name.indexOf('.')
+  const fileName = sliceTo !== -1 ? name.slice(0, sliceTo) : name
+
+  return fileName.charAt(0).toUpperCase() + fileName.slice(1)
+}
+
+export function formatFolderName({ name }) {
+  return name.charAt(0).toUpperCase() + name.slice(1)
+}
+
 function getFileType({ file }) {
   const { fileExtension, mimeType } = file
   let currentFileType = null
@@ -138,3 +149,4 @@ function getFileType({ file }) {
 
   return currentFileType
 }
+

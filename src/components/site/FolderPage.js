@@ -4,13 +4,14 @@ import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
 import Folder, { FolderWrapper } from '../../components/Folder'
+import { formatFolderName } from '../../helpers/files'
 
 export default function FolderPage({ site, folder }) {
   const { files, currentFolder } = folder
 
   return (
     <Layout
-      title={currentFolder.name}
+      title={formatFolderName({ name: currentFolder.name })}
       onGoBack={() =>
         Router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
