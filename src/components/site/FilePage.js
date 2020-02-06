@@ -210,6 +210,9 @@ function fileHtmlStyles() {
       font-size: 1.5rem;
       ${robotoSlab}
       line-height: ${theme.typography.body1.lineHeight};
+      overflow-x: hidden;
+      overflow-y: visible;
+      text-overflow: ellipsis;
     }
 
     .filehtml-wrapper h1,
@@ -256,18 +259,56 @@ function fileHtmlStyles() {
 
     .filehtml-wrapper a {
       ${robotoSlab}
-      border-bottom: .15em solid ${theme.palette.primary.main};
-      background-color: transparent;
+      background-color: #ECEFF1;
       position: relative;
+      font-weight: bold;
+      max-width: 100%;
+      overflow-x: hidden;
+      overflow-y: visible;
+      text-overflow: ellipsis;
+      padding: 0 .6em;
     }
 
-      .filehtml-wrapper a:hover,
-      .filehtml-wrapper a:active {
-        background-color: ${theme.palette.primary.main};
-        color: ${theme.palette.primary.contrastText};
-        transition: background-color ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.aseIn};
-        border: 0;
-      }
+    .filehtml-wrapper a:hover,
+    .filehtml-wrapper a:active {
+      background-color: ${theme.palette.primary.main};
+      color: ${theme.palette.primary.contrastText};
+      transition: background-color ${theme.transitions.duration.shortest}ms ${theme.transitions.easing.aseIn};
+      border: 0;
+    }
+
+    .filehtml-wrapper ol,
+    .filehtml-wrapper ul {
+      padding: 0 0 0 1em;
+      max-width: 100%;
+    }
+
+    .filehtml-wrapper table {
+      max-width: 100%;
+      overflow-x: scroll;
+      display: block;
+    }
+
+    .filehtml-wrapper table {
+      border: 4px solid #CFD8DC;
+      border-collapse: collapse;
+    }
+
+    .filehtml-wrapper td {
+      padding: .2rem .4rem;
+      margin: 0;
+      border-bottom: 1px solid #CFD8DC;
+    }
+
+    .filehtml-wrapper tr:last-child td{
+      border-bottom: none;
+    }
+
+    .filehtml-wrapper td p, 
+    .filehtml-wrapper td p span {
+      font-size: 1.2rem;
+      margin: .2em 0;
+    }
 
     @media (max-width: ${theme.breakpoints.values.sm}px) {
       .filehtml-wrapper p span,

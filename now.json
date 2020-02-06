@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "name": "documentslibrary-app",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@now/next"
+    }
+  ],
+  "build": {
+    "env": {
+      "API_URL": "@api_url"
+    }
+  }
+}

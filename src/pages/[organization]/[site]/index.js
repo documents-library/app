@@ -30,7 +30,7 @@ Site.propTypes = {
 Site.getInitialProps = async ctx => {
   try {
     const { organization, site: siteName, folderId, fileId } = ctx.query
-    const res = await fetch(`http://localhost:8080/sites/${siteName}`)
+    const res = await fetch(`${process.env.API_URL}/sites/${siteName}`)
     const { site } = await res.json()
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
@@ -51,7 +51,7 @@ Site.getInitialProps = async ctx => {
       // TODO: check if the folder is a children of the main folder id
       // Probably I need to do this on the BE
       const getFolder = await fetch(
-        `http://localhost:8080/folders/${site.name}/${folderId ||
+        `${process.env.API_URL}/folders/${site.name}/${folderId ||
           site.googleFolderId}`
       )
       const folder = await getFolder.json()
@@ -67,7 +67,7 @@ Site.getInitialProps = async ctx => {
       // TODO: check if the file is a children of the main folder id
       // Probably I need to do this on the BE
       const getFile = await fetch(
-        `http://localhost:8080/files/${site.name}/${fileId}`
+        `${process.env.API_URL}/files/${site.name}/${fileId}`
       )
       const file = await getFile.json()
 
