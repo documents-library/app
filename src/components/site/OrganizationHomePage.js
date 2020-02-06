@@ -13,6 +13,19 @@ import Layout from '../../components/Layout'
 import WelcomeSection from './WelcomeSection'
 import { theme } from '../../helpers/theme'
 
+const SiteItemWrapper = styled(Grid)`
+  margin-bottom: ${theme.spacing(2)}px;
+
+  .siteItem-card {
+    height: 100%;
+    display: flex;
+  }
+`
+
+const SiteListWrapper = styled.section`
+  margin-top: -${theme.spacing(6)}px;
+`
+
 export default function OrganizationHomePage({ organization, sites }) {
   return (
     <Layout title={organization.name} elvateOnScroll>
@@ -71,20 +84,6 @@ function SiteItem({ site }) {
     </SiteItemWrapper>
   )
 }
-
-const SiteItemWrapper = styled(Grid)`
-  margin-bottom: ${theme.spacing(2)}px;
-
-  .siteItem-card {
-    height: 100%;
-    display: flex;
-  }
-`
-
-const SiteListWrapper = styled.section`
-  margin-top: -${theme.spacing(6)}px;
-`
-
 SiteItem.propTypes = {
   site: PropTypes.object
 }

@@ -20,6 +20,17 @@ import Layout from '../../components/Layout'
 import { theme } from '../../helpers/theme'
 import { formatFileName } from '../../helpers/files'
 
+const FileHtmlContainer = styled(Container)`
+  width: 100%;
+`
+
+const IframeWrapper = styled.iframe`
+  width: 100%;
+  height: 100%;
+  border: none;
+  flex-grow: 1;
+`
+
 export default function File({ site, file }) {
   const cookies = Cookie()
   // TODO: if is a crawler show allways the embedhtml version
@@ -171,16 +182,6 @@ DownloadButton.propTypes = {
   file: PropTypes.object
 }
 
-const FileHtmlContainer = styled(Container)`
-  width: 100%;
-`
-
-const IframeWrapper = styled.iframe`
-  width: 100%;
-  height: 100%;
-  border: none;
-  flex-grow: 1;
-`
 function fileHtmlStyles() {
   const robotoSlab = `
     color: #324249;

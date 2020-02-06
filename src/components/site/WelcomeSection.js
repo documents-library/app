@@ -7,6 +7,16 @@ import PropTypes from 'prop-types'
 
 import { theme } from '../../helpers/theme'
 
+const OrganizationWelcomeWrapper = styled.section`
+  background-color: ${theme.palette.primary.main};
+  padding-top: ${theme.spacing(6)}px;
+  padding-bottom: ${theme.spacing(10)}px;
+  color: ${theme.palette.primary.contrastText};
+
+  .vollkorn {
+    font-family: 'Vollkorn', serif;
+  }
+`
 export default function WelcomeSection({ title, subtitle }) {
   return (
     <OrganizationWelcomeWrapper>
@@ -45,13 +55,3 @@ WelcomeSection.propTypes = {
   subtitle: PropTypes.string
 }
 
-const OrganizationWelcomeWrapper = styled.section`
-  background-color: ${theme.palette.primary.main};
-  padding-top: ${theme.spacing(6)}px;
-  padding-bottom: ${theme.spacing(10)}px;
-  color: ${theme.palette.primary.contrastText};
-
-  .vollkorn {
-    font-family: 'Vollkorn', serif;
-  }
-`
