@@ -6,7 +6,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Router from 'next/router'
 
-import { formatFolderName } from '../../helpers/files'
+import { capitalizeFirstLetter } from '../../helpers/format'
 
 export default function FolderItem({ site, data }) {
   const { id, name } = data
@@ -22,7 +22,7 @@ export default function FolderItem({ site, data }) {
       divider
       button
     >
-      <ListItemText primary={formatFolderName({ name })} />
+      <ListItemText primary={capitalizeFirstLetter(name)} />
 
       <ListItemSecondaryAction>
         <ArrowForwardIosIcon color="action" />

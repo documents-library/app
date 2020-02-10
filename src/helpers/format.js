@@ -8,3 +8,10 @@ export function dateRelativeFormat({ date, lan = 'es' }) {
     addSuffix: true
   })
 }
+
+export function capitalizeFirstLetter(name) {
+  if (!!name && typeof name === 'string' && name.length > 0)
+    return name.charAt(0).toUpperCase() + name.slice(1)
+
+  return name
+}

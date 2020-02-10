@@ -35,9 +35,6 @@ Site.getInitialProps = async ctx => {
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
       ...site,
-      longName: 'Cátedra de Construcciones 1',
-      description:
-        'Cátedra de Construcciones 1 de la Facultad de Arquitectura Urbanismo y Diseño de la Universidad Nacional de Mar del Plata."M"',
       organizationName: organization
     }
 

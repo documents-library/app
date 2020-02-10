@@ -3,7 +3,7 @@ import Router from 'next/router'
 import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
-import Folder from '../../components/Folder'
+import Folder, { FolderWrapper } from '../../components/Folder'
 import WelcomeSection from './WelcomeSection'
 
 export default function SiteHomePage({ site, folder }) {
@@ -25,7 +25,9 @@ export default function SiteHomePage({ site, folder }) {
         {files.length > 0 ? (
           <Folder site={site} folder={folder} />
         ) : (
-          <p>The home page have not files :(</p>
+          <FolderWrapper>
+            <p>No hay contenidos todavía. Vuelve a intentarlo más tarde.</p>
+          </FolderWrapper>
         )}
       </>
     </Layout>

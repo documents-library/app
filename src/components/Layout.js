@@ -9,6 +9,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { withTheme } from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
+import { capitalizeFirstLetter } from '../helpers/format'
+
 export default function Layout({
   title,
   onGoBack,
@@ -35,7 +37,7 @@ export default function Layout({
                 </IconButton>
               )}
               <Typography variant="h6" noWrap>
-                {title}
+                {capitalizeFirstLetter(title)}
               </Typography>
 
               <div className="Layout-Appbar-Grow" />

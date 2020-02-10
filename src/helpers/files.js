@@ -124,10 +124,6 @@ export function formatFileName({ name }) {
   return fileName.charAt(0).toUpperCase() + fileName.slice(1)
 }
 
-export function formatFolderName({ name }) {
-  return name.charAt(0).toUpperCase() + name.slice(1)
-}
-
 function getFileType({ file }) {
   const { fileExtension, mimeType } = file
   let currentFileType = null
@@ -149,4 +145,3 @@ function getFileType({ file }) {
 
   return currentFileType
 }
-
