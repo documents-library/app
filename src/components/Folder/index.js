@@ -125,4 +125,3 @@ Sections.propTypes = {
   site: PropTypes.object,
   sections: PropTypes.array
 }
-

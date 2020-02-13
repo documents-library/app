@@ -35,7 +35,7 @@ Site.getInitialProps = async ctx => {
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
       ...site,
-      organizationName: organization
+      organizationName: 'taller@'
     }
 
     // Check that the site belongs to the current org

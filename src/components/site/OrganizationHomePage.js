@@ -34,13 +34,13 @@ export default function OrganizationHomePage({ organization, sites }) {
           title={organization.longName}
           subtitle={organization.description}
         />
-        <SiteList sites={sites} />
+        <SiteList sites={sites} organizationName={organization.name} />
       </>
     </Layout>
   )
 }
 
-function SiteList({ sites }) {
+function SiteList({ sites, organizationName }) {
   return (
     <SiteListWrapper>
       <Container maxWidth="md">
@@ -52,7 +52,11 @@ function SiteList({ sites }) {
           alignItems="stretch"
         >
           {sites.map(site => (
-            <SiteItem site={site} key={site.id} />
+            <SiteItem
+              site={site}
+              organizationName={organizationName}
+              key={site.id}
+            />
           ))}
         </Grid>
       </Container>
@@ -60,11 +64,11 @@ function SiteList({ sites }) {
   )
 }
 
-function SiteItem({ site }) {
-  const { organizationName, longName, name, description } = site
+function SiteItem({ site, organizationName }) {
+  const { longName, name, description } = site
 
   return (
-    <SiteItemWrapper item xs="12" sm="6">
+    <SiteItemWrapper item xs={12} sm={6}>
       <Card className="siteItem-card">
         <Link
           href={{
@@ -85,11 +89,13 @@ function SiteItem({ site }) {
   )
 }
 SiteItem.propTypes = {
-  site: PropTypes.object
+  site: PropTypes.object,
+  organizationName: PropTypes.string
 }
 
 SiteList.propTypes = {
-  sites: PropTypes.array
+  sites: PropTypes.array,
+  organizationName: PropTypes.string
 }
 
 OrganizationHomePage.propTypes = {
