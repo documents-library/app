@@ -102,6 +102,36 @@ export function canReadOnline({ file }) {
   return isFileType({ file, typeNames })
 }
 
+export function isCalc({ file }) {
+  const typeNames = [filetype.calc.name]
+
+  return isFileType({ file, typeNames })
+}
+
+export function downloadLinks({ file }) {
+  const exportPdf = {
+    id: 'exportPdf',
+    label: 'Descargar PDF',
+    url: `https://docs.google.com/feeds/download/documents/export/Export?id=${file.id}&exportFormat=pdf`
+  }
+  const copyCalcOnUserDrive = {
+    id: 'copyCalcOnUserDrive',
+    label: 'Abrir con Google Drive',
+    url: `https://docs.google.com/spreadsheets/d/${file.id}/copy`
+  }
+  const exportXls = {
+    id: 'exportXls',
+    label: 'Descargar Excel',
+    url: `https://docs.google.com/spreadsheets/d/${file.id}/export?format=xlsx&id=${file.id}`
+  }
+
+  if (isCalc({ file })) {
+    return [exportXls, copyCalcOnUserDrive]
+  }
+
+  return [exportPdf]
+}
+
 export function getFileIcon({ file }) {
   const type = getFileType({ file })
 

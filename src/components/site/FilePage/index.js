@@ -6,7 +6,6 @@ import { createPortal } from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import GetAppIcon from '@material-ui/icons/GetApp'
 import LinkIcon from '@material-ui/icons/Link'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
@@ -16,9 +15,10 @@ import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import NoSsr from '@material-ui/core/NoSsr'
 
-import Layout from '../../components/Layout'
-import { theme } from '../../helpers/theme'
-import { formatFileName } from '../../helpers/files'
+import Layout from '../../../components/Layout'
+import { theme } from '../../../helpers/theme'
+import { formatFileName } from '../../../helpers/files'
+import DownloadButton from './DownloadButton'
 
 const FileHtmlContainer = styled(Container)`
   width: 100%;
@@ -149,25 +149,6 @@ function CopyUrlButton() {
   )
 }
 
-function DownloadButton({ file }) {
-  const downloadUrl =
-    file.webContentLink ||
-    `https://docs.google.com/feeds/download/documents/export/Export?id=${file.id}&exportFormat=pdf`
-
-  function onDownload() {
-    if (typeof window !== 'undefined') {
-      window.location.href = downloadUrl
-    }
-    return null
-  }
-
-  return (
-    <IconButton color="inherit" onClick={onDownload}>
-      <GetAppIcon />
-    </IconButton>
-  )
-}
-
 File.propTypes = {
   site: PropTypes.object,
   file: PropTypes.object
@@ -176,10 +157,6 @@ File.propTypes = {
 FileHtml.propTypes = {
   styles: PropTypes.string,
   html: PropTypes.string
-}
-
-DownloadButton.propTypes = {
-  file: PropTypes.object
 }
 
 function fileHtmlStyles() {

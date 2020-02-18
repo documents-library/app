@@ -88,8 +88,8 @@ export default function Folder({ site, folder }) {
 }
 
 function Files({ site, files, columnWidth }) {
-  return files.map(item => (
-    <FileItem key={item.id} site={site} data={item} columnWidth={columnWidth} />
+  return files.map(file => (
+    <FileItem key={file.id} site={site} file={file} columnWidth={columnWidth} />
   ))
 }
 

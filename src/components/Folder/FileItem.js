@@ -17,7 +17,8 @@ import {
   canReadOnline,
   getFileIcon,
   getPreview,
-  formatFileName
+  formatFileName,
+  downloadLinks
 } from '../../helpers/files'
 
 const IconImage = styled.img`
@@ -69,8 +70,8 @@ const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({ theme }) => theme.spacing(2)}px;
 `)
 
-export default function FileItem({ site, data, columnWidth }) {
-  const { id, name, thumbnailLink, webContentLink, exportLinks } = data
+export default function FileItem({ site, file, columnWidth }) {
+  const { id, name, thumbnailLink } = file
   const fileName = formatFileName({ name })
 
   return (
@@ -96,7 +97,7 @@ export default function FileItem({ site, data, columnWidth }) {
 
           <CardContent>
             {thumbnailLink ? (
-              <CardContentText data={data} />
+              <CardContentText data={file} />
             ) : (
               <Grid
                 container
@@ -107,10 +108,10 @@ export default function FileItem({ site, data, columnWidth }) {
                 wrap="nowrap"
               >
                 <Grid item>
-                  <CardContentText data={data} />
+                  <CardContentText data={file} />
                 </Grid>
                 <Grid item>
-                  <IconImage src={getFileIcon({ file: data })} alt={fileName} />
+                  <IconImage src={getFileIcon({ file: file })} alt={fileName} />
                 </Grid>
               </Grid>
             )}
@@ -118,15 +119,18 @@ export default function FileItem({ site, data, columnWidth }) {
         </CardActionArea>
       </Link>
 
-      {!canReadOnline({ file: data }) && webContentLink ? (
+      {!canReadOnline({ file: file }) ? (
         <CardActions>
-          <Button href={webContentLink} rel="noopener" target="_blank">
-            Descargar
-          </Button>
-        </CardActions>
-      ) : !canReadOnline({ file: data }) && exportLinks ? (
-        <CardActions>
-          <Button href={exportLinks['application/pdf']}>Descargar PDF</Button>
+          {downloadLinks({ file }).map(link => (
+            <Button
+              href={link.url}
+              key={link.id}
+              rel="noopener"
+              target="_blank"
+            >
+              {link.label}
+            </Button>
+          ))}
         </CardActions>
       ) : null}
     </CardWrapper>
@@ -149,7 +153,7 @@ function CardContentText({ data }) {
 
 FileItem.propTypes = {
   site: PropTypes.object,
-  data: PropTypes.object,
+  file: PropTypes.object,
   columnWidth: PropTypes.number
 }
 
