@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
@@ -84,15 +84,14 @@ export default function FileItem({ site, file, columnWidth }) {
       >
         <CardActionArea>
           {thumbnailLink && (
-            <CardPreview height={columnWidth ? columnWidth * 0.5 : 100}>
-              <img
-                src={getPreview({
-                  thumbnailLink,
-                  size: `w${columnWidth - 64}`
-                })}
-                alt={`Preview image of ${fileName}`}
-              />
-            </CardPreview>
+            <FilePreview
+              height={columnWidth ? columnWidth * 0.5 : 100}
+              src={getPreview({
+                thumbnailLink,
+                size: `w${columnWidth - 64}`
+              })}
+              alt={`Preview image of ${fileName}`}
+            />
           )}
 
           <CardContent>
@@ -151,6 +150,23 @@ function CardContentText({ data }) {
   )
 }
 
+function FilePreview({ height, src, alt = 'Image preview' }) {
+  const [disabled, setDisabled] = useState(false)
+
+  // hide preview if image fails
+  if (disabled) return false
+  return (
+    <CardPreview height={height}>
+      <img
+        onError={() => setDisabled(true)}
+        onLoad={() => setDisabled(false)}
+        src={src}
+        alt={alt}
+      />
+    </CardPreview>
+  )
+}
+
 FileItem.propTypes = {
   site: PropTypes.object,
   file: PropTypes.object,
@@ -159,4 +175,10 @@ FileItem.propTypes = {
 
 CardContentText.propTypes = {
   data: PropTypes.object
+}
+
+FilePreview.propTypes = {
+  height: PropTypes.number,
+  src: PropTypes.string,
+  alt: PropTypes.string
 }
