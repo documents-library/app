@@ -11,6 +11,40 @@ import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 
 import { capitalizeFirstLetter } from '../helpers/format'
 
+const AppBarWrapper = withTheme(styled(AppBar)`
+  .Layout-Appbar-MenuButton {
+    margin-right: ${({ theme }) => theme.spacing(2)};
+  }
+
+  .Layout-Appbar-Actions {
+    display: flex;
+  }
+
+  .Layout-Appbar-Grow {
+    flex-grow: 1;
+  }
+`)
+
+const AppBarOffset = withTheme(styled.div`
+  & {
+    ${({ theme }) => theme.mixins.toolbar}
+  }
+`)
+
+const LayoutWrapper = styled.section`
+  &,
+  .Layout-Main {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: flex-start;
+    background: ${props => {
+      return props.background ? props.background : 'transparent'
+    }};
+  }
+`
+
 export default function Layout({
   title,
   onGoBack,
@@ -86,37 +120,3 @@ Layout.propTypes = {
   elvateOnScroll: PropTypes.bool,
   background: PropTypes.string
 }
-
-const AppBarWrapper = withTheme(styled(AppBar)`
-  .Layout-Appbar-MenuButton {
-    margin-right: ${({ theme }) => theme.spacing(2)};
-  }
-
-  .Layout-Appbar-Actions {
-    display: flex;
-  }
-
-  .Layout-Appbar-Grow {
-    flex-grow: 1;
-  }
-`)
-
-const AppBarOffset = withTheme(styled.div`
-  & {
-    ${({ theme }) => theme.mixins.toolbar}
-  }
-`)
-
-const LayoutWrapper = styled.section`
-  &,
-  .Layout-Main {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    justify-content: flex-start;
-    background: ${props => {
-      return props.background ? props.background : 'transparent'
-    }};
-  }
-`
