@@ -5,13 +5,16 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import { withTheme } from '@material-ui/core/styles'
-import CardActionArea from '@material-ui/core/CardActionArea'
+// import CardActionArea from '@material-ui/core/CardActionArea'
 import Link from 'next/link'
+import Button from '@material-ui/core/Button'
 
 import { getPreview } from '../../helpers/files'
 
+const PHOTO_PADDING = 16
+
 const CardPreview = withTheme(styled('section')`
-  height: ${({ height }) => height}px;
+  padding-bottom: 70%;
   position: relative;
   background: rgb(250, 250, 250);
   background: linear-gradient(
@@ -19,6 +22,7 @@ const CardPreview = withTheme(styled('section')`
     rgba(250, 250, 250, 1) 0%,
     rgba(238, 238, 238, 1) 100%
   );
+  position: relative;
 
   &:before {
     content: '';
@@ -28,6 +32,7 @@ const CardPreview = withTheme(styled('section')`
     width: 100%;
     height: 6px;
     box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.14);
+    z-index: 1;
   }
 
   .photoGalleryItem-gridlist {
@@ -41,9 +46,8 @@ const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({ theme }) => theme.spacing(2)}px;
 `)
 
-const photoPadding = 16
-
 const Gallery = styled.div`
+  position: absolute;
   height: 100%;
   width: 100%;
   overflow-y: hidden;
@@ -55,33 +59,28 @@ const Gallery = styled.div`
   alignitems: center;
 
   .photoGalleryItem-gridItem {
-    width: auto;
-    max-width: ${({ maxImgWidth }) => maxImgWidth}px;
-    display: flex;
-    align-items: center;
-    padding: ${photoPadding}px ${photoPadding / 2}px;
+    display: contents;
   }
 
   .photoGalleryItem-gridItem img {
-    max-width: calc(${({ maxImgWidth }) => maxImgWidth}px - ${photoPadding}px);
+    height: calc(100% - ${PHOTO_PADDING * 2}px);
+    margin: ${PHOTO_PADDING}px ${PHOTO_PADDING / 2}px;
   }
 
-  .photoGalleryItem-gridItem:first-child {
-    padding-left: ${photoPadding}px;
+  .photoGalleryItem-gridItem:first-child img {
+    margin-left: ${PHOTO_PADDING}px;
   }
 
-  .photoGalleryItem-gridItem:last-child {
-    padding-right: ${photoPadding}px;
+  .photoGalleryItem-gridItem:last-child img {
+    margin-right: ${PHOTO_PADDING}px;
   }
 `
 
-export default function PhotoGalleryItem({ site, photos, columnWidth }) {
-  const imageHeight = columnWidth ? Math.round(columnWidth * 0.8) : 200
-
+export default function PhotoGalleryItem({ site, photos }) {
   return (
     <CardWrapper>
-      <CardPreview height={imageHeight + 32}>
-        <Gallery maxImgWidth={Math.round(columnWidth * 0.9 - photoPadding)}>
+      <CardPreview>
+        <Gallery>
           {photos.map(photo => (
             <Link
               href={{
@@ -90,15 +89,19 @@ export default function PhotoGalleryItem({ site, photos, columnWidth }) {
               }}
               key={photo.id}
             >
-              <CardActionArea className="photoGalleryItem-gridItem">
+              <Button
+                className="photoGalleryItem-gridItem"
+                disableFocusRipple
+                disableRipple
+              >
                 <img
                   src={getPreview({
                     thumbnailLink: photo.thumbnailLink,
-                    size: `h${imageHeight}`
+                    size: `h570`
                   })}
                   alt={`Preview image of ${photo.name}`}
                 />
-              </CardActionArea>
+              </Button>
             </Link>
           ))}
         </Gallery>

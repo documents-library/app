@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Link from 'next/link'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
@@ -27,11 +27,10 @@ const IconImage = styled.img`
 `
 
 const CardPreview = withTheme(styled(CardMedia)`
-  height: ${({ height }) => height}px;
   padding-top: ${({ theme }) => theme.spacing(4)}px;
   padding-left: ${({ theme }) => theme.spacing(6)}px;
   padding-right: ${({ theme }) => theme.spacing(6)}px;
-  padding-bottom: 0;
+  padding-bottom: 50%;
   overflow: hidden;
   justify-content: center;
   display: flex;
@@ -52,17 +51,23 @@ const CardPreview = withTheme(styled(CardMedia)`
     width: 100%;
     height: 6px;
     box-shadow: inset 0px -1px 1px 0px rgba(0, 0, 0, 0.14);
+    z-index: 1;
+  }
+
+  .filePreview-image {
+    position: absolute;
+    width: calc(100% - ${({ theme }) => theme.spacing(6) * 2}px);
+    height: auto;
+    box-shadow: ${({ theme }) => theme.shadows[6]};
   }
 
   @media (max-width: 500px) {
     padding-left: ${({ theme }) => theme.spacing(4)}px;
     padding-right: ${({ theme }) => theme.spacing(4)}px;
-  }
 
-  img {
-    width: 100%;
-    height: auto;
-    box-shadow: ${({ theme }) => theme.shadows[6]};
+    .filePreview-image {
+      width: calc(100% - ${({ theme }) => theme.spacing(4) * 2}px);
+    }
   }
 `)
 
@@ -70,7 +75,7 @@ const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({ theme }) => theme.spacing(2)}px;
 `)
 
-export default function FileItem({ site, file, columnWidth }) {
+export default function FileItem({ site, file }) {
   const { id, name, thumbnailLink } = file
   const fileName = formatFileName({ name })
 
@@ -85,10 +90,9 @@ export default function FileItem({ site, file, columnWidth }) {
         <CardActionArea>
           {thumbnailLink && (
             <FilePreview
-              height={columnWidth ? columnWidth * 0.5 : 100}
               src={getPreview({
                 thumbnailLink,
-                size: `w${columnWidth - 64}`
+                size: `w615`
               })}
               alt={`Preview image of ${fileName}`}
             />
@@ -150,16 +154,28 @@ function CardContentText({ data }) {
   )
 }
 
-function FilePreview({ height, src, alt = 'Image preview' }) {
-  const [disabled, setDisabled] = useState(false)
-
-  // hide preview if image fails
-  if (disabled) return false
+function FilePreview({ src, alt = 'Image preview' }) {
+  // TODO: find a better way to hide the card preview if the image fails to load
+  // const imgRef = createRef()
+  // const [disabled, setDisabled] = useState(false)
+  //
+  // // hide preview if image fails
+  // useEffect(() => {
+  //   const img = imgRef.current
+  //
+  //   if (!img.complete || img.naturalWidth === 0) {
+  //     setDisabled(true)
+  //   }
+  // }, [])
+  //
+  // if (disabled) return false
   return (
-    <CardPreview height={height}>
+    <CardPreview>
       <img
-        onError={() => setDisabled(true)}
-        onLoad={() => setDisabled(false)}
+        // ref={imgRef}
+        // onError={() => setDisabled(true)}
+        // onLoad={() => setDisabled(false)}
+        className="filePreview-image"
         src={src}
         alt={alt}
       />
@@ -169,8 +185,7 @@ function FilePreview({ height, src, alt = 'Image preview' }) {
 
 FileItem.propTypes = {
   site: PropTypes.object,
-  file: PropTypes.object,
-  columnWidth: PropTypes.number
+  file: PropTypes.object
 }
 
 CardContentText.propTypes = {

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import Container from '@material-ui/core/Container'
-import Orphanage from 'react-orphanage'
 import Typography from '@material-ui/core/Typography'
 import PropTypes from 'prop-types'
 
@@ -21,30 +20,26 @@ export default function WelcomeSection({ title, subtitle }) {
   return (
     <OrganizationWelcomeWrapper>
       <Container maxWidth="md">
-        <Orphanage>
-          <Typography
-            variant="h2"
-            component="h1"
-            align="center"
-            gutterBottom
-            paragraph
-            className="vollkorn"
-          >
-            {title}
-          </Typography>
-        </Orphanage>
-        <Orphanage>
-          <Typography
-            variant="h5"
-            component="h2"
-            align="center"
-            gutterBottom
-            paragraph
-            className="vollkorn"
-          >
-            {subtitle}
-          </Typography>
-        </Orphanage>
+        <Typography
+          variant="h2"
+          component="h1"
+          align="center"
+          gutterBottom
+          paragraph
+          className="vollkorn"
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant="h5"
+          component="h2"
+          align="center"
+          gutterBottom
+          paragraph
+          className="vollkorn"
+        >
+          {subtitle}
+        </Typography>
       </Container>
     </OrganizationWelcomeWrapper>
   )
@@ -54,4 +49,3 @@ WelcomeSection.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string
 }
-
