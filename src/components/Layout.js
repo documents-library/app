@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import Router from 'next/router'
 import styled from 'styled-components'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -8,6 +9,7 @@ import Typography from '@material-ui/core/Typography'
 import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { withTheme } from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import LinearProgress from '@material-ui/core/LinearProgress'
 
 import { capitalizeFirstLetter } from '../helpers/format'
 
@@ -44,6 +46,14 @@ const LayoutWrapper = styled.section`
     }};
   }
 `
+const LinearProgressWrapper = styled(LinearProgress)`
+  &.MuiLinearProgress-root {
+    width: 100%;
+    position: fixed;
+    z-index: 99999;
+    top: 0px;
+  }
+`
 
 export default function Layout({
   title,
@@ -53,6 +63,8 @@ export default function Layout({
   elvateOnScroll = false,
   background
 }) {
+  const pageLoading = useLoadingRoute()
+
   return (
     <LayoutWrapper background={background}>
       <>
@@ -83,6 +95,7 @@ export default function Layout({
           </AppBarWrapper>
         </ElevationScroll>
         <AppBarOffset />
+        {pageLoading ? <LinearProgressWrapper color="primary" /> : null}
       </>
 
       <section className="Layout-Main">{children}</section>
@@ -119,4 +132,16 @@ Layout.propTypes = {
   children: PropTypes.node,
   elvateOnScroll: PropTypes.bool,
   background: PropTypes.string
+}
+
+function useLoadingRoute() {
+  const [pageLoading, setPageLoading] = useState(false)
+
+  useEffect(() => {
+    Router.events.on('routeChangeStart', () => setPageLoading(true))
+    Router.events.on('routeChangeComplete', () => setPageLoading(false))
+    Router.events.on('routeChangeError', () => setPageLoading(false))
+  }, [])
+
+  return pageLoading
 }
