@@ -4,6 +4,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
+import Icon from '@material-ui/core/Icon'
 
 import { downloadLinks } from '../../../helpers/files'
 
@@ -30,7 +31,7 @@ export default function DownloadButton({ file }) {
   const manyDownloadOptions = (
     <>
       <IconButton color="inherit" onClick={handleClick}>
-        <CloudDownloadIcon />
+        <Icon>cloud_download</Icon>
       </IconButton>
       <Menu
         id="simple-menu"

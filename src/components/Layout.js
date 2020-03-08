@@ -6,7 +6,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import ArrowBackIcon from '@material-ui/icons/ArrowBack'
+import Icon from '@material-ui/core/Icon'
 import { withTheme } from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import LinearProgress from '@material-ui/core/LinearProgress'
@@ -79,7 +79,7 @@ export default function Layout({
                   aria-label="go back"
                   onClick={onGoBack}
                 >
-                  <ArrowBackIcon />
+                  <Icon>arrow_back</Icon>
                 </IconButton>
               )}
               <Typography variant="h6" noWrap>

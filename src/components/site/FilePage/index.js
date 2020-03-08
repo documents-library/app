@@ -4,16 +4,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { createPortal } from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import LinkIcon from '@material-ui/icons/Link'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
 import Tooltip from '@material-ui/core/Tooltip'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
-import NoSsr from '@material-ui/core/NoSsr'
+import Icon from '@material-ui/core/Icon'
 
 import Layout from '../../../components/Layout'
 import { theme } from '../../../helpers/theme'
@@ -62,23 +59,21 @@ export default function File({ site, file }) {
                   title="Desactivar vista de lectura"
                   placement="bottom-end"
                 >
-                  <VisibilityOffIcon />
+                  <Icon>visibility_off</Icon>
                 </Tooltip>
               ) : (
                 <Tooltip
                   title="Activar vista de lectura"
                   placement="bottom-end"
                 >
-                  <VisibilityIcon />
+                  <Icon>visibility</Icon>
                 </Tooltip>
               )}
             </IconButton>
           )}
 
-          <NoSsr>
-            <CopyUrlButton />
-            <DownloadButton file={file} />
-          </NoSsr>
+          <CopyUrlButton />
+          <DownloadButton file={file} />
         </>
       }
       background="#fafafa"
@@ -137,7 +132,7 @@ function CopyUrlButton() {
       <CopyToClipboard text={currentUrl} onCopy={handleOnCopy}>
         {!copied ? (
           <IconButton color="inherit">
-            <LinkIcon />
+            <Icon>link</Icon>
           </IconButton>
         ) : (
           <Box alignItems="center" display="flex">

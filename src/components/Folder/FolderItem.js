@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -25,7 +25,7 @@ export default function FolderItem({ site, data }) {
       <ListItemText primary={capitalizeFirstLetter(name)} />
 
       <ListItemSecondaryAction>
-        <ArrowForwardIosIcon color="action" />
+        <Icon color="action">keyboard_arrow_right</Icon>
       </ListItemSecondaryAction>
     </ListItem>
   )
