@@ -74,11 +74,12 @@ export default function Layout({
   const siteName = 'documents.li'
   const image = 'https://documents.li/img/favicon/documentsLi-ogImage.png'
   const ogType = 'website'
+  const twitterCard = 'summary'
 
   return (
     <>
       <Head>
-        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:card" content={meta.twitterCard || twitterCard} />
         <meta name="twitter:url" content={url} />
         <meta name="twitter:title" content={meta.title || defaultTitle} />
         <meta
@@ -96,6 +97,7 @@ export default function Layout({
         <meta property="og:site_name" content={meta.siteName || siteName} />
         <meta property="og:url" content={url} />
         <meta property="og:image" content={meta.image || image} />
+        <meta property="og:image:type" content="image/png" />
 
         {!meta.image && (
           <>

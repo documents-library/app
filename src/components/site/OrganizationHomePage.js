@@ -34,7 +34,7 @@ export default function OrganizationHomePage({ organization, sites }) {
       meta={{
         ogType: 'website',
         title: `${organization.name} | Documents Library`,
-        description: 'Librería de documentos',
+        description: organization.description || 'Librería de documentos',
         siteName: 'documents.li'
       }}
     >

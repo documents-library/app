@@ -20,8 +20,8 @@ export default function FolderPage({ site, folder }) {
       }
       meta={{
         ogType: 'website',
-        title: `${currentFolder.name} | Documents Library`,
-        description: `${site.organizationName} - ${site.name}`,
+        title: `${currentFolder.name} | ${site.name || 'Documents Library'}`,
+        description: `${site.organizationName}`,
         siteName: 'documents.li'
       }}
     >

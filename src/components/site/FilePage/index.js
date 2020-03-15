@@ -35,7 +35,7 @@ export default function File({ site, file }) {
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
   const image =
     file && file.thumbnailLink
-      ? getPreview({ thumbnailLink: file.thumbnailLink, size: `w1080` })
+      ? getPreview({ thumbnailLink: file.thumbnailLink, size: `w600` })
       : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
 
   useEffect(() => {
@@ -52,9 +52,10 @@ export default function File({ site, file }) {
         })
       }
       meta={{
-        ogType: 'website',
-        title: `${file.name} | Documents Library`,
-        description: `${site.organizationName} - ${site.name}`,
+        ogType: 'article',
+        twitterCard: 'summary_large_image',
+        title: `${file.name} | ${site.name || 'Documents Library'}`,
+        description: `${site.organizationName}`,
         siteName: 'documents.li',
         image
       }}
