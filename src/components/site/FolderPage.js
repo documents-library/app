@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Layout from '../../components/Layout'
 import Folder, { FolderWrapper } from '../../components/Folder'
 import { capitalizeFirstLetter } from '../../helpers/format'
+import { CopyUrlButton } from '../../components/site/FilePage'
 
 export default function FolderPage({ site, folder }) {
   const { files, currentFolder } = folder
@@ -24,6 +25,7 @@ export default function FolderPage({ site, folder }) {
         description: `${site.organizationName}`,
         siteName: 'documents.li'
       }}
+      actions={<CopyUrlButton />}
     >
       {files.length > 0 ? (
         <Folder site={site} folder={folder} />

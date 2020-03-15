@@ -130,7 +130,7 @@ function FileHtml({ styles, html }) {
   )
 }
 
-function CopyUrlButton() {
+export function CopyUrlButton() {
   const [copied, setCopied] = useState(false)
   const currentUrl = typeof window !== 'undefined' ? window.location.href : null
 
