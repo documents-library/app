@@ -17,6 +17,12 @@ export default function SiteHomePage({ site, folder }) {
           pathname: `/${site.organizationName}`
         })
       }
+      meta={{
+        ogType: 'website',
+        title: `${currentFolder.name} | Documents Library`,
+        description: 'Librería de documentos',
+        siteName: 'documents.li'
+      }}
       elvateOnScroll
     >
       <>

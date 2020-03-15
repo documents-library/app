@@ -28,7 +28,16 @@ const SiteListWrapper = styled.section`
 
 export default function OrganizationHomePage({ organization, sites }) {
   return (
-    <Layout title={organization.name} elvateOnScroll>
+    <Layout
+      title={organization.name}
+      elvateOnScroll
+      meta={{
+        ogType: 'website',
+        title: `${organization.name} | Documents Library`,
+        description: 'Librería de documentos',
+        siteName: 'documents.li'
+      }}
+    >
       <>
         <WelcomeSection
           title={organization.longName}
@@ -55,7 +64,7 @@ function SiteList({ sites, organizationName }) {
             <SiteItem
               site={site}
               organizationName={organizationName}
-              key={site.id}
+              key={site._id}
             />
           ))}
         </Grid>
@@ -104,5 +113,5 @@ OrganizationHomePage.propTypes = {
     longName: PropTypes.string,
     description: PropTypes.string
   }),
-  sites: PropTypes.array.required
+  sites: PropTypes.array
 }

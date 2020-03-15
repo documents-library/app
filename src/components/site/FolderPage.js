@@ -18,6 +18,12 @@ export default function FolderPage({ site, folder }) {
           query: { folderId: currentFolder.parents[0] }
         })
       }
+      meta={{
+        ogType: 'website',
+        title: `${currentFolder.name} | Documents Library`,
+        description: `${site.organizationName} - ${site.name}`,
+        siteName: 'documents.li'
+      }}
     >
       {files.length > 0 ? (
         <Folder site={site} folder={folder} />

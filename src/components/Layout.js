@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -10,8 +10,10 @@ import Icon from '@material-ui/core/Icon'
 import { withTheme } from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Head from 'next/head'
 
 import { capitalizeFirstLetter } from '../helpers/format'
+import { DOMAIN } from '../helpers/constants'
 
 const AppBarWrapper = withTheme(styled(AppBar)`
   .Layout-Appbar-MenuButton {
@@ -61,45 +63,83 @@ export default function Layout({
   actions,
   children,
   elvateOnScroll = false,
-  background
+  background,
+  meta = {}
 }) {
+  const { asPath } = useRouter()
   const pageLoading = useLoadingRoute()
+  const url = `${DOMAIN}${asPath}`
+  const defaultTitle = 'Documents Librería'
+  const description = 'Librería de documentos'
+  const siteName = 'documents.li'
+  const image = 'https://documents.li/img/favicon/documentsLi-ogImage.png'
+  const ogType = 'website'
 
   return (
-    <LayoutWrapper background={background}>
-      <>
-        <ElevationScroll elvateOnScroll={elvateOnScroll}>
-          <AppBarWrapper position="fixed">
-            <Toolbar>
-              {onGoBack && (
-                <IconButton
-                  edge="start"
-                  className="Layout-Appbar-MenuButton"
-                  color="inherit"
-                  aria-label="go back"
-                  onClick={onGoBack}
-                >
-                  <Icon>arrow_back</Icon>
-                </IconButton>
-              )}
-              <Typography variant="h6" noWrap>
-                {capitalizeFirstLetter(title)}
-              </Typography>
+    <>
+      <Head>
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:url" content={url} />
+        <meta name="twitter:title" content={meta.title || defaultTitle} />
+        <meta
+          name="twitter:description"
+          content={meta.description || description}
+        />
+        <meta name="twitter:image" content={meta.image || image} />
+        <meta name="twitter:creator" content="@ggsalas" />
+        <meta property="og:type" content={meta.ogType || ogType} />
+        <meta property="og:title" content={meta.title || defaultTitle} />
+        <meta
+          property="og:description"
+          content={meta.description || description}
+        />
+        <meta property="og:site_name" content={meta.siteName || siteName} />
+        <meta property="og:url" content={url} />
+        <meta property="og:image" content={meta.image || image} />
 
-              <div className="Layout-Appbar-Grow" />
+        {!meta.image && (
+          <>
+            <meta property="og:image:width" content="1080" />
+            <meta property="og:image:height" content="1382" />
+          </>
+        )}
+      </Head>
 
-              {actions && (
-                <div className="Layout-Appbar-Actions">{actions}</div>
-              )}
-            </Toolbar>
-          </AppBarWrapper>
-        </ElevationScroll>
-        <AppBarOffset />
-        {pageLoading ? <LinearProgressWrapper color="primary" /> : null}
-      </>
+      <LayoutWrapper background={background}>
+        <>
+          <ElevationScroll elvateOnScroll={elvateOnScroll}>
+            <AppBarWrapper position="fixed">
+              <Toolbar>
+                {onGoBack && (
+                  <IconButton
+                    edge="start"
+                    className="Layout-Appbar-MenuButton"
+                    color="inherit"
+                    aria-label="go back"
+                    onClick={onGoBack}
+                  >
+                    <Icon>arrow_back</Icon>
+                  </IconButton>
+                )}
+                <Typography variant="h6" noWrap>
+                  {capitalizeFirstLetter(title)}
+                </Typography>
 
-      <section className="Layout-Main">{children}</section>
-    </LayoutWrapper>
+                <div className="Layout-Appbar-Grow" />
+
+                {actions && (
+                  <div className="Layout-Appbar-Actions">{actions}</div>
+                )}
+              </Toolbar>
+            </AppBarWrapper>
+          </ElevationScroll>
+          <AppBarOffset />
+          {pageLoading ? <LinearProgressWrapper color="primary" /> : null}
+        </>
+
+        <section className="Layout-Main">{children}</section>
+      </LayoutWrapper>
+    </>
   )
 }
 
@@ -131,7 +171,14 @@ Layout.propTypes = {
   actions: PropTypes.node,
   children: PropTypes.node,
   elvateOnScroll: PropTypes.bool,
-  background: PropTypes.string
+  background: PropTypes.string,
+  meta: PropTypes.shape({
+    ogType: PropTypes.string,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    siteName: PropTypes.string,
+    image: PropTypes.string
+  })
 }
 
 function useLoadingRoute() {

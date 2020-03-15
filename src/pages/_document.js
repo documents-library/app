@@ -88,24 +88,6 @@ export default class MyDocument extends Document {
             content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
           />
           <link rel="shortcut icon" href="/img/favicon/favicon.ico" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:url" content="https://documents.li" />
-          <meta name="twitter:title" content="documents.li" />
-          <meta name="twitter:description" content="Documents Library" />
-          <meta
-            name="twitter:image"
-            content="https://documents.li/img/favicon/android-chrome-192x192.png"
-          />
-          <meta name="twitter:creator" content="@ggsalas" />
-          <meta property="og:type" content="documents.li" />
-          <meta property="og:title" content="documents.li" />
-          <meta property="og:description" content="Documents Library" />
-          <meta property="og:site_name" content="documents.li" />
-          <meta property="og:url" content="https://documents.li" />
-          <meta
-            property="og:image"
-            content="https://documents.li/img/favicon/apple-touch-icon.png"
-          />
         </Head>
 
         <body>

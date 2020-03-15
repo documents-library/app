@@ -14,7 +14,7 @@ import Icon from '@material-ui/core/Icon'
 
 import Layout from '../../../components/Layout'
 import { theme } from '../../../helpers/theme'
-import { formatFileName } from '../../../helpers/files'
+import { formatFileName, getPreview } from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
 const FileHtmlContainer = styled(Container)`
@@ -33,6 +33,10 @@ export default function File({ site, file }) {
   // TODO: if is a crawler show allways the embedhtml version
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
+  const image =
+    file && file.thumbnailLink
+      ? getPreview({ thumbnailLink: file.thumbnailLink, size: `w1080` })
+      : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
@@ -47,6 +51,13 @@ export default function File({ site, file }) {
           query: { folderId: file.parents[0] }
         })
       }
+      meta={{
+        ogType: 'website',
+        title: `${file.name} | Documents Library`,
+        description: `${site.organizationName} - ${site.name}`,
+        siteName: 'documents.li',
+        image
+      }}
       actions={
         <>
           {file.html && (
