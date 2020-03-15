@@ -39,8 +39,20 @@ export default function Folder({ site, folder }) {
   )
   const files = folder.files.filter(
     file =>
-      !isFileType({ file, typeNames: [filetype.folder.name] }) &&
-      !isFileType({ file, typeNames: [filetype.img.name] })
+      !isFileType({
+        file,
+        typeNames: [filetype.folder.name, filetype.img.name]
+      }) &&
+      isFileType({
+        file,
+        typeNames: [
+          filetype.doc.name,
+          filetype.pres.name,
+          filetype.calc.name,
+          filetype.pict.name,
+          filetype.cad.name
+        ]
+      })
   )
   const hasSections = Boolean(
     sections && sections.length && sections.length > 0
@@ -50,27 +62,37 @@ export default function Folder({ site, folder }) {
       (!photos || !photos.length || photos.length === 0)
   )
 
+  const folderSections = <Sections site={site} sections={sections} />
+
+  const folderFiles = (
+    <>
+      <Files site={site} files={files} />
+      {photos.length > 1 ? (
+        <PhotoGalleryItem site={site} photos={photos} />
+      ) : photos.length === 1 ? (
+        <Files site={site} files={photos} />
+      ) : null}
+    </>
+  )
+
   return (
     <FolderWrapper maxWidth="lg">
       <FolderGrid container spacing={2} direction="row">
         <Grid item xs={12} sm={7} ref={columnFilesEl}>
           {emptyFolder ? (
-            <p>Esta seccieon no contiene documentos</p>
+            !hasSections ? (
+              <p>Esta seccieon no contiene documentos</p>
+            ) : (
+              folderSections
+            )
           ) : (
-            <>
-              <Files site={site} files={files} />
-              {photos.length > 1 ? (
-                <PhotoGalleryItem site={site} photos={photos} />
-              ) : photos.length === 1 ? (
-                <Files site={site} files={photos} />
-              ) : null}
-            </>
+            folderFiles
           )}
         </Grid>
 
-        {hasSections && (
+        {hasSections && !emptyFolder && (
           <Grid item xs={12} sm={5}>
-            <Sections site={site} sections={sections} />
+            {folderSections}
           </Grid>
         )}
       </FolderGrid>
