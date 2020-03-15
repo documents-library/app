@@ -28,9 +28,8 @@ const IframeWrapper = styled.iframe`
   flex-grow: 1;
 `
 
-export default function File({ site, file }) {
+export default function File({ site, file, isCrawler }) {
   const cookies = Cookie()
-  // TODO: if is a crawler show allways the embedhtml version
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
   const image =
@@ -90,7 +89,12 @@ export default function File({ site, file }) {
       }
       background="#fafafa"
     >
-      {file.html && embedHtml ? (
+      {file.html && isCrawler ? (
+        <div
+          className="filehtml-wrapper"
+          dangerouslySetInnerHTML={createMarkup(file.html)}
+        />
+      ) : file.html && embedHtml ? (
         <FileHtml html={file.html} styles={fileHtmlStyles()} />
       ) : (
         <IframeWrapper src={viewerUrl} />
@@ -107,10 +111,6 @@ function FileHtml({ styles, html }) {
   useEffect(() => {
     setShadowDom(ref.current.attachShadow({ mode: 'open' }))
   }, [])
-
-  function createMarkup(html) {
-    return { __html: html }
-  }
 
   const nodeToRender = (
     <>
@@ -156,9 +156,14 @@ export function CopyUrlButton() {
   )
 }
 
+function createMarkup(html) {
+  return { __html: html }
+}
+
 File.propTypes = {
   site: PropTypes.object,
-  file: PropTypes.object
+  file: PropTypes.object,
+  isCrawler: PropTypes.bool
 }
 
 FileHtml.propTypes = {

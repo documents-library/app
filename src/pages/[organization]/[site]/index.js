@@ -5,15 +5,22 @@ import fetch from 'isomorphic-unfetch'
 import SiteHomePage from '../../../components/site/SiteHomePage'
 import FolderPage from '../../../components/site/FolderPage'
 import FilePage from '../../../components/site/FilePage'
+import { getIsCrawler } from '../../../../src/helpers/fetch'
 
 // Site main page
-export default function Site({ site, isSiteMainPage, folder, file }) {
+export default function Site({
+  site,
+  isSiteMainPage,
+  folder,
+  file,
+  isCrawler
+}) {
   if (!site) {
     return <p>{`404: El Repositorio no pudo ser encontrado`}</p>
   } else if (isSiteMainPage) {
     return <SiteHomePage site={site} folder={folder} />
   } else if (file) {
-    return <FilePage site={site} file={file} />
+    return <FilePage site={site} file={file} isCrawler={isCrawler} />
   } else if (folder.kind === 'drive#fileList') {
     return <FolderPage site={site} folder={folder} />
   } else {
@@ -30,6 +37,7 @@ Site.propTypes = {
 Site.getInitialProps = async ctx => {
   try {
     const { organization, site: siteName, folderId, fileId } = ctx.query
+    const userAgent = ctx.req.headers['user-agent']
     const res = await fetch(`${process.env.API_URL}/sites/${siteName}`)
     const { site } = await res.json()
     // TODO: add organizations to BE
@@ -73,7 +81,8 @@ Site.getInitialProps = async ctx => {
         isSiteMainPage: false,
         folder: {},
         fileId,
-        file
+        file,
+        isCrawler: getIsCrawler({ userAgent })
       }
     }
   } catch (err) {
