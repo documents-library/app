@@ -1,20 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Router from 'next/router'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { createPortal } from 'react-dom'
+import {createPortal} from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
 import Tooltip from '@material-ui/core/Tooltip'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'
 
 import Layout from '../../../components/Layout'
-import { theme } from '../../../helpers/theme'
-import { formatFileName, getPreview } from '../../../helpers/files'
+import {theme} from '../../../helpers/theme'
+import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
 const FileHtmlContainer = styled(Container)`
@@ -28,26 +27,26 @@ const IframeWrapper = styled.iframe`
   flex-grow: 1;
 `
 
-export default function File({ site, file, isCrawler }) {
+export default function File({site, file, isCrawler}) {
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
   const image =
     file && file.thumbnailLink
-      ? getPreview({ thumbnailLink: file.thumbnailLink, size: `w600` })
+      ? getPreview({thumbnailLink: file.thumbnailLink, size: `w600`})
       : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
-  }, [embedHtml])
+  }, [cookies, embedHtml])
 
   return (
     <Layout
-      title={formatFileName({ name: file.name })}
+      title={formatFileName({name: file.name})}
       onGoBack={() =>
         Router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: file.parents[0] }
+          query: {folderId: file.parents[0]}
         })
       }
       meta={{
@@ -104,12 +103,12 @@ export default function File({ site, file, isCrawler }) {
 }
 
 // Implement shadow dom to isolate the styles of the html
-function FileHtml({ styles, html }) {
+function FileHtml({styles, html}) {
   const ref = useRef()
   const [shadowDom, setShadowDom] = useState()
 
   useEffect(() => {
-    setShadowDom(ref.current.attachShadow({ mode: 'open' }))
+    setShadowDom(ref.current.attachShadow({mode: 'open'}))
   }, [])
 
   const nodeToRender = (
@@ -157,7 +156,7 @@ export function CopyUrlButton() {
 }
 
 function createMarkup(html) {
-  return { __html: html }
+  return {__html: html}
 }
 
 File.propTypes = {
@@ -294,7 +293,7 @@ function fileHtmlStyles() {
       border-bottom: none;
     }
 
-    .filehtml-wrapper td p, 
+    .filehtml-wrapper td p,
     .filehtml-wrapper td p span {
       font-size: 1.2rem;
       margin: .2em 0;

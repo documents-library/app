@@ -5,18 +5,12 @@ import fetch from 'isomorphic-unfetch'
 import SiteHomePage from '../../../components/site/SiteHomePage'
 import FolderPage from '../../../components/site/FolderPage'
 import FilePage from '../../../components/site/FilePage'
-import { getIsCrawler } from '../../../../src/helpers/fetch'
+import {getIsCrawler} from '../../../../src/helpers/fetch'
 
 // Site main page
-export default function Site({
-  site,
-  isSiteMainPage,
-  folder,
-  file,
-  isCrawler
-}) {
+export default function Site({site, isSiteMainPage, folder, file, isCrawler}) {
   if (!site) {
-    return <p>{`404: El Repositorio no pudo ser encontrado`}</p>
+    return <p>404: El Repositorio no pudo ser encontrado</p>
   } else if (isSiteMainPage) {
     return <SiteHomePage site={site} folder={folder} />
   } else if (file) {
@@ -36,10 +30,10 @@ Site.propTypes = {
 
 Site.getInitialProps = async ctx => {
   try {
-    const { organization, site: siteName, folderId, fileId } = ctx.query
+    const {organization, site: siteName, folderId, fileId} = ctx.query  // eslint-disable-line
     const userAgent = ctx.req.headers['user-agent']
     const res = await fetch(`${process.env.API_URL}/sites/${siteName}`)
-    const { site } = await res.json()
+    const {site} = await res.json()
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
       ...site,
@@ -82,7 +76,7 @@ Site.getInitialProps = async ctx => {
         folder: {},
         fileId,
         file,
-        isCrawler: getIsCrawler({ userAgent })
+        isCrawler: getIsCrawler({userAgent})
       }
     }
   } catch (err) {

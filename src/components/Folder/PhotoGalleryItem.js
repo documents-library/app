@@ -4,12 +4,12 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
-import { withTheme } from '@material-ui/core/styles'
+import {withTheme} from '@material-ui/core/styles'
 // import CardActionArea from '@material-ui/core/CardActionArea'
-import Link from 'next/link'
+import Link from '@s-ui/react-router/lib/Link'
 import Button from '@material-ui/core/Button'
 
-import { getPreview } from '../../helpers/files'
+import {getPreview} from '../../helpers/files'
 
 const PHOTO_PADDING = 16
 
@@ -43,7 +43,7 @@ const CardPreview = withTheme(styled('section')`
 `)
 
 const CardWrapper = withTheme(styled(Card)`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
 const Gallery = styled.div`
@@ -76,16 +76,16 @@ const Gallery = styled.div`
   }
 `
 
-export default function PhotoGalleryItem({ site, photos }) {
+export default function PhotoGalleryItem({site, photos}) {
   return (
     <CardWrapper>
       <CardPreview>
         <Gallery>
           {photos.map(photo => (
             <Link
-              href={{
+              to={{
                 pathname: `/${site.organizationName}/${site.name}/`,
-                query: { fileId: photo.id }
+                query: {fileId: photo.id}
               }}
               key={photo.id}
             >

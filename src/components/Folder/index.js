@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, {useRef} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
-import { withTheme } from '@material-ui/core/styles'
+import {withTheme} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import Divider from '@material-ui/core/Divider'
@@ -11,16 +11,16 @@ import Divider from '@material-ui/core/Divider'
 import FileItem from './FileItem'
 import FolderItem from './FolderItem'
 import PhotoGalleryItem from './PhotoGalleryItem'
-import { isFileType, filetype } from '../../helpers/files'
-import { theme } from '../../helpers/theme'
+import {isFileType, filetype} from '../../helpers/files'
+import {theme} from '../../helpers/theme'
 
 const SectionsWrapper = withTheme(styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
 export const FolderWrapper = withTheme(styled(Container)`
-  padding-top: ${({ theme }) => theme.spacing(3)}px;
-  padding-bottom: ${({ theme }) => theme.spacing(3)}px;
+  padding-top: ${({theme}) => theme.spacing(3)}px;
+  padding-bottom: ${({theme}) => theme.spacing(3)}px;
 `)
 
 const FolderGrid = styled(Grid)`
@@ -29,13 +29,13 @@ const FolderGrid = styled(Grid)`
   }
 `
 
-export default function Folder({ site, folder }) {
+export default function Folder({site, folder}) {
   const columnFilesEl = useRef()
   const sections = folder.files.filter(file =>
-    isFileType({ file, typeNames: [filetype.folder.name] })
+    isFileType({file, typeNames: [filetype.folder.name]})
   )
   const photos = folder.files.filter(file =>
-    isFileType({ file, typeNames: [filetype.img.name] })
+    isFileType({file, typeNames: [filetype.img.name]})
   )
   const files = folder.files.filter(
     file =>
@@ -100,11 +100,11 @@ export default function Folder({ site, folder }) {
   )
 }
 
-function Files({ site, files }) {
+function Files({site, files}) {
   return files.map(file => <FileItem key={file.id} site={site} file={file} />)
 }
 
-function Sections({ site, sections }) {
+function Sections({site, sections}) {
   return (
     <SectionsWrapper>
       <List

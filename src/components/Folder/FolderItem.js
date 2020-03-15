@@ -6,17 +6,17 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import Router from 'next/router'
 
-import { capitalizeFirstLetter } from '../../helpers/format'
+import {capitalizeFirstLetter} from '../../helpers/format'
 
-export default function FolderItem({ site, data }) {
-  const { id, name } = data
+export default function FolderItem({site, data}) {
+  const {id, name} = data
 
   return (
     <ListItem
       onClick={() =>
         Router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: id }
+          query: {folderId: id}
         })
       }
       divider

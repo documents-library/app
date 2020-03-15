@@ -87,8 +87,8 @@ export const filetype = {
   }
 }
 
-export function isFileType({ file, typeNames }) {
-  const type = getFileType({ file })
+export function isFileType({file, typeNames}) {
+  const type = getFileType({file})
 
   if (type) {
     return typeNames.includes(type)
@@ -96,19 +96,19 @@ export function isFileType({ file, typeNames }) {
   return null
 }
 
-export function canReadOnline({ file }) {
+export function canReadOnline({file}) {
   const typeNames = [filetype.doc.name, filetype.pres.name, filetype.img.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function isCalc({ file }) {
+export function isCalc({file}) {
   const typeNames = [filetype.calc.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function downloadLinks({ file }) {
+export function downloadLinks({file}) {
   const exportPdf = {
     id: 'exportPdf',
     label: 'Descargar PDF',
@@ -125,49 +125,49 @@ export function downloadLinks({ file }) {
     url: `https://docs.google.com/spreadsheets/d/${file.id}/export?format=xlsx&id=${file.id}`
   }
 
-  if (isCalc({ file })) {
+  if (isCalc({file})) {
     return [exportXls, copyCalcOnUserDrive]
   }
 
   return [exportPdf]
 }
 
-export function getFileIcon({ file }) {
-  const type = getFileType({ file })
+export function getFileIcon({file}) {
+  const type = getFileType({file})
 
   if (type) return filetype[type].icon
   else return '/img/file.svg'
 }
 
 // size values: 'w200', 'h200', 's200'
-export function getPreview({ thumbnailLink, size = 's150' }) {
+export function getPreview({thumbnailLink, size = 's150'}) {
   const sliceTo = thumbnailLink.indexOf('=')
   const baseLink = thumbnailLink.slice(0, sliceTo)
 
   return `${baseLink}=${size}`
 }
 
-export function formatFileName({ name }) {
+export function formatFileName({name}) {
   const sliceTo = name.indexOf('.')
   const fileName = sliceTo !== -1 ? name.slice(0, sliceTo) : name
 
   return fileName.charAt(0).toUpperCase() + fileName.slice(1)
 }
 
-function getFileType({ file }) {
-  const { fileExtension, mimeType } = file
+function getFileType({file}) {
+  const {fileExtension, mimeType} = file
   let currentFileType = null
 
   if (fileExtension) {
     Object.keys(filetype).forEach(type => {
-      const { extensions } = filetype[type]
+      const {extensions} = filetype[type]
 
       if (extensions.includes(fileExtension.toLowerCase()))
         currentFileType = filetype[type].name
     })
   } else if (mimeType) {
     Object.keys(filetype).forEach(type => {
-      const { mimeTypes } = filetype[type]
+      const {mimeTypes} = filetype[type]
 
       if (mimeTypes.includes(mimeType)) currentFileType = filetype[type].name
     })

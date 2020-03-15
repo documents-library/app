@@ -7,11 +7,11 @@ import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
-import Link from 'next/link'
+import Link from '@s-ui/react-router/lib/Link'
 
 import Layout from '../../components/Layout'
 import WelcomeSection from './WelcomeSection'
-import { theme } from '../../helpers/theme'
+import {theme} from '../../helpers/theme'
 
 const SiteItemWrapper = styled(Grid)`
   margin-bottom: ${theme.spacing(2)}px;
@@ -20,13 +20,17 @@ const SiteItemWrapper = styled(Grid)`
     height: 100%;
     display: flex;
   }
+
+  a {
+    text-decoration: none;
+  }
 `
 
 const SiteListWrapper = styled.section`
   margin-top: -${theme.spacing(6)}px;
 `
 
-export default function OrganizationHomePage({ organization, sites }) {
+export default function OrganizationHomePage({organization, sites}) {
   return (
     <Layout
       title={organization.name}
@@ -49,7 +53,7 @@ export default function OrganizationHomePage({ organization, sites }) {
   )
 }
 
-function SiteList({ sites, organizationName }) {
+function SiteList({sites, organizationName}) {
   return (
     <SiteListWrapper>
       <Container maxWidth="md">
@@ -73,14 +77,14 @@ function SiteList({ sites, organizationName }) {
   )
 }
 
-function SiteItem({ site, organizationName }) {
-  const { longName, name, description } = site
+function SiteItem({site, organizationName}) {
+  const {longName, name, description} = site
 
   return (
     <SiteItemWrapper item xs={12} sm={6}>
       <Card className="siteItem-card">
         <Link
-          href={{
+          to={{
             pathname: `/${organizationName}/${name}/`
           }}
         >

@@ -1,5 +1,5 @@
 import React from 'react'
-import Link from 'next/link'
+import Link from '@s-ui/react-router/lib/Link'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -9,10 +9,10 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
-import { withTheme } from '@material-ui/core/styles'
+import {withTheme} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import { dateRelativeFormat } from '../../helpers/format'
+import {dateRelativeFormat} from '../../helpers/format'
 import {
   canReadOnline,
   getFileIcon,
@@ -27,9 +27,9 @@ const IconImage = styled.img`
 `
 
 const CardPreview = withTheme(styled(CardMedia)`
-  padding-top: ${({ theme }) => theme.spacing(4)}px;
-  padding-left: ${({ theme }) => theme.spacing(6)}px;
-  padding-right: ${({ theme }) => theme.spacing(6)}px;
+  padding-top: ${({theme}) => theme.spacing(4)}px;
+  padding-left: ${({theme}) => theme.spacing(6)}px;
+  padding-right: ${({theme}) => theme.spacing(6)}px;
   padding-bottom: 50%;
   overflow: hidden;
   justify-content: center;
@@ -56,35 +56,35 @@ const CardPreview = withTheme(styled(CardMedia)`
 
   .filePreview-image {
     position: absolute;
-    width: calc(100% - ${({ theme }) => theme.spacing(6) * 2}px);
+    width: calc(100% - ${({theme}) => theme.spacing(6) * 2}px);
     height: auto;
-    box-shadow: ${({ theme }) => theme.shadows[6]};
+    box-shadow: ${({theme}) => theme.shadows[6]};
   }
 
   @media (max-width: 500px) {
-    padding-left: ${({ theme }) => theme.spacing(4)}px;
-    padding-right: ${({ theme }) => theme.spacing(4)}px;
+    padding-left: ${({theme}) => theme.spacing(4)}px;
+    padding-right: ${({theme}) => theme.spacing(4)}px;
 
     .filePreview-image {
-      width: calc(100% - ${({ theme }) => theme.spacing(4) * 2}px);
+      width: calc(100% - ${({theme}) => theme.spacing(4) * 2}px);
     }
   }
 `)
 
 const CardWrapper = withTheme(styled(Card)`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
-export default function FileItem({ site, file }) {
-  const { id, name, thumbnailLink } = file
-  const fileName = formatFileName({ name })
+export default function FileItem({site, file}) {
+  const {id, name, thumbnailLink} = file
+  const fileName = formatFileName({name})
 
   return (
     <CardWrapper>
       <Link
-        href={{
+        to={{
           pathname: `/${site.organizationName}/${site.name}/`,
-          query: { fileId: id }
+          query: {fileId: id}
         }}
       >
         <CardActionArea>
@@ -114,7 +114,7 @@ export default function FileItem({ site, file }) {
                   <CardContentText data={file} />
                 </Grid>
                 <Grid item>
-                  <IconImage src={getFileIcon({ file: file })} alt={fileName} />
+                  <IconImage src={getFileIcon({file: file})} alt={fileName} />
                 </Grid>
               </Grid>
             )}
@@ -122,9 +122,9 @@ export default function FileItem({ site, file }) {
         </CardActionArea>
       </Link>
 
-      {!canReadOnline({ file: file }) ? (
+      {!canReadOnline({file: file}) ? (
         <CardActions>
-          {downloadLinks({ file }).map(link => (
+          {downloadLinks({file}).map(link => (
             <Button
               href={link.url}
               key={link.id}
@@ -140,21 +140,21 @@ export default function FileItem({ site, file }) {
   )
 }
 
-function CardContentText({ data }) {
-  const { name, modifiedTime } = data
+function CardContentText({data}) {
+  const {name, modifiedTime} = data
   return (
     <>
       <Typography variant="h5" component="h2">
-        {formatFileName({ name })}
+        {formatFileName({name})}
       </Typography>
       <Typography color="textSecondary" gutterBottom>
-        {dateRelativeFormat({ date: modifiedTime })}
+        {dateRelativeFormat({date: modifiedTime})}
       </Typography>
     </>
   )
 }
 
-function FilePreview({ src, alt = 'Image preview' }) {
+function FilePreview({src, alt = 'Image preview'}) {
   // TODO: find a better way to hide the card preview if the image fails to load
   // const imgRef = createRef()
   // const [disabled, setDisabled] = useState(false)

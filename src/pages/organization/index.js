@@ -4,7 +4,7 @@ import fetch from 'isomorphic-unfetch'
 
 import OrganizationHomePage from '../../components/site/OrganizationHomePage'
 
-export default function Organization({ organization, sites }) {
+export default function Organization({organization, sites}) {
   return <OrganizationHomePage organization={organization} sites={sites} />
 }
 
@@ -13,8 +13,8 @@ Organization.propTypes = {
   sites: PropTypes.array
 }
 
-Organization.getInitialProps = async ctx => {
-  const { organization } = ctx.query
+Organization.getInitialProps = async ({routeInfo}) => {
+  const {organization} = routeInfo.params // eslint-disable-line
   const res = await fetch(`${process.env.API_URL}/sites`)
   const sites = await res.json()
 

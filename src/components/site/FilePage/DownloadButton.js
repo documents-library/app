@@ -6,11 +6,11 @@ import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import Icon from '@material-ui/core/Icon'
 
-import { downloadLinks } from '../../../helpers/files'
+import {downloadLinks} from '../../../helpers/files'
 
-export default function DownloadButton({ file }) {
+export default function DownloadButton({file}) {
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const links = downloadLinks({ file })
+  const links = downloadLinks({file})
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)

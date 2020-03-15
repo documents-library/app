@@ -3,11 +3,11 @@ import Router from 'next/router'
 import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
-import Folder, { FolderWrapper } from '../../components/Folder'
+import Folder, {FolderWrapper} from '../../components/Folder'
 import WelcomeSection from './WelcomeSection'
 
-export default function SiteHomePage({ site, folder }) {
-  const { files, currentFolder } = folder
+export default function SiteHomePage({site, folder}) {
+  const {files, currentFolder} = folder
 
   return (
     <Layout

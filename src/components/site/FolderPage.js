@@ -3,12 +3,12 @@ import Router from 'next/router'
 import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
-import Folder, { FolderWrapper } from '../../components/Folder'
-import { capitalizeFirstLetter } from '../../helpers/format'
-import { CopyUrlButton } from '../../components/site/FilePage'
+import Folder, {FolderWrapper} from '../../components/Folder'
+import {capitalizeFirstLetter} from '../../helpers/format'
+import {CopyUrlButton} from '../../components/site/FilePage'
 
-export default function FolderPage({ site, folder }) {
-  const { files, currentFolder } = folder
+export default function FolderPage({site, folder}) {
+  const {files, currentFolder} = folder
 
   return (
     <Layout
@@ -16,7 +16,7 @@ export default function FolderPage({ site, folder }) {
       onGoBack={() =>
         Router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: currentFolder.parents[0] }
+          query: {folderId: currentFolder.parents[0]}
         })
       }
       meta={{

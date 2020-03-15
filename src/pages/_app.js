@@ -1,13 +1,13 @@
 import App from 'next/app'
 import React from 'react'
-import { ThemeProvider } from '@material-ui/core/styles'
+import {ThemeProvider} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
-import { theme } from '../helpers/theme'
+import {theme} from '../helpers/theme'
 
 export default class MyApp extends App {
   render() {
-    const { Component, pageProps } = this.props
+    const {Component, pageProps} = this.props
     return (
       <ThemeProvider theme={theme}>
         <CssBaseline />
