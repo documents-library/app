@@ -11,14 +11,14 @@ const LoadOrganizationPage = loadPage(contextFactory, () =>
   import(/* webpackChunkName: "OrganizationPage" */ './pages/organization')
 )
 
-// const LoadSitePage = loadPage(contextFactory, () =>
-//   import(/* webpackChunkName: "SitePage" */ './pages/organization/site')
-// )
+const LoadSitePage = loadPage(contextFactory, () =>
+  import(/* webpackChunkName: "SitePage" */ './pages/site')
+)
 
 export default (
   <Router>
     <Redirect from="/" to="/taller@" />
     <Route path="/:organization" getComponent={LoadOrganizationPage} />
-    <Route path="/:organization/:site" component={() => <h1>Hola</h1>} />
+    <Route path="/:organization/:site" getComponent={LoadSitePage} />
   </Router>
 )
