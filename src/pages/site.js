@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 
-import SiteHomePage from '../../../components/site/SiteHomePage'
-import FolderPage from '../../../components/site/FolderPage'
-import FilePage from '../../../components/site/FilePage'
-import {getIsCrawler} from '../../../../src/helpers/fetch'
+import SiteHomePage from '../components/site/SiteHomePage'
+import FolderPage from '../components/site/FolderPage'
+import FilePage from '../components/site/FilePage'
+import {getIsCrawler} from '../helpers/fetch'
 
 // Site main page
 export default function Site({site, isSiteMainPage, folder, file, isCrawler}) {
@@ -30,7 +30,7 @@ Site.propTypes = {
 
 Site.getInitialProps = async ctx => {
   try {
-    const {organization, site: siteName, folderId, fileId} = ctx.query  // eslint-disable-line
+    const {organization, site: siteName, folderId, fileId} = ctx.query // eslint-disable-line
     const userAgent = ctx.req.headers['user-agent']
     const res = await fetch(`${process.env.API_URL}/sites/${siteName}`)
     const {site} = await res.json()

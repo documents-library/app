@@ -20,10 +20,6 @@ const SiteItemWrapper = styled(Grid)`
     height: 100%;
     display: flex;
   }
-
-  a {
-    text-decoration: none;
-  }
 `
 
 const SiteListWrapper = styled.section`

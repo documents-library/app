@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 
-import OrganizationHomePage from '../../components/site/OrganizationHomePage'
+import OrganizationHomePage from '../components/site/OrganizationHomePage'
 
 export default function Organization({organization, sites}) {
   return <OrganizationHomePage organization={organization} sites={sites} />

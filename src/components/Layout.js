@@ -15,6 +15,7 @@ import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
 import {capitalizeFirstLetter} from '../helpers/format'
 import {DOMAIN} from '../helpers/constants'
+import {theme} from '../helpers/theme'
 
 const AppBarWrapper = withTheme(styled(AppBar)`
   .Layout-Appbar-MenuButton {
@@ -47,6 +48,11 @@ const LayoutWrapper = styled.section`
     background: ${props => {
       return props.background ? props.background : 'transparent'
     }};
+  }
+
+  a {
+    text-decoration: none;
+    color: ${theme.palette.text.primary};
   }
 `
 const LinearProgressWrapper = styled(LinearProgress)`
