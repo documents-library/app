@@ -5,7 +5,9 @@ import fetch from 'isomorphic-unfetch'
 import SiteHomePage from '../components/site/SiteHomePage'
 import FolderPage from '../components/site/FolderPage'
 import FilePage from '../components/site/FilePage'
-import {getIsCrawler} from '../helpers/fetch'
+// import {getIsCrawler} from '../helpers/fetch'
+
+import {API_URL} from '../helpers/constants'
 
 // Site main page
 export default function Site({site, isSiteMainPage, folder, file, isCrawler}) {
@@ -28,11 +30,15 @@ Site.propTypes = {
   folder: PropTypes.object
 }
 
-Site.getInitialProps = async ctx => {
+Site.renderLoading = () => <h1>Cargando...</h1>
+Site.getInitialProps = async ({routeInfo}) => {
   try {
-    const {organization, site: siteName, folderId, fileId} = ctx.query // eslint-disable-line
-    const userAgent = ctx.req.headers['user-agent']
-    const res = await fetch(`${process.env.API_URL}/sites/${siteName}`)
+    const {organization, site: siteName} = routeInfo.params // eslint-disable-line
+    const {folderId, fileId} = routeInfo.location.query // eslint-disable-line
+
+    // TODO: Refactor when go to SSR
+    // const userAgent = ctx.req.headers['user-agent']
+    const res = await fetch(`${API_URL}/sites/${siteName}`)
     const {site} = await res.json()
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
@@ -50,8 +56,7 @@ Site.getInitialProps = async ctx => {
       // TODO: check if the folder is a children of the main folder id
       // Probably I need to do this on the BE
       const getFolder = await fetch(
-        `${process.env.API_URL}/folders/${site.name}/${folderId ||
-          site.googleFolderId}`
+        `${API_URL}/folders/${site.name}/${folderId || site.googleFolderId}`
       )
       const folder = await getFolder.json()
 
@@ -65,9 +70,7 @@ Site.getInitialProps = async ctx => {
     } else if (!folderId && fileId) {
       // TODO: check if the file is a children of the main folder id
       // Probably I need to do this on the BE
-      const getFile = await fetch(
-        `${process.env.API_URL}/files/${site.name}/${fileId}`
-      )
+      const getFile = await fetch(`${API_URL}/files/${site.name}/${fileId}`)
       const file = await getFile.json()
 
       return {
@@ -75,8 +78,8 @@ Site.getInitialProps = async ctx => {
         isSiteMainPage: false,
         folder: {},
         fileId,
-        file,
-        isCrawler: getIsCrawler({userAgent})
+        file
+        // isCrawler: getIsCrawler({userAgent}) // TODO: Refacto when go to ssr
       }
     }
   } catch (err) {

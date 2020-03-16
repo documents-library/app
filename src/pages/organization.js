@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 
+import {API_URL} from '../helpers/constants'
+
 import OrganizationHomePage from '../components/site/OrganizationHomePage'
 
 export default function Organization({organization, sites}) {
@@ -15,7 +17,7 @@ Organization.propTypes = {
 
 Organization.getInitialProps = async ({routeInfo}) => {
   const {organization} = routeInfo.params // eslint-disable-line
-  const res = await fetch(`${process.env.API_URL}/sites`)
+  const res = await fetch(`${API_URL}/sites`)
   const sites = await res.json()
 
   // TODO: add organizations to BE
