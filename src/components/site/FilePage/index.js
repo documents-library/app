@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {createPortal} from 'react-dom'
@@ -16,6 +16,8 @@ import {theme} from '../../../helpers/theme'
 import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
+import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
+
 const FileHtmlContainer = styled(Container)`
   width: 100%;
 `
@@ -28,6 +30,7 @@ const IframeWrapper = styled.iframe`
 `
 
 export default function File({site, file, isCrawler}) {
+  const {router} = useContext(RRContext)
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
@@ -44,7 +47,7 @@ export default function File({site, file, isCrawler}) {
     <Layout
       title={formatFileName({name: file.name})}
       onGoBack={() =>
-        Router.push({
+        router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
           query: {folderId: file.parents[0]}
         })

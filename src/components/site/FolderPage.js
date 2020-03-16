@@ -1,5 +1,4 @@
-import React from 'react'
-import Router from 'next/router'
+import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
 
 import Layout from '../../components/Layout'
@@ -7,14 +6,17 @@ import Folder, {FolderWrapper} from '../../components/Folder'
 import {capitalizeFirstLetter} from '../../helpers/format'
 import {CopyUrlButton} from '../../components/site/FilePage'
 
+import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
+
 export default function FolderPage({site, folder}) {
+  const {router} = useContext(RRContext)
   const {files, currentFolder} = folder
 
   return (
     <Layout
       title={capitalizeFirstLetter(currentFolder.name)}
       onGoBack={() =>
-        Router.push({
+        router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
           query: {folderId: currentFolder.parents[0]}
         })

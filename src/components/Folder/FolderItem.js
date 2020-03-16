@@ -1,20 +1,22 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
-import Router from 'next/router'
 
 import {capitalizeFirstLetter} from '../../helpers/format'
 
+import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
+
 export default function FolderItem({site, data}) {
+  const {router} = useContext(RRContext)
   const {id, name} = data
 
   return (
     <ListItem
       onClick={() =>
-        Router.push({
+        router.push({
           pathname: `/${site.organizationName}/${site.name}/`,
           query: {folderId: id}
         })
