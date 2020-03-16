@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "co": "npx sui-mono commit",
     "start": "API_URL=http://localhost:8080 npx sui-bundler dev"
   },
   "keywords": [
@@ -37,11 +38,13 @@
   "devDependencies": {
     "@s-ui/bundler": "5",
     "@s-ui/lint": "3",
+    "@s-ui/mono": "1",
     "husky": "4.2.3"
   },
   "sui-bundler": {
     "env": [
-      "API_URL"
+      "API_URL",
+      "STAGE"
     ]
   },
   "eslintConfig": {

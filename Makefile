@@ -1,3 +1,6 @@
+export NODE_ENV ?= development
+export STAGE ?= development
+
 .PHONY: clean build deploy
 .DEFAULT_GOAL := deploy
 
