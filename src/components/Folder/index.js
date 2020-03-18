@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 import FileItem from './FileItem'
 import FolderItem from './FolderItem'
 import PhotoGalleryItem from './PhotoGalleryItem'
-import { isFileType, filetype } from '../../helpers/files'
+import { isFileType, filetype, isGarbageFile } from '../../helpers/files'
 import { theme } from '../../helpers/theme'
 
 const SectionsWrapper = withTheme(styled.section`
@@ -50,9 +50,11 @@ export default function Folder({ site, folder }) {
           filetype.pres.name,
           filetype.calc.name,
           filetype.pict.name,
-          filetype.cad.name
+          filetype.cad.name,
+          filetype.video.name
         ]
-      })
+      }) &&
+      !isGarbageFile({ file })
   )
   const hasSections = Boolean(
     sections && sections.length && sections.length > 0

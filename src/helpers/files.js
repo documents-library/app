@@ -79,6 +79,33 @@ export const filetype = {
     extensions: ['dwg', 'dxf', '3ds', 'blend'],
     mimeTypes: []
   },
+  // videos *view online*
+  video: {
+    name: 'video',
+    icon: '/img/picture.svg',
+    extensions: [
+      'mp4',
+      'mts',
+      'webm',
+      'mpg',
+      'mp2',
+      'mpeg',
+      'mpe',
+      'mpv',
+      'ogg',
+      'mp4',
+      'm4p',
+      'm4v',
+      'avi',
+      'wmv',
+      'mov',
+      'qt',
+      'flv',
+      'swf',
+      'avchd'
+    ],
+    mimeTypes: ['application/vnd.google-apps.video']
+  },
   folder: {
     name: 'folder',
     icon: '',
@@ -108,6 +135,19 @@ export function isCalc({ file }) {
   return isFileType({ file, typeNames })
 }
 
+export function isVideo({ file }) {
+  const typeNames = [filetype.video.name]
+
+  return isFileType({ file, typeNames })
+}
+
+export function isGarbageFile({ file }) {
+  const { name } = file
+
+  if (name.charAt(0) === '~') return true
+  return false
+}
+
 export function downloadLinks({ file }) {
   const exportPdf = {
     id: 'exportPdf',
@@ -128,6 +168,8 @@ export function downloadLinks({ file }) {
   if (isCalc({ file })) {
     return [exportXls, copyCalcOnUserDrive]
   }
+
+  if (isVideo({ file })) return []
 
   return [exportPdf]
 }
