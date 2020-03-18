@@ -21,6 +21,13 @@ export const filetype = {
     ],
     mimeTypes: ['application/vnd.google-apps.document']
   },
+  // pdf *read online*
+  pdf: {
+    name: 'pdf',
+    icon: '/img/picture.svg',
+    extensions: ['pdf'],
+    mimeTypes: []
+  },
   // presentations *read online*
   pres: {
     name: 'pres',
@@ -135,6 +142,12 @@ export function isCalc({ file }) {
   return isFileType({ file, typeNames })
 }
 
+export function isPDF({ file }) {
+  const typeNames = [filetype.pdf.name]
+
+  return isFileType({ file, typeNames })
+}
+
 export function isVideo({ file }) {
   const typeNames = [filetype.video.name]
 
@@ -164,12 +177,20 @@ export function downloadLinks({ file }) {
     label: 'Descargar Excel',
     url: `https://docs.google.com/spreadsheets/d/${file.id}/export?format=xlsx&id=${file.id}`
   }
+  const downloadPdf = {
+    id: 'exportPdf',
+    label: 'Descargar PDF',
+    url: file.webContentLink
+  }
 
   if (isCalc({ file })) {
     return [exportXls, copyCalcOnUserDrive]
   }
 
-  if (isVideo({ file })) return []
+  if (isPDF({ file }) && file.webContentLink) return [downloadPdf]
+
+  // if file can't download
+  if (isVideo({ file }) || (isPDF({ file }) && !file.webContentLink)) return []
 
   return [exportPdf]
 }

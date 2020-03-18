@@ -51,7 +51,8 @@ export default function Folder({ site, folder }) {
           filetype.calc.name,
           filetype.pict.name,
           filetype.cad.name,
-          filetype.video.name
+          filetype.video.name,
+          filetype.pdf.name
         ]
       }) &&
       !isGarbageFile({ file })
