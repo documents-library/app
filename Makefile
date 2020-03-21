@@ -14,7 +14,7 @@ spa: ## Build a static site
 	cp ./public/index.html ./public/200.html
 
 ssr: ## Build a SSR version of our SPA
-	npx sui-ssr build -C
+	#npx sui-ssr build -C
 
 ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
