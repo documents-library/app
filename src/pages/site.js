@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import fetch from 'isomorphic-unfetch'
+import fetch from 'axios'
 
 import SiteHomePage from '../components/site/SiteHomePage'
 import FolderPage from '../components/site/FolderPage'
@@ -39,7 +39,7 @@ Site.getInitialProps = async ({routeInfo}) => {
     // TODO: Refactor when go to SSR
     // const userAgent = ctx.req.headers['user-agent']
     const res = await fetch(`${API_URL}/sites/${siteName}`)
-    const {site} = await res.json()
+    const {site} = res.data
     // TODO: add organizations to BE
     const siteMockedOrgnName = {
       ...site,
@@ -58,7 +58,7 @@ Site.getInitialProps = async ({routeInfo}) => {
       const getFolder = await fetch(
         `${API_URL}/folders/${site.name}/${folderId || site.googleFolderId}`
       )
-      const folder = await getFolder.json()
+      const folder = getFolder.data
 
       return {
         site: siteMockedOrgnName,
@@ -71,7 +71,7 @@ Site.getInitialProps = async ({routeInfo}) => {
       // TODO: check if the file is a children of the main folder id
       // Probably I need to do this on the BE
       const getFile = await fetch(`${API_URL}/files/${site.name}/${fileId}`)
-      const file = await getFile.json()
+      const file = getFile.data
 
       return {
         site: siteMockedOrgnName,

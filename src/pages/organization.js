@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import fetch from 'isomorphic-unfetch'
+import fetch from 'axios'
 
 import {API_URL} from '../helpers/constants'
 
@@ -18,7 +18,7 @@ Organization.propTypes = {
 Organization.getInitialProps = async ({routeInfo}) => {
   const {organization} = routeInfo.params // eslint-disable-line
   const res = await fetch(`${API_URL}/sites`)
-  const sites = await res.json()
+  const sites = res.data
 
   // TODO: add organizations to BE
   const mockedOrganization = {
