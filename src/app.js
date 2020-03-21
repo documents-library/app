@@ -40,3 +40,10 @@ async function run() {
 }
 
 document.addEventListener('DOMContentLoaded', run)
+
+if ('serviceWorker' in window.navigator) {
+  navigator.serviceWorker.register('service-worker.js')
+  navigator.serviceWorker.ready.then(worker => {
+    console.log(worker)
+  })
+}

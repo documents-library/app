@@ -108,7 +108,7 @@ export default function Layout({
           sizes="16x16"
           href="/img/favicon/favicon-16x16.png"
         />
-        <link rel="manifest" href="/img/favicon/site.webmanifest" />
+        <link rel="manifest" href="/img/favicon/manifest.webmanifest" />
         <link
           rel="mask-icon"
           href="/img/favicon/safari-pinned-tab.svg"
