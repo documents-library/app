@@ -63,3 +63,4 @@ yarn.lock
 **/public/precache.*.js
 **/public/sw.js
 public
+server/
