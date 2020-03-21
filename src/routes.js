@@ -18,7 +18,9 @@ const LoadSitePage = loadPage(contextFactory, () =>
 export default (
   <Router>
     <Redirect from="/" to="/taller@" />
-    <Route path="/:organization" getComponent={LoadOrganizationPage} />
-    <Route path="/:organization/:site" getComponent={LoadSitePage} />
+    <Route component={require('./pages/MainFrame').default}>
+      <Route path="/:organization" getComponent={LoadOrganizationPage} />
+      <Route path="/:organization/:site" getComponent={LoadSitePage} />
+    </Route>
   </Router>
 )
