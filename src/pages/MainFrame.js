@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Context from '@s-ui/react-context'
-
 import {createGlobalStyle} from 'styled-components'
 import {ThemeProvider} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -37,4 +35,9 @@ const MainFrame = ({children}) => {
     </ThemeProvider>
   )
 }
+
+MainFrame.propTypes = {
+  children: PropTypes.object
+}
+
 export default MainFrame
