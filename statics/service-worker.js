@@ -1,6 +1,11 @@
 /* eslint-disable no-console */
-/* global fetch self caches Response */
+/* global fetch self caches Response clients MessageChannel */
 
+const pipe = (...fns) => arg =>
+  fns.reduce((p, f) => p.then(f), Promise.resolve(arg))
+
+let isOnline = true
+const TTL_CACHE = new Map()
 const CACHE_NAME = 'v1'
 
 function onInstall(evt) {
@@ -19,33 +24,89 @@ function onInstall(evt) {
       })
   )
 }
-function onActivate() {
+async function onActivate() {
   console.log('SW onActivate')
+  await clients.claim()
+  TTL_CACHE.clear()
 }
-function onMessage() {}
 
-function onFetch(evt) {
-  async function doResponse(evt) {
+const STRATEGIES = {
+  identity: () => async evt => evt,
+  use: (pattern, strategy) => evt => {
+    if (evt instanceof Response) return evt
+
+    if (evt.request.url.match(pattern)) {
+      return strategy(evt)
+    }
+
+    return evt
+  },
+  cacheFirst: ({ttl} = {ttl: 0}) => async evt => {
+    const now = Date.now()
     const response = await caches.match(evt.request)
+    const timestamp = TTL_CACHE.get(evt.request.url) || now
 
-    if (response !== undefined) {
+    // TTL no ha exprirado
+    if (response !== undefined && now - timestamp < ttl) {
       return response
     }
 
     try {
       const res = await fetch(evt.request)
+      const resCloned = res.clone()
 
-      const clonedResponse = res.clone()
-
-      const cache = await caches.open(CACHE_NAME)
-      cache.put(evt.request, clonedResponse)
+      if (resCloned.ok) {
+        const cache = await caches.open(CACHE_NAME)
+        TTL_CACHE.set(evt.request.url, Date.now())
+        cache.put(evt.request, resCloned)
+      }
 
       return res
     } catch (e) {
       return new Response('Ooops, algo salió mal!!', {status: 404})
     }
   }
+}
+
+function onFetch(evt) {
+  async function doResponse(evt) {
+    const {use, cacheFirst, identity} = STRATEGIES
+
+    const response = pipe(
+      use(/chrome-extension/, identity()),
+      use(/\/sites\/\w+/, cacheFirst({ttl: 10 * 1000})),
+      use(/\/sites/, cacheFirst({ttl: 60 * 60 * 24 * 1000})),
+      use(/\/folders/, cacheFirst({ttl: 10 * 1000})),
+      use(/.*/, cacheFirst({ttl: Infinity}))
+    )(evt)
+
+    return response
+  }
   evt.respondWith(doResponse(evt))
+}
+
+function onMessage(evt) {
+  const {type, payload} = evt.data
+
+  switch (type) {
+    case 'connectivity': {
+      isOnline = payload.online
+      break
+    }
+  }
+
+  console.log('ahora estamos', isOnline)
+}
+
+async function sendMessage(msg) {
+  var allClients = await clients.matchAll({includeUncontrolled: true})
+  await Promise.all(
+    allClients.map(function sendTo(client) {
+      var chan = new MessageChannel()
+      chan.port1.onmessage = onMessage
+      return client.postMessage(msg, [chan.port2])
+    })
+  )
 }
 
 self.addEventListener('install', onInstall)
