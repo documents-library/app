@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import Container from '@material-ui/core/Container'
@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 import FileItem from './FileItem'
 import FolderItem from './FolderItem'
 import PhotoGalleryItem from './PhotoGalleryItem'
-import {isFileType, filetype} from '../../helpers/files'
+import {isFileType, filetype, isGarbageFile} from '../../helpers/files'
 import {theme} from '../../helpers/theme'
 
 const SectionsWrapper = withTheme(styled.section`
@@ -30,13 +30,14 @@ const FolderGrid = styled(Grid)`
 `
 
 export default function Folder({site, folder}) {
-  const columnFilesEl = useRef()
   const sections = folder.files.filter(file =>
     isFileType({file, typeNames: [filetype.folder.name]})
   )
+
   const photos = folder.files.filter(file =>
     isFileType({file, typeNames: [filetype.img.name]})
   )
+
   const files = folder.files.filter(
     file =>
       !isFileType({
@@ -50,54 +51,54 @@ export default function Folder({site, folder}) {
           filetype.pres.name,
           filetype.calc.name,
           filetype.pict.name,
-          filetype.cad.name
+          filetype.cad.name,
+          filetype.video.name
         ]
-      })
+      }) &&
+      !isGarbageFile({file})
   )
+
   const hasSections = Boolean(
     sections && sections.length && sections.length > 0
   )
+
   const emptyFolder = Boolean(
     (!files || !files.length || files.length === 0) &&
       (!photos || !photos.length || photos.length === 0)
   )
 
-  const folderSections = <Sections site={site} sections={sections} />
-
-  const photoFiles = () => {
+  const PhotoFiles = () => {
     if (photos.length > 1)
       return <PhotoGalleryItem site={site} photos={photos} />
     if (photos.length === 1) return <Files site={site} files={photos} />
     return null
   }
 
-  const folderFiles = (
-    <>
-      <Files site={site} files={files} />
-      {photoFiles}
-    </>
-  )
-
-  const mainGrid = () => {
+  const MainGrid = () => {
     if (emptyFolder) {
       if (!hasSections) return <p>Esta seccieon no contiene documentos</p>
 
-      return folderSections
+      return <Sections site={site} sections={sections} />
     }
 
-    return folderFiles
+    return (
+      <>
+        <Files site={site} files={files} />
+        <PhotoFiles />
+      </>
+    )
   }
 
   return (
     <FolderWrapper maxWidth="lg">
       <FolderGrid container spacing={2} direction="row">
-        <Grid item xs={12} sm={7} ref={columnFilesEl}>
-          {mainGrid}
+        <Grid item xs={12} sm={7}>
+          <MainGrid />
         </Grid>
 
         {hasSections && !emptyFolder && (
           <Grid item xs={12} sm={5}>
-            {folderSections}
+            <Sections site={site} sections={sections} />
           </Grid>
         )}
       </FolderGrid>
