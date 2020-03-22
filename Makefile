@@ -1,5 +1,6 @@
 export NODE_ENV ?= development
 export STAGE ?= development
+export API_URL=http://localhost:8080
 
 .PHONY: clean build deploy
 .DEFAULT_GOAL := help
@@ -18,6 +19,13 @@ ssr: ## Build a SSR version of our SPA
 
 ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
+
+dev: ## Start dev env
+	# https://unix.stackexchange.com/a/204619
+	trap "kill %1" SIGINT
+	npx sui-bundler dev & \
+		npx nodemon -w statics/service-worker.js --exec 'cp ./statics/service-worker.js ./public/service-worker.js'
+
 
 build: clean spa ssr ## Build a SPA app
 
