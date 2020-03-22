@@ -21,6 +21,7 @@ ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
 
 dev: ## Start dev env
+	cp -R ./statics/ ./public/
 	# https://unix.stackexchange.com/a/204619
 	trap "kill %1" SIGINT
 	npx sui-bundler dev & \
