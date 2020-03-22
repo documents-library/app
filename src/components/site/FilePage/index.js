@@ -11,12 +11,12 @@ import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'
 
+import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
+
 import Layout from '../../../components/Layout'
 import {theme} from '../../../helpers/theme'
 import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
-
-import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
 const FileHtmlContainer = styled(Container)`
   width: 100%;
@@ -42,6 +42,24 @@ export default function File({site, file, isCrawler}) {
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
   }, [cookies, embedHtml])
+
+  function fileViewer() {
+    // on a crawler the shadow dom not work
+    if (file.html && isCrawler) {
+      return (
+        <div
+          className="filehtml-wrapper"
+          dangerouslySetInnerHTML={createMarkup(file.html)}
+        />
+      )
+    }
+
+    if (file.html && embedHtml) {
+      return <FileHtml html={file.html} styles={fileHtmlStyles()} />
+    }
+
+    return <IframeWrapper src={viewerUrl} />
+  }
 
   return (
     <Layout
@@ -91,16 +109,7 @@ export default function File({site, file, isCrawler}) {
       }
       background="#fafafa"
     >
-      {file.html && isCrawler ? (
-        <div
-          className="filehtml-wrapper"
-          dangerouslySetInnerHTML={createMarkup(file.html)}
-        />
-      ) : file.html && embedHtml ? (
-        <FileHtml html={file.html} styles={fileHtmlStyles()} />
-      ) : (
-        <IframeWrapper src={viewerUrl} />
-      )}
+      {fileViewer()}
     </Layout>
   )
 }

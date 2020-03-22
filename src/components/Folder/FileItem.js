@@ -193,7 +193,6 @@ CardContentText.propTypes = {
 }
 
 FilePreview.propTypes = {
-  height: PropTypes.number,
   src: PropTypes.string,
   alt: PropTypes.string
 }

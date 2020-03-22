@@ -5,7 +5,6 @@ import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import {withTheme} from '@material-ui/core/styles'
-// import CardActionArea from '@material-ui/core/CardActionArea'
 import Link from '@s-ui/react-router/lib/Link'
 import Button from '@material-ui/core/Button'
 
@@ -120,6 +119,5 @@ export default function PhotoGalleryItem({site, photos}) {
 
 PhotoGalleryItem.propTypes = {
   site: PropTypes.object,
-  photos: PropTypes.array,
-  columnWidth: PropTypes.number
+  photos: PropTypes.array
 }

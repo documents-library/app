@@ -20,7 +20,7 @@ async function run() {
     {routes, history: browserHistory},
     (err, redirectLocation, renderProps) => {
       if (err) {
-        return console.error(err)
+        return console.error(err) // eslint-disable-line no-console
       }
 
       if (redirectLocation) {
@@ -55,7 +55,7 @@ function onConnectivity() {
 
 if ('serviceWorker' in window.navigator) {
   navigator.serviceWorker.register('service-worker.js')
-  navigator.serviceWorker.ready.then(worker => {
+  navigator.serviceWorker.ready.then(() => {
     navigator.serviceWorker.addEventListener('message', onMessage)
 
     window.addEventListener('online', onConnectivity)

@@ -64,30 +64,35 @@ export default function Folder({site, folder}) {
 
   const folderSections = <Sections site={site} sections={sections} />
 
+  const photoFiles = () => {
+    if (photos.length > 1)
+      return <PhotoGalleryItem site={site} photos={photos} />
+    if (photos.length === 1) return <Files site={site} files={photos} />
+    return null
+  }
+
   const folderFiles = (
     <>
       <Files site={site} files={files} />
-      {photos.length > 1 ? (
-        <PhotoGalleryItem site={site} photos={photos} />
-      ) : photos.length === 1 ? (
-        <Files site={site} files={photos} />
-      ) : null}
+      {photoFiles}
     </>
   )
+
+  const mainGrid = () => {
+    if (emptyFolder) {
+      if (!hasSections) return <p>Esta seccieon no contiene documentos</p>
+
+      return folderSections
+    }
+
+    return folderFiles
+  }
 
   return (
     <FolderWrapper maxWidth="lg">
       <FolderGrid container spacing={2} direction="row">
         <Grid item xs={12} sm={7} ref={columnFilesEl}>
-          {emptyFolder ? (
-            !hasSections ? (
-              <p>Esta seccieon no contiene documentos</p>
-            ) : (
-              folderSections
-            )
-          ) : (
-            folderFiles
-          )}
+          {mainGrid}
         </Grid>
 
         {hasSections && !emptyFolder && (
