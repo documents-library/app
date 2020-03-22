@@ -41,9 +41,24 @@ async function run() {
 
 document.addEventListener('DOMContentLoaded', run)
 
+function onMessage(msg) {
+  const {type, payload} = msg.data
+  window.console.log('Client', type, payload)
+}
+
+function onConnectivity() {
+  navigator.serviceWorker.controller.postMessage({
+    type: 'connectivity',
+    payload: {online: navigator.onLine}
+  })
+}
+
 if ('serviceWorker' in window.navigator) {
   navigator.serviceWorker.register('service-worker.js')
   navigator.serviceWorker.ready.then(worker => {
-    console.log(worker)
+    navigator.serviceWorker.addEventListener('message', onMessage)
+
+    window.addEventListener('online', onConnectivity)
+    window.addEventListener('offline', onConnectivity)
   })
 }
