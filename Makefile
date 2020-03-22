@@ -26,7 +26,6 @@ dev: ## Start dev env
 	npx sui-bundler dev & \
 		npx nodemon -w statics/service-worker.js --exec 'cp ./statics/service-worker.js ./public/service-worker.js'
 
-
 build: clean spa ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
