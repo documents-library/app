@@ -41,6 +41,9 @@ const STRATEGIES = {
 
     return evt
   },
+  networkOnly: () => async evt => {
+    return fetch(evt.request)
+  },
   cacheFirst: ({ttl} = {ttl: 0}) => async evt => {
     const now = Date.now()
     const response = await caches.match(evt.request)
@@ -70,13 +73,13 @@ const STRATEGIES = {
 
 function onFetch(evt) {
   async function doResponse(evt) {
-    const {use, cacheFirst, identity} = STRATEGIES
+    const {use, cacheFirst, networkOnly} = STRATEGIES
 
     const response = pipe(
-      use(/chrome-extension/, identity()),
-      use(/\/sites\/\w+/, cacheFirst({ttl: 10 * 1000})),
+      use(/chrome-extension/, networkOnly()),
       use(/\/sites/, cacheFirst({ttl: 60 * 60 * 24 * 1000})),
-      use(/\/folders/, cacheFirst({ttl: 10 * 1000})),
+      use(/\/folders/, cacheFirst({ttl: 60 * 1000})),
+      use(/\/files/, cacheFirst({ttl: 60 * 1000})),
       use(/.*/, cacheFirst({ttl: Infinity}))
     )(evt)
 

@@ -1,5 +1,4 @@
 import React from 'react'
-import Link from '@s-ui/react-router/lib/Link'
 import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -11,6 +10,8 @@ import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
 import {withTheme} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
+
+import Link from '@s-ui/react-router/lib/Link'
 
 import {dateRelativeFormat} from '../../helpers/format'
 import {
