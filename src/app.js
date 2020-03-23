@@ -54,7 +54,7 @@ function onConnectivity() {
 }
 
 if ('serviceWorker' in window.navigator) {
-  navigator.serviceWorker.register('service-worker.js')
+  navigator.serviceWorker.register('/service-worker.js')
   navigator.serviceWorker.ready.then(() => {
     navigator.serviceWorker.addEventListener('message', onMessage)
 
