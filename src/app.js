@@ -43,7 +43,12 @@ document.addEventListener('DOMContentLoaded', run)
 
 function onMessage(msg) {
   const {type, payload} = msg.data
-  window.console.log('Client', type, payload)
+  switch (type) {
+    case 'cache_version': {
+      window.console.log('Current cache version', payload.cacheName)
+      break
+    }
+  }
 }
 
 function onConnectivity() {
@@ -57,6 +62,8 @@ if ('serviceWorker' in window.navigator) {
   navigator.serviceWorker.register('/service-worker.js')
   navigator.serviceWorker.ready.then(() => {
     navigator.serviceWorker.addEventListener('message', onMessage)
+
+    navigator.serviceWorker.controller?.postMessage({type: 'cache_version'}) // eslint-disable-line
 
     window.addEventListener('online', onConnectivity)
     window.addEventListener('offline', onConnectivity)

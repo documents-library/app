@@ -21,9 +21,6 @@ const GlobalStyles = createGlobalStyle`
     flex-grow: 1;
     display: flex;
   }
-
-  @import url('https://fonts.googleapis.com/css?family=Vollkorn:400,400i,700,700i&display=swap');
-  @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 `
 
 const MainFrame = ({children}) => {
