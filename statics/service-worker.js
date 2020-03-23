@@ -58,7 +58,7 @@ const STRATEGIES = {
       const res = await fetch(evt.request)
       const resCloned = res.clone()
 
-      if (resCloned.ok) {
+      if (resCloned.status === 0 || resCloned.ok) {
         const cache = await caches.open(CACHE_NAME)
         TTL_CACHE.set(evt.request.url, Date.now())
         cache.put(evt.request, resCloned)
@@ -66,13 +66,16 @@ const STRATEGIES = {
 
       return res
     } catch (e) {
+      if (!isOnline && response) {
+        return response
+      }
       return new Response('Ooops, algo salió mal!!', {status: 404})
     }
   }
 }
 
 function onFetch(evt) {
-  async function doResponse(evt) {
+  async function doRequest(evt) {
     const {use, cacheFirst, networkOnly} = STRATEGIES
 
     const response = pipe(
@@ -85,7 +88,7 @@ function onFetch(evt) {
 
     return response
   }
-  evt.respondWith(doResponse(evt))
+  evt.respondWith(doRequest(evt))
 }
 
 function onMessage(evt) {
@@ -94,6 +97,10 @@ function onMessage(evt) {
   switch (type) {
     case 'connectivity': {
       isOnline = payload.online
+      break
+    }
+    case 'cache_version': {
+      sendMessage({type: 'cache_version', payload: {cacheName: CACHE_NAME}})
       break
     }
   }
