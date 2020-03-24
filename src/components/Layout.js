@@ -56,7 +56,6 @@ const LinearProgressWrapper = styled(LinearProgress)`
     top: 0px;
   }
 `
-
 export default function Layout({
   title,
   onGoBack,
@@ -112,17 +111,7 @@ export default function Layout({
           <ElevationScroll elvateOnScroll={elvateOnScroll}>
             <AppBarWrapper position="fixed">
               <Toolbar>
-                {onGoBack && (
-                  <IconButton
-                    edge="start"
-                    className="Layout-Appbar-MenuButton"
-                    color="inherit"
-                    aria-label="go back"
-                    onClick={onGoBack}
-                  >
-                    <Icon>arrow_back</Icon>
-                  </IconButton>
-                )}
+                <BackButton onGoBack={onGoBack} />
                 <Typography variant="h6" noWrap>
                   {capitalizeFirstLetter(title)}
                 </Typography>
@@ -160,6 +149,54 @@ function ElevationScroll({ children, elvateOnScroll }) {
   return React.cloneElement(children, {
     elevation: elevation()
   })
+}
+
+function BackButton({ onGoBack }) {
+  const [prevPage, setPrevPage] = useState()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      console.log(process.env.API_URL)
+      // TODO: replace env var
+      const domain =
+        process.env.API_URL === 'http://localhost:8080'
+          ? 'localhost:3010'
+          : 'documents.li'
+      const match = new RegExp(domain, 'g')
+      console.log(match, document.referrer.match(match))
+      const prevPage =
+        document.referrer !== document.location.href &&
+        document.referrer.match(match)
+          ? document.referrer
+          : null
+      console.log(document.referrer)
+      console.log(document.location.href)
+      console.log('prevPage: ', prevPage)
+
+      setPrevPage(prevPage)
+    }
+  }, [])
+
+  if (onGoBack) {
+    return (
+      <IconButton
+        edge="start"
+        className="Layout-Appbar-MenuButton"
+        color="inherit"
+        aria-label="go back"
+        onClick={prevPage ? router.back : onGoBack}
+      >
+        <Icon>arrow_back</Icon>
+      </IconButton>
+    )
+  }
+
+  return null
+}
+
+BackButton.propTypes = {
+  onGoBack: PropTypes.func
 }
 
 ElevationScroll.propTypes = {
