@@ -38,10 +38,15 @@ export default function File({site, file, isCrawler}) {
     file && file.thumbnailLink
       ? getPreview({thumbnailLink: file.thumbnailLink, size: `w600`})
       : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
+  const isOnline = window.navigator.onLine
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
   }, [cookies, embedHtml])
+
+  useEffect(() => {
+    if (!isOnline && file.html) setEmbedHtml(true)
+  }, [file.html, isOnline])
 
   function fileViewer() {
     // on a crawler the shadow dom not work
@@ -52,13 +57,13 @@ export default function File({site, file, isCrawler}) {
           dangerouslySetInnerHTML={createMarkup(file.html)}
         />
       )
-    }
-
-    if (file.html && embedHtml) {
+    } else if (file.html && embedHtml) {
       return <FileHtml html={file.html} styles={fileHtmlStyles()} />
+    } else if (isOnline) {
+      return <IframeWrapper src={viewerUrl} />
     }
 
-    return <IframeWrapper src={viewerUrl} />
+    return <p>Este documento no puede mostrarse sin conexión a internet</p>
   }
 
   return (
