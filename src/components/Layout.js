@@ -157,22 +157,11 @@ function BackButton({ onGoBack }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      console.log(process.env.API_URL)
-      // TODO: replace env var
-      const domain =
-        process.env.API_URL === 'http://localhost:8080'
-          ? 'localhost:3010'
-          : 'documents.li'
-      const match = new RegExp(domain, 'g')
-      console.log(match, document.referrer.match(match))
       const prevPage =
         document.referrer !== document.location.href &&
-        document.referrer.match(match)
+        document.referrer.match(/fileId/)
           ? document.referrer
           : null
-      console.log(document.referrer)
-      console.log(document.location.href)
-      console.log('prevPage: ', prevPage)
 
       setPrevPage(prevPage)
     }
