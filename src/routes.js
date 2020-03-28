@@ -8,11 +8,7 @@ import loadPage from '@s-ui/react-initial-props/lib/loadPage'
 import contextFactory from './contextFactory'
 
 const LoadOrganizationPage = loadPage(contextFactory, () =>
-  import(/* webpackChunkName: "OrganizationPage" */ './pages/organization')
-)
-
-const LoadRepositoryPage = loadPage(contextFactory, () =>
-  import(/* webpackChunkName: "RepositoryPage" */ './pages/Repository')
+  import(/* webpackChunkName: "OrganizationPage" */ './pages/Organization')
 )
 
 const LoadFolderPage = loadPage(contextFactory, () =>
@@ -28,10 +24,7 @@ export default (
     <Redirect from="/" to="/taller@" />
     <Route component={require('./pages/MainFrame').default}>
       <Route path="/:organization" getComponent={LoadOrganizationPage} />
-      <Route
-        path="/:organization/:repository"
-        getComponent={LoadRepositoryPage}
-      />
+      <Route path="/:organization/:repository" getComponent={LoadFolderPage} />
       <Route
         path="/:organization/:repository/:folderID"
         getComponent={LoadFolderPage}

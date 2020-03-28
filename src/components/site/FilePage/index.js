@@ -30,7 +30,7 @@ const IframeWrapper = styled.iframe`
   flex-grow: 1;
 `
 
-export default function File({organization, site, file, isCrawler}) {
+export default function File({site, file, isCrawler}) {
   const {router} = useContext(RRContext)
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
@@ -40,7 +40,6 @@ export default function File({organization, site, file, isCrawler}) {
       ? getPreview({thumbnailLink: file.thumbnailLink, size: `w600`})
       : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
   const isOnline = window.navigator.onLine
-  const [fileParent] = file.parents
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
@@ -71,11 +70,7 @@ export default function File({organization, site, file, isCrawler}) {
   return (
     <Layout
       title={formatFileName({name: file.name})}
-      onGoBack={() =>
-        router.push({
-          pathname: `/${organization.name}/${site.name}/${fileParent}`
-        })
-      }
+      onGoBack={() => router.push({pathname: file.previousPagePathname})}
       meta={{
         ogType: 'article',
         twitterCard: 'summary_large_image',

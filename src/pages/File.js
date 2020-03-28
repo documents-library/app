@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 
 import {organization, file, site} from '../helpers/prop-types'
 import {getIsCrawler} from '../helpers/fetch'
-
 import FilePage from '../components/site/FilePage'
 
-const File = ({organization, site, file, isCrawler}) => {
+export default function File({organization, site, file, isCrawler}) {
   return (
     <FilePage
       organization={organization}
@@ -17,19 +16,20 @@ const File = ({organization, site, file, isCrawler}) => {
   )
 }
 
-File.displayName = 'File'
 File.propTypes = {
   organization,
   site,
   file,
   isCrawler: PropTypes.bool
 }
+
 File.getInitialProps = async ({context, routeInfo}) => {
   const {
     organization: organizationName,
     repository: repositoryName,
     fileID
   } = routeInfo.params
+
   const {domain, device} = context
 
   const organization = await domain
@@ -42,15 +42,12 @@ File.getInitialProps = async ({context, routeInfo}) => {
 
   const file = await domain
     .get('get_info_file_use_case')
-    .execute({repository, fileID})
+    .execute({organizationName, repository, fileID})
 
   return {
-    // TODO: Refactor this
     isCrawler: getIsCrawler({userAgent: device.userAgent}),
     organization,
     site: repository,
     file
   }
 }
-
-export default File

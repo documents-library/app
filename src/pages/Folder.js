@@ -3,11 +3,10 @@ import React from 'react'
 import {organization, site, folder} from '../helpers/prop-types'
 import FolderPage from '../components/site/FolderPage'
 
-const Folder = ({organization, site, folder}) => {
+export default function Folder({organization, site, folder}) {
   return <FolderPage organization={organization} site={site} folder={folder} />
 }
 
-Folder.displayName = 'Folder'
 Folder.propTypes = {
   organization,
   site,
@@ -33,13 +32,12 @@ Folder.getInitialProps = async ({context, routeInfo}) => {
 
   const folder = await domain
     .get('get_info_folder_use_case')
-    .execute({repository, folderID})
+    .execute({organizationName, repository, folderID})
 
   return {
     organization,
     site: repository,
-    folder
+    folder,
+    folderID
   }
 }
-
-export default Folder
