@@ -21,6 +21,7 @@ const getAllRepository = {
     return repositoriesListValueObject
   }
 }
+
 const getRepositoryInfo = {
   execute: async ({name}) => {
     const {site: siteEntity} = await request(`${API_URL}/sites/${name}`)
@@ -29,25 +30,53 @@ const getRepositoryInfo = {
 }
 
 const getFolderInfo = {
-  execute: async ({repository, folderID = repository.googleFolderId}) => {
+  execute: async ({
+    organizationName,
+    repository,
+    folderID = repository.googleFolderId
+  }) => {
     const folderEntity = await request(
       `${API_URL}/folders/${repository.name}/${folderID}`
     )
+    const [parentFolderID] = folderEntity.currentFolder.parents
 
-    return {...folderEntity, id: folderID}
+    const isRepoHomePage = repository.googleFolderId === folderID
+
+    return {
+      ...folderEntity,
+      id: folderID,
+      isRepoHomePage,
+      previousPagePathname: getPreviousPathname({
+        isRepoHomePage,
+        parentFolderID,
+        organizationName,
+        repository
+      })
+    }
   }
 }
 
 const getFileInfo = {
-  execute: async ({repository, fileID}) => {
+  execute: async ({organizationName, repository, fileID}) => {
     const fileEntity = await request(
       `${API_URL}/files/${repository.name}/${fileID}`
     )
-    return fileEntity
+
+    const [parentFolderID] = fileEntity.parents
+
+    return {
+      ...fileEntity,
+      previousPagePathname: getPreviousPathname({
+        parentFolderID,
+        organizationName,
+        repository
+      })
+    }
   }
 }
 
 const config = {}
+
 const useCases = {
   get_info_organization_use_case: getOrganizationInfo,
   get_info_repository_use_case: getRepositoryInfo,
@@ -55,6 +84,20 @@ const useCases = {
   get_info_folder_use_case: getFolderInfo,
   get_info_file_use_case: getFileInfo
 }
+
 const EntryPoint = EntryPointFactory({config, useCases})
 
 export default EntryPoint
+
+function getPreviousPathname({
+  isRepoHomePage,
+  parentFolderID,
+  organizationName,
+  repository
+}) {
+  if (isRepoHomePage) return `/${organizationName}`
+  if (parentFolderID === repository.googleFolderId)
+    return `/${organizationName}/${repository.name}`
+
+  return `/${organizationName}/${repository.name}/${parentFolderID}`
+}
