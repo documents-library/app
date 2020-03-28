@@ -1,5 +1,6 @@
 import React, {useContext} from 'react'
-import PropTypes from 'prop-types'
+import {organization, site, file} from '../../helpers/prop-types'
+
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
@@ -9,7 +10,7 @@ import {capitalizeFirstLetter} from '../../helpers/format'
 
 import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
-export default function FolderItem({site, data}) {
+export default function FolderItem({organization, site, data}) {
   const {router} = useContext(RRContext)
   const {id, name} = data
 
@@ -17,8 +18,7 @@ export default function FolderItem({site, data}) {
     <ListItem
       onClick={() =>
         router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: {folderId: id}
+          pathname: `/${organization.name}/${site.name}/${id}`
         })
       }
       divider
@@ -34,6 +34,7 @@ export default function FolderItem({site, data}) {
 }
 
 FolderItem.propTypes = {
-  site: PropTypes.object,
-  data: PropTypes.object
+  organization,
+  site,
+  data: file
 }

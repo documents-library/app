@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {organization, site, folder, file} from '../../helpers/prop-types'
+
 import styled from 'styled-components'
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
@@ -29,7 +31,7 @@ export const FolderGrid = styled(Grid)`
   }
 `
 
-export default function Folder({site, folder}) {
+export default function Folder({organization, site, folder}) {
   const sections = folder.files.filter(file =>
     isFileType({file, typeNames: [filetype.folder.name]})
   )
@@ -71,7 +73,15 @@ export default function Folder({site, folder}) {
   const PhotoFiles = () => {
     if (photos.length > 1)
       return <PhotoGalleryItem site={site} photos={photos} />
-    if (photos.length === 1) return <Files site={site} files={photos} />
+    if (photos.length === 1)
+      return (
+        <Files
+          organization={organization}
+          site={site}
+          files={photos}
+          folderID={folder.id}
+        />
+      )
     return null
   }
 
@@ -79,12 +89,19 @@ export default function Folder({site, folder}) {
     if (emptyFolder) {
       if (!hasSections) return <p>Esta seccieon no contiene documentos</p>
 
-      return <Sections site={site} sections={sections} />
+      return (
+        <Sections organization={organization} site={site} sections={sections} />
+      )
     }
 
     return (
       <>
-        <Files site={site} files={files} />
+        <Files
+          organization={organization}
+          site={site}
+          files={files}
+          folderID={folder.id}
+        />
         <PhotoFiles />
       </>
     )
@@ -99,7 +116,11 @@ export default function Folder({site, folder}) {
 
         {hasSections && !emptyFolder && (
           <Grid item xs={12} sm={5}>
-            <Sections site={site} sections={sections} />
+            <Sections
+              organization={organization}
+              site={site}
+              sections={sections}
+            />
           </Grid>
         )}
       </FolderGrid>
@@ -107,11 +128,19 @@ export default function Folder({site, folder}) {
   )
 }
 
-function Files({site, files}) {
-  return files.map(file => <FileItem key={file.id} site={site} file={file} />)
+function Files({organization, site, files, folderID}) {
+  return files.map(file => (
+    <FileItem
+      key={file.id}
+      organization={organization}
+      site={site}
+      file={file}
+      folderID={folderID}
+    />
+  ))
 }
 
-function Sections({site, sections}) {
+function Sections({organization, site, sections}) {
   return (
     <SectionsWrapper>
       <List
@@ -120,7 +149,12 @@ function Sections({site, sections}) {
         <>
           <Divider />
           {sections.map(item => (
-            <FolderItem key={item.id} site={site} data={item} />
+            <FolderItem
+              organization={organization}
+              key={item.id}
+              site={site}
+              data={item}
+            />
           ))}
         </>
       </List>
@@ -129,16 +163,19 @@ function Sections({site, sections}) {
 }
 
 Folder.propTypes = {
-  site: PropTypes.object,
-  folder: PropTypes.object
+  organization,
+  site,
+  folder
 }
 
 Files.propTypes = {
-  site: PropTypes.object,
-  files: PropTypes.array
+  organization,
+  site,
+  files: PropTypes.arrayOf(file)
 }
 
 Sections.propTypes = {
-  site: PropTypes.object,
-  sections: PropTypes.array
+  organization,
+  site,
+  sections: PropTypes.arrayOf(file)
 }

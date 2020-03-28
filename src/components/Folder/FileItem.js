@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {organization, site, file, folderID} from '../../helpers/prop-types'
+
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -76,16 +78,15 @@ export const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
-export default function FileItem({site, file}) {
-  const {id, name, thumbnailLink} = file
+export default function FileItem({organization, site, file, folderID}) {
+  const {id: fileID, name, thumbnailLink} = file
   const fileName = formatFileName({name})
 
   return (
     <CardWrapper>
       <Link
         to={{
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: {fileId: id}
+          pathname: `/${organization.name}/${site.name}/${folderID}/${fileID}`
         }}
       >
         <CardActionArea>
@@ -185,12 +186,14 @@ function FilePreview({src, alt = 'Image preview'}) {
 }
 
 FileItem.propTypes = {
-  site: PropTypes.object,
-  file: PropTypes.object
+  organization,
+  site,
+  file,
+  folderID
 }
 
 CardContentText.propTypes = {
-  data: PropTypes.object
+  data: file
 }
 
 FilePreview.propTypes = {

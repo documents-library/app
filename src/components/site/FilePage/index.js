@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
+import {organization, site, file} from '../../../helpers/prop-types'
 import styled from 'styled-components'
 import {createPortal} from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
@@ -29,7 +30,7 @@ const IframeWrapper = styled.iframe`
   flex-grow: 1;
 `
 
-export default function File({site, file, isCrawler}) {
+export default function File({organization, site, file, isCrawler}) {
   const {router} = useContext(RRContext)
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
@@ -39,6 +40,7 @@ export default function File({site, file, isCrawler}) {
       ? getPreview({thumbnailLink: file.thumbnailLink, size: `w600`})
       : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
   const isOnline = window.navigator.onLine
+  const [fileParent] = file.parents
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
@@ -71,8 +73,7 @@ export default function File({site, file, isCrawler}) {
       title={formatFileName({name: file.name})}
       onGoBack={() =>
         router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: {folderId: file.parents[0]}
+          pathname: `/${organization.name}/${site.name}/${fileParent}`
         })
       }
       meta={{
@@ -177,8 +178,9 @@ function createMarkup(html) {
 }
 
 File.propTypes = {
-  site: PropTypes.object,
-  file: PropTypes.object,
+  organization,
+  site,
+  file,
   isCrawler: PropTypes.bool
 }
 

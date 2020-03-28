@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import PropTypes from 'prop-types'
+import {organization, site, folder} from '../../helpers/prop-types'
 
 import Layout from '../../components/Layout'
 import Folder, {FolderWrapper} from '../../components/Folder'
@@ -8,17 +8,18 @@ import {CopyUrlButton} from '../../components/site/FilePage'
 
 import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
-export default function FolderPage({site, folder}) {
+export default function FolderPage({organization, site, folder}) {
   const {router} = useContext(RRContext)
   const {files, currentFolder} = folder
+  const [parentFolderID] = currentFolder.parents
+  debugger // eslint-disable-line
 
   return (
     <Layout
       title={capitalizeFirstLetter(currentFolder.name)}
       onGoBack={() =>
         router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: {folderId: currentFolder.parents[0]}
+          pathname: `/${organization.name}/${site.name}/${parentFolderID}`
         })
       }
       meta={{
@@ -30,7 +31,7 @@ export default function FolderPage({site, folder}) {
       actions={<CopyUrlButton />}
     >
       {files.length > 0 ? (
-        <Folder site={site} folder={folder} />
+        <Folder organization={organization} site={site} folder={folder} />
       ) : (
         <FolderWrapper>
           <p>Esta sección está vacía. Vuelve a intentarlo más tarde.</p>
@@ -41,6 +42,7 @@ export default function FolderPage({site, folder}) {
 }
 
 FolderPage.propTypes = {
-  site: PropTypes.object,
-  folder: PropTypes.object
+  organization,
+  site,
+  folder
 }
