@@ -5,6 +5,7 @@ import fetch from 'axios'
 import SiteHomePage from '../components/site/SiteHomePage'
 import FolderPage from '../components/site/FolderPage'
 import FilePage from '../components/site/FilePage'
+import PageSkeleton from '../components/PageSkeleton'
 // import {getIsCrawler} from '../helpers/fetch'
 
 import {API_URL} from '../helpers/constants'
@@ -30,7 +31,7 @@ Site.propTypes = {
   folder: PropTypes.object
 }
 
-Site.renderLoading = () => <h1>Cargando...</h1>
+Site.renderLoading = () => <PageSkeleton />
 Site.getInitialProps = async ({routeInfo}) => {
   try {
     const {organization, site: siteName} = routeInfo.params // eslint-disable-line

@@ -1,4 +1,4 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useContext} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import AppBar from '@material-ui/core/AppBar'
@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import {withTheme} from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
-import LinearProgress from '@material-ui/core/LinearProgress'
 import Head from '@s-ui/react-head'
 
 import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
@@ -55,14 +54,6 @@ const LayoutWrapper = styled.section`
     color: ${theme.palette.text.primary};
   }
 `
-const LinearProgressWrapper = styled(LinearProgress)`
-  &.MuiLinearProgress-root {
-    width: 100%;
-    position: fixed;
-    z-index: 99999;
-    top: 0px;
-  }
-`
 
 export default function Layout({
   title,
@@ -75,7 +66,6 @@ export default function Layout({
 }) {
   const {router} = useContext(RRContext)
   const asPath = router.location.pathname
-  const pageLoading = useLoadingRoute()
   const url = `${DOMAIN} ${asPath} `
   const defaultTitle = 'Documents Librería'
   const description = 'Librería de documentos'
@@ -154,7 +144,6 @@ export default function Layout({
             </AppBarWrapper>
           </ElevationScroll>
           <AppBarOffset />
-          {pageLoading ? <LinearProgressWrapper color="primary" /> : null}
         </>
 
         <section className="Layout-Main">{children}</section>
@@ -199,16 +188,4 @@ Layout.propTypes = {
     siteName: PropTypes.string,
     image: PropTypes.string
   })
-}
-
-function useLoadingRoute() {
-  // const [pageLoading, setPageLoading] = useState(false)
-
-  useEffect(() => {
-    // Router.events.on('routeChangeStart', () => setPageLoading(true))
-    // Router.events.on('routeChangeComplete', () => setPageLoading(false))
-    // Router.events.on('routeChangeError', () => setPageLoading(false))
-  }, [])
-
-  return false
 }

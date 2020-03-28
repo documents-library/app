@@ -27,7 +27,7 @@ const IconImage = styled.img`
   width: auto;
 `
 
-const CardPreview = withTheme(styled(CardMedia)`
+export const CardPreview = withTheme(styled(CardMedia)`
   padding-top: ${({theme}) => theme.spacing(4)}px;
   padding-left: ${({theme}) => theme.spacing(6)}px;
   padding-right: ${({theme}) => theme.spacing(6)}px;
@@ -72,7 +72,7 @@ const CardPreview = withTheme(styled(CardMedia)`
   }
 `)
 
-const CardWrapper = withTheme(styled(Card)`
+export const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 

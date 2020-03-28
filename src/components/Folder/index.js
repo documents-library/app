@@ -23,7 +23,7 @@ export const FolderWrapper = withTheme(styled(Container)`
   padding-bottom: ${({theme}) => theme.spacing(3)}px;
 `)
 
-const FolderGrid = styled(Grid)`
+export const FolderGrid = styled(Grid)`
   @media (max-width: ${theme.breakpoints.values.sm}px) {
     flex-direction: column-reverse;
   }
