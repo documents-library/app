@@ -1,6 +1,11 @@
 import DocumentsLi from './domain'
+import {buildDeviceFrom} from '@s-ui/ssr/build-device'
 
-export default async function() {
+export default async function({isClient, req: request}) {
   const domain = new DocumentsLi()
-  return {domain}
+  const device = isClient
+    ? buildDeviceFrom({window})
+    : buildDeviceFrom({request})
+
+  return {domain, device}
 }

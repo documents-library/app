@@ -11,12 +11,11 @@ import browserHistory from '@s-ui/react-router/lib/browserHistory'
 import routes from './routes'
 
 import contextFactory from './contextFactory'
+import createClientContextFactoryParams from '@s-ui/react-initial-props/lib/createClientContextFactoryParams'
 import {HeadProvider} from '@s-ui/react-head'
-import {buildDeviceFrom} from '@s-ui/ssr/build-device'
 
 async function run() {
-  const device = buildDeviceFrom({window})
-  const context = await contextFactory()
+  const context = await contextFactory(createClientContextFactoryParams())
 
   match(
     {routes, history: browserHistory},
@@ -30,7 +29,7 @@ async function run() {
       }
 
       ReactDOM.render(
-        <Context.Provider value={{...context, device}}>
+        <Context.Provider value={context}>
           <HeadProvider>
             <Router {...renderProps} />
           </HeadProvider>
