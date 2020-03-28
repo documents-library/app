@@ -11,8 +11,16 @@ const LoadOrganizationPage = loadPage(contextFactory, () =>
   import(/* webpackChunkName: "OrganizationPage" */ './pages/organization')
 )
 
-const LoadSitePage = loadPage(contextFactory, () =>
-  import(/* webpackChunkName: "SitePage" */ './pages/site')
+const LoadRepositoryPage = loadPage(contextFactory, () =>
+  import(/* webpackChunkName: "RepositoryPage" */ './pages/Repository')
+)
+
+const LoadFolderPage = loadPage(contextFactory, () =>
+  import(/* webpackChunkName: "FolderPage" */ './pages/Folder')
+)
+
+const LoadFilePage = loadPage(contextFactory, () =>
+  import(/* webpackChunkName: "FilePage" */ './pages/File')
 )
 
 export default (
@@ -20,7 +28,18 @@ export default (
     <Redirect from="/" to="/taller@" />
     <Route component={require('./pages/MainFrame').default}>
       <Route path="/:organization" getComponent={LoadOrganizationPage} />
-      <Route path="/:organization/:site" getComponent={LoadSitePage} />
+      <Route
+        path="/:organization/:repository"
+        getComponent={LoadRepositoryPage}
+      />
+      <Route
+        path="/:organization/:repository/:folderID"
+        getComponent={LoadFolderPage}
+      />
+      <Route
+        path="/:organization/:repository/:folderID/:fileID"
+        getComponent={LoadFilePage}
+      />
     </Route>
   </Router>
 )

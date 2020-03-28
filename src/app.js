@@ -12,8 +12,10 @@ import routes from './routes'
 
 import contextFactory from './contextFactory'
 import {HeadProvider} from '@s-ui/react-head'
+import {buildDeviceFrom} from '@s-ui/ssr/build-device'
 
 async function run() {
+  const device = buildDeviceFrom({window})
   const context = await contextFactory()
 
   match(
@@ -28,7 +30,7 @@ async function run() {
       }
 
       ReactDOM.render(
-        <Context.Provider value={context}>
+        <Context.Provider value={{...context, device}}>
           <HeadProvider>
             <Router {...renderProps} />
           </HeadProvider>

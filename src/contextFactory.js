@@ -1,3 +1,6 @@
+import DocumentsLi from './domain'
+
 export default async function() {
-  return {}
+  const domain = new DocumentsLi()
+  return {domain}
 }
