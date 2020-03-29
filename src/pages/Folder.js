@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {organization, site, folder} from '../helpers/prop-types'
 import FolderPage from '../components/site/FolderPage'
@@ -14,7 +15,15 @@ Folder.propTypes = {
   folder
 }
 
-Folder.renderLoading = () => <LoadingSkeleton hasFolder />
+Folder.renderLoading = ({routeInfo}) => (
+  <LoadingSkeleton hasFolder hasHero={!routeInfo.params.folderID} />
+)
+
+Folder.renderLoading.propTypes = {
+  routeInfo: PropTypes.shape({
+    params: PropTypes.shape({folderID: PropTypes.string})
+  })
+}
 
 Folder.getInitialProps = async ({context, routeInfo}) => {
   // TODO: change site by repository

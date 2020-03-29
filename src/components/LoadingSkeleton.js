@@ -150,7 +150,7 @@ export default function LoadingSkeleton({
       )}
 
       {hasFile && (
-        <FileHtmlContainer>
+        <FileHtmlContainer maxWidth="md">
           <FileH1 animation="wave" />
 
           {textLines.map(_ => (

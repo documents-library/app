@@ -25,7 +25,7 @@
     "@s-ui/polyfills": "1",
     "@s-ui/react-context": "1",
     "@s-ui/react-head": "1",
-    "@s-ui/react-initial-props": "2",
+    "@s-ui/react-initial-props": "beta",
     "@s-ui/react-router": "beta",
     "@s-ui/ssr": "beta",
     "axios": "0.19.2",
