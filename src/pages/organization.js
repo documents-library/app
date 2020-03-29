@@ -2,10 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import OrganizationHomePage from '../components/site/OrganizationHomePage'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
 export default function Organization({organization, sites}) {
   return <OrganizationHomePage organization={organization} sites={sites} />
 }
+
+Organization.renderLoading = () => <LoadingSkeleton hasHero hasSites />
 
 Organization.propTypes = {
   organization: PropTypes.object,

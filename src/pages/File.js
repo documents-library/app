@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import {organization, file, site} from '../helpers/prop-types'
 import {getIsCrawler} from '../helpers/fetch'
 import FilePage from '../components/site/FilePage'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
 export default function File({organization, site, file, isCrawler}) {
   return (
@@ -15,6 +16,8 @@ export default function File({organization, site, file, isCrawler}) {
     />
   )
 }
+
+File.renderLoading = () => <LoadingSkeleton hasFile />
 
 File.propTypes = {
   organization,

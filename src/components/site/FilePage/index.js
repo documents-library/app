@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState, useContext} from 'react'
 import PropTypes from 'prop-types'
-import {organization, site, file} from '../../../helpers/prop-types'
+import {site, file} from '../../../helpers/prop-types'
 import styled from 'styled-components'
 import {createPortal} from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
@@ -19,7 +19,7 @@ import {theme} from '../../../helpers/theme'
 import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
-const FileHtmlContainer = styled(Container)`
+export const FileHtmlContainer = styled(Container)`
   width: 100%;
 `
 
@@ -173,7 +173,6 @@ function createMarkup(html) {
 }
 
 File.propTypes = {
-  organization,
   site,
   file,
   isCrawler: PropTypes.bool

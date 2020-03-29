@@ -9,6 +9,7 @@ import Icon from '@material-ui/core/Icon'
 import {withTheme} from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import Head from '@s-ui/react-head'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
@@ -53,6 +54,10 @@ const LayoutWrapper = styled.section`
     text-decoration: none;
     color: ${theme.palette.text.primary};
   }
+`
+
+const H6 = styled(Skeleton)`
+  ${theme.typography.h6}
 `
 
 export default function Layout({
@@ -131,9 +136,13 @@ export default function Layout({
                     <Icon>arrow_back</Icon>
                   </IconButton>
                 )}
-                <Typography variant="h6" noWrap>
-                  {capitalizeFirstLetter(title)}
-                </Typography>
+                {title ? (
+                  <Typography variant="h6" noWrap>
+                    {capitalizeFirstLetter(title)}
+                  </Typography>
+                ) : (
+                  <H6 animation="wave" width={200} />
+                )}
 
                 <div className="Layout-Appbar-Grow" />
 

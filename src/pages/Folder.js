@@ -2,6 +2,7 @@ import React from 'react'
 
 import {organization, site, folder} from '../helpers/prop-types'
 import FolderPage from '../components/site/FolderPage'
+import LoadingSkeleton from '../components/LoadingSkeleton'
 
 export default function Folder({organization, site, folder}) {
   return <FolderPage organization={organization} site={site} folder={folder} />
@@ -12,6 +13,8 @@ Folder.propTypes = {
   site,
   folder
 }
+
+Folder.renderLoading = () => <LoadingSkeleton hasFolder />
 
 Folder.getInitialProps = async ({context, routeInfo}) => {
   // TODO: change site by repository

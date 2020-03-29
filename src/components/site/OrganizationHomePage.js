@@ -13,7 +13,7 @@ import Layout from '../../components/Layout'
 import WelcomeSection from './WelcomeSection'
 import {theme} from '../../helpers/theme'
 
-const SiteItemWrapper = styled(Grid)`
+export const SiteItemWrapper = styled(Grid)`
   margin-bottom: ${theme.spacing(2)}px;
 
   .siteItem-card {
@@ -22,7 +22,7 @@ const SiteItemWrapper = styled(Grid)`
   }
 `
 
-const SiteListWrapper = styled.section`
+export const SiteListWrapper = styled.section`
   margin-top: -${theme.spacing(6)}px;
 `
 
