@@ -19,7 +19,7 @@ import {theme} from '../../../helpers/theme'
 import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
-const FileHtmlContainer = styled(Container)`
+export const FileHtmlContainer = styled(Container)`
   width: 100%;
 `
 

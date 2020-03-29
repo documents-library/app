@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 
 import {theme} from '../../helpers/theme'
 
-const OrganizationWelcomeWrapper = styled.section`
+export const OrganizationWelcomeWrapper = styled.section`
   background-color: ${theme.palette.primary.main};
   padding-top: ${theme.spacing(6)}px;
   padding-bottom: ${theme.spacing(10)}px;
