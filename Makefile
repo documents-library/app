@@ -1,6 +1,6 @@
 export NODE_ENV ?= development
 export STAGE ?= development
-export API_URL=http://localhost:8080
+export API_URL ?=http://localhost:8080
 
 COMMIT = `git rev-parse --short HEAD`
 

@@ -3,9 +3,14 @@
   "name": "documentslibrary-app",
   "builds": [
     {
-      "src": "package.json",
-      "use": "@now/next"
+      "src": "./public/**",
+      "use": "@now/static"
     }
+  ],
+  "routes": [
+    {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "public/$1.$2"},
+    {"src": "^/img/(.+)$", "dest": "public/img/$1"},
+    {"src": ".*", "dest": "public/index.html"}
   ],
   "build": {
     "env": {
