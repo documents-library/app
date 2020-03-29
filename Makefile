@@ -2,6 +2,8 @@ export NODE_ENV ?= development
 export STAGE ?= development
 export API_URL=http://localhost:8080
 
+COMMIT = `git rev-parse --short HEAD`
+
 .PHONY: clean build deploy
 .DEFAULT_GOAL := help
 
@@ -13,6 +15,7 @@ spa: clean ## Build a static site
 	npx sui-bundler build -C
 	cp -R ./statics/ ./public/
 	cp ./public/index.html ./public/200.html
+	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
 
 ssr: ## Build a SSR version of our SPA
 	#npx sui-ssr build -C

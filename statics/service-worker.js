@@ -6,7 +6,7 @@ const pipe = (...fns) => arg =>
 
 let isOnline = true
 const TTL_CACHE = new Map()
-const CACHE_NAME = 'v1'
+const CACHE_NAME = 'DEV'
 
 function onInstall(evt) {
   console.log('SW onInstall')
@@ -24,8 +24,16 @@ function onInstall(evt) {
       })
   )
 }
+
 async function onActivate() {
   console.log('SW onActivate')
+  const cacheNames = await caches.keys()
+  const oldCacheNames = cacheNames.filter(name => CACHE_NAME !== name)
+  await Promise.all(
+    oldCacheNames.map(cacheName => {
+      return caches.delete(cacheName)
+    })
+  )
   await clients.claim()
   TTL_CACHE.clear()
 }
