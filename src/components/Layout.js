@@ -16,6 +16,7 @@ import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 import {capitalizeFirstLetter} from '../helpers/format'
 import {DOMAIN} from '../helpers/constants'
 import {theme} from '../helpers/theme'
+import Link from './Link'
 
 const AppBarWrapper = withTheme(styled(AppBar)`
   .Layout-Appbar-MenuButton {
@@ -60,9 +61,16 @@ const H6 = styled(Skeleton)`
   ${theme.typography.h6}
 `
 
+const BackButton = styled(IconButton)`
+  &.Layout-Appbar-MenuButton {
+    ${props => (props.disabled ? 'opacity: .5;' : '')}
+    color: white;
+  }
+`
+
 export default function Layout({
   title,
-  onGoBack,
+  goBackTo,
   actions,
   children,
   elvateOnScroll = false,
@@ -125,16 +133,17 @@ export default function Layout({
           <ElevationScroll elvateOnScroll={elvateOnScroll}>
             <AppBarWrapper position="fixed">
               <Toolbar>
-                {onGoBack && (
-                  <IconButton
-                    edge="start"
-                    className="Layout-Appbar-MenuButton"
-                    color="inherit"
-                    aria-label="go back"
-                    onClick={onGoBack}
-                  >
-                    <Icon>arrow_back</Icon>
-                  </IconButton>
+                {goBackTo && (
+                  <Link to={{pathname: goBackTo}}>
+                    <BackButton
+                      edge="start"
+                      className="Layout-Appbar-MenuButton"
+                      color="inherit"
+                      aria-label="go back"
+                    >
+                      <Icon>arrow_back</Icon>
+                    </BackButton>
+                  </Link>
                 )}
                 {title ? (
                   <Typography variant="h6" noWrap>
@@ -185,7 +194,7 @@ ElevationScroll.propTypes = {
 
 Layout.propTypes = {
   title: PropTypes.string.isRequired,
-  onGoBack: PropTypes.func,
+  goBackTo: PropTypes.func,
   actions: PropTypes.node,
   children: PropTypes.node,
   elvateOnScroll: PropTypes.bool,

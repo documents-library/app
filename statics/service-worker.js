@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global fetch self caches Response clients MessageChannel */
+/* global fetch self caches cache Response clients MessageChannel */
 
 const pipe = (...fns) => arg =>
   fns.reduce((p, f) => p.then(f), Promise.resolve(arg))
@@ -54,7 +54,7 @@ const STRATEGIES = {
   },
   cacheFirst: ({ttl} = {ttl: 0}) => async evt => {
     const now = Date.now()
-    const response = await caches.match(evt.request)
+    const response = await cache.match(evt.request)
     const timestamp = TTL_CACHE.get(evt.request.url) || now
 
     // TTL no ha exprirado

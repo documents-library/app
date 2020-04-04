@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import {organization, site, folder} from '../../helpers/prop-types'
 
 import Layout from '../../components/Layout'
@@ -7,11 +7,7 @@ import {capitalizeFirstLetter} from '../../helpers/format'
 import {CopyUrlButton} from '../../components/site/FilePage'
 import WelcomeSection from './WelcomeSection'
 
-import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
-
 export default function FolderPage({organization, site, folder}) {
-  const {router} = useContext(RRContext)
-
   const {files, currentFolder, isRepoHomePage, previousPagePathname} = folder
 
   const title = isRepoHomePage
@@ -22,7 +18,7 @@ export default function FolderPage({organization, site, folder}) {
   return (
     <Layout
       title={capitalizeFirstLetter(currentFolder.name)}
-      onGoBack={() => router.push({pathname: previousPagePathname})}
+      goBackTo={previousPagePathname}
       meta={{
         ogType: 'website',
         title,

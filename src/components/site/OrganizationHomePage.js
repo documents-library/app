@@ -7,11 +7,11 @@ import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
-import Link from '@s-ui/react-router/lib/Link'
 
 import Layout from '../../components/Layout'
 import WelcomeSection from './WelcomeSection'
 import {theme} from '../../helpers/theme'
+import Link from '../Link'
 
 export const SiteItemWrapper = styled(Grid)`
   margin-bottom: ${theme.spacing(2)}px;
@@ -24,6 +24,10 @@ export const SiteItemWrapper = styled(Grid)`
 
 export const SiteListWrapper = styled.section`
   margin-top: -${theme.spacing(6)}px;
+`
+
+const SiteItemActionArea = styled(CardActionArea)`
+  ${props => (props.disabled ? 'opacity: .5;' : '')}
 `
 
 export default function OrganizationHomePage({organization, sites}) {
@@ -84,14 +88,14 @@ function SiteItem({site, organizationName}) {
             pathname: `/${organizationName}/${name}/`
           }}
         >
-          <CardActionArea>
+          <SiteItemActionArea>
             <CardContent>
               <Typography variant="h5" component="h2" gutterBottom>
                 {longName}
               </Typography>
               <Typography color="textSecondary">{description}</Typography>
             </CardContent>
-          </CardActionArea>
+          </SiteItemActionArea>
         </Link>
       </Card>
     </SiteItemWrapper>

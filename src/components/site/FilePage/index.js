@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import {site, file} from '../../../helpers/prop-types'
 import styled from 'styled-components'
@@ -11,8 +11,6 @@ import {CopyToClipboard} from 'react-copy-to-clipboard'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'
-
-import RRContext from '@s-ui/react-router/lib/ReactRouterContext'
 
 import Layout from '../../../components/Layout'
 import {theme} from '../../../helpers/theme'
@@ -31,7 +29,6 @@ const IframeWrapper = styled.iframe`
 `
 
 export default function File({site, file, isCrawler}) {
-  const {router} = useContext(RRContext)
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
   const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
@@ -70,7 +67,7 @@ export default function File({site, file, isCrawler}) {
   return (
     <Layout
       title={formatFileName({name: file.name})}
-      onGoBack={() => router.push({pathname: file.previousPagePathname})}
+      goBackTo={file.previousPagePathname}
       meta={{
         ogType: 'article',
         twitterCard: 'summary_large_image',
@@ -85,6 +82,7 @@ export default function File({site, file, isCrawler}) {
             <IconButton
               color="inherit"
               onClick={() => setEmbedHtml(!embedHtml)}
+              disabled={!navigator.onLine}
             >
               {embedHtml ? (
                 <Tooltip
@@ -105,7 +103,7 @@ export default function File({site, file, isCrawler}) {
           )}
 
           <CopyUrlButton />
-          <DownloadButton file={file} />
+          <DownloadButton file={file} disabled={!navigator.onLine} />
         </>
       }
       background="#fafafa"

@@ -13,7 +13,7 @@ import styled from 'styled-components'
 import {withTheme} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import Link from '@s-ui/react-router/lib/Link'
+import Link from '../Link'
 
 import {dateRelativeFormat} from '../../helpers/format'
 import {
@@ -78,6 +78,10 @@ export const CardWrapper = withTheme(styled(Card)`
   margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
+const FileActionArea = styled(CardActionArea)`
+  ${props => (props.disabled ? 'opacity: .5;' : '')}
+`
+
 export default function FileItem({organization, site, file, folderID}) {
   const {id: fileID, name, thumbnailLink} = file
   const fileName = formatFileName({name})
@@ -89,7 +93,7 @@ export default function FileItem({organization, site, file, folderID}) {
           pathname: `/${organization.name}/${site.name}/${folderID}/${fileID}`
         }}
       >
-        <CardActionArea>
+        <FileActionArea>
           {thumbnailLink && (
             <FilePreview
               src={getPreview({
@@ -121,7 +125,7 @@ export default function FileItem({organization, site, file, folderID}) {
               </Grid>
             )}
           </CardContent>
-        </CardActionArea>
+        </FileActionArea>
       </Link>
 
       {!canReadOnline({file: file}) ? (
@@ -132,6 +136,7 @@ export default function FileItem({organization, site, file, folderID}) {
               key={link.id}
               rel="noopener"
               target="_blank"
+              disabled={!navigator.onLine}
             >
               {link.label}
             </Button>
@@ -156,7 +161,7 @@ function CardContentText({data}) {
   )
 }
 
-function FilePreview({src, alt = 'Image preview'}) {
+function FilePreview({src, alt = 'Image preview', ...rest}) {
   // TODO: find a better way to hide the card preview if the image fails to load
   // const imgRef = createRef()
   // const [disabled, setDisabled] = useState(false)
@@ -168,11 +173,12 @@ function FilePreview({src, alt = 'Image preview'}) {
   //   if (!img.complete || img.naturalWidth === 0) {
   //     setDisabled(true)
   //   }
-  // }, [])
+  // }, [imgRef])
   //
   // if (disabled) return false
+
   return (
-    <CardPreview>
+    <CardPreview {...rest}>
       <img
         // ref={imgRef}
         // onError={() => setDisabled(true)}

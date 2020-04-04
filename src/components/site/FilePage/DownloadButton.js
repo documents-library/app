@@ -8,7 +8,7 @@ import Icon from '@material-ui/core/Icon'
 
 import {downloadLinks} from '../../../helpers/files'
 
-export default function DownloadButton({file}) {
+export default function DownloadButton({file, ...rest}) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const links = downloadLinks({file})
 
@@ -30,7 +30,7 @@ export default function DownloadButton({file}) {
 
   const manyDownloadOptions = (
     <>
-      <IconButton color="inherit" onClick={handleClick}>
+      <IconButton color="inherit" onClick={handleClick} {...rest}>
         <Icon>cloud_download</Icon>
       </IconButton>
       <Menu
@@ -50,7 +50,11 @@ export default function DownloadButton({file}) {
   )
 
   const singleDownloadOption = (
-    <IconButton color="inherit" onClick={() => onDownload(links[0].url)}>
+    <IconButton
+      color="inherit"
+      onClick={() => onDownload(links[0].url)}
+      {...rest}
+    >
       <CloudDownloadIcon />
     </IconButton>
   )
