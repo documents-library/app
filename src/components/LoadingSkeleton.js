@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import Container from '@material-ui/core/Container'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 import Layout from './Layout'
 import {FolderWrapper, FolderGrid} from './Folder/index'
@@ -46,17 +47,13 @@ const ListItem = styled(Skeleton)`
   ${theme.typography.body1}
 `
 
-const FileH1 = styled(Skeleton)`
-  ${theme.typography.h1}
-  font-size: 6rem;
+const Loading = styled.div`
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
 `
-
-const FileBody = styled(Skeleton)`
-  ${theme.typography.body1}
-  font-size: 2rem;
-`
-
-const textLines = new Array(50).fill('')
 
 export default function LoadingSkeleton({
   hasFolder,
@@ -110,7 +107,7 @@ export default function LoadingSkeleton({
         <FolderWrapper maxWidth="lg">
           <FolderGrid container spacing={2} direction="row">
             <Grid item xs={12} sm={7}>
-              {[1, 2, 3].map(_ => (
+              {[1, 2].map(_ => (
                 <CardWrapper key={_}>
                   <CardActionArea>
                     <CardPreview>
@@ -132,8 +129,8 @@ export default function LoadingSkeleton({
               ))}
             </Grid>
 
-            <Grid item xs={12} sm={5}>
-              <List subheader={<ListItem animation="wave" width={150} />}>
+            <List subheader={<ListItem animation="wave" width={150} />}>
+              <Grid item xs={12} sm={5}>
                 <>
                   <Divider />
                   <ListItem animation="wave" />
@@ -143,19 +140,17 @@ export default function LoadingSkeleton({
                   <ListItem animation="wave" />
                   <Divider />
                 </>
-              </List>
-            </Grid>
+              </Grid>
+            </List>
           </FolderGrid>
         </FolderWrapper>
       )}
 
       {hasFile && (
         <FileHtmlContainer maxWidth="md">
-          <FileH1 animation="wave" />
-
-          {textLines.map(_ => (
-            <FileBody animation="wave" key={_} />
-          ))}
+          <Loading>
+            <CircularProgress />
+          </Loading>
         </FileHtmlContainer>
       )}
     </Layout>

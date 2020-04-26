@@ -33,21 +33,21 @@ const SiteItemActionArea = styled(CardActionArea)`
 export default function OrganizationHomePage({organization, sites}) {
   return (
     <Layout
-      title={organization.name}
+      title={organization?.name}
       elvateOnScroll
       meta={{
         ogType: 'website',
-        title: `${organization.name} | Documents Library`,
-        description: organization.description || 'Librería de documentos',
+        title: `${organization?.name} | Documents Library`,
+        description: organization?.description || 'Librería de documentos',
         siteName: 'documents.li'
       }}
     >
       <>
         <WelcomeSection
-          title={organization.longName}
-          subtitle={organization.description}
+          title={organization?.longName}
+          subtitle={organization?.description}
         />
-        <SiteList sites={sites} organizationName={organization.name} />
+        <SiteList sites={sites} organizationName={organization?.name} />
       </>
     </Layout>
   )
@@ -64,11 +64,11 @@ function SiteList({sites, organizationName}) {
           justify="center"
           alignItems="stretch"
         >
-          {sites.map(site => (
+          {sites?.map(site => (
             <SiteItem
               site={site}
               organizationName={organizationName}
-              key={site._id}
+              key={site?._id}
             />
           ))}
         </Grid>

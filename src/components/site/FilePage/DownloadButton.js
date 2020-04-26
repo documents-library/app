@@ -41,8 +41,8 @@ export default function DownloadButton({file, ...rest}) {
         onClose={handleClose}
       >
         {links.map(link => (
-          <MenuItem key={link.id} onClick={() => onDownload(link.url)}>
-            {link.label}
+          <MenuItem key={link?.id} onClick={() => onDownload(link?.url)}>
+            {link?.label}
           </MenuItem>
         ))}
       </Menu>
@@ -52,15 +52,15 @@ export default function DownloadButton({file, ...rest}) {
   const singleDownloadOption = (
     <IconButton
       color="inherit"
-      onClick={() => onDownload(links[0].url)}
+      onClick={() => onDownload(links[0]?.url)}
       {...rest}
     >
       <CloudDownloadIcon />
     </IconButton>
   )
 
-  if (links.length > 1) return manyDownloadOptions
-  else if (links.length === 1) return singleDownloadOption
+  if (links?.length > 1) return manyDownloadOptions
+  else if (links?.length === 1) return singleDownloadOption
 
   return null
 }

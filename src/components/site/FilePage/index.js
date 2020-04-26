@@ -19,6 +19,7 @@ import DownloadButton from './DownloadButton'
 
 export const FileHtmlContainer = styled(Container)`
   width: 100%;
+  height: 100%;
 `
 
 const IframeWrapper = styled.iframe`
@@ -31,11 +32,10 @@ const IframeWrapper = styled.iframe`
 export default function File({site, file, isCrawler}) {
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
-  const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
-  const image =
-    file && file.thumbnailLink
-      ? getPreview({thumbnailLink: file.thumbnailLink, size: `w600`})
-      : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
+  const viewerUrl = `https://docs.google.com/file/d/${file?.id}/preview`
+  const image = file?.thumbnailLink
+    ? getPreview({thumbnailLink: file?.thumbnailLink, size: `w600`})
+    : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
   const isOnline = window.navigator.onLine
 
   useEffect(() => {
@@ -43,20 +43,20 @@ export default function File({site, file, isCrawler}) {
   }, [cookies, embedHtml])
 
   useEffect(() => {
-    if (!isOnline && file.html) setEmbedHtml(true)
-  }, [file.html, isOnline])
+    if (!isOnline && file?.html) setEmbedHtml(true)
+  }, [file, file?.html, isOnline])
 
   function fileViewer() {
     // on a crawler the shadow dom not work
-    if (file.html && isCrawler) {
+    if (file?.html && isCrawler) {
       return (
         <div
           className="filehtml-wrapper"
-          dangerouslySetInnerHTML={createMarkup(file.html)}
+          dangerouslySetInnerHTML={createMarkup(file?.html)}
         />
       )
-    } else if (file.html && embedHtml) {
-      return <FileHtml html={file.html} styles={fileHtmlStyles()} />
+    } else if (file?.html && embedHtml) {
+      return <FileHtml html={file?.html} styles={fileHtmlStyles()} />
     } else if (isOnline) {
       return <IframeWrapper src={viewerUrl} />
     }
@@ -66,23 +66,23 @@ export default function File({site, file, isCrawler}) {
 
   return (
     <Layout
-      title={formatFileName({name: file.name})}
-      goBackTo={file.previousPagePathname}
+      title={formatFileName({name: file?.name})}
+      goBackTo={file?.previousPagePathname}
       meta={{
         ogType: 'article',
         twitterCard: 'summary_large_image',
-        title: `${file.name} | ${site.name || 'Documents Library'}`,
-        description: `${site.organizationName}`,
+        title: `${file?.name} | ${site?.name || 'Documents Library'}`,
+        description: `${site?.organizationName}`,
         siteName: 'documents.li',
         image
       }}
       actions={
         <>
-          {file.html && (
+          {file?.html && (
             <IconButton
               color="inherit"
               onClick={() => setEmbedHtml(!embedHtml)}
-              disabled={!navigator.onLine}
+              disabled={!navigator?.onLine}
             >
               {embedHtml ? (
                 <Tooltip
@@ -103,7 +103,7 @@ export default function File({site, file, isCrawler}) {
           )}
 
           <CopyUrlButton />
-          <DownloadButton file={file} disabled={!navigator.onLine} />
+          <DownloadButton file={file} disabled={!navigator?.onLine} />
         </>
       }
       background="#fafafa"
