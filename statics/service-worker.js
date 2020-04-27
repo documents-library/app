@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* global fetch self caches cache Response clients MessageChannel */
+/* global fetch self caches Response clients MessageChannel */
 
 const pipe = (...fns) => arg =>
   fns.reduce((p, f) => p.then(f), Promise.resolve(arg))
@@ -8,11 +8,17 @@ let isOnline = true
 const TTL_CACHE = new Map()
 const CACHE_NAME = 'DEV'
 
+const getFetchOptions = {
+  method: 'GET',
+  cache: 'no-cache',
+  credentials: 'omit'
+}
+
 function onInstall(evt) {
   console.log('SW onInstall')
   self.skipWaiting()
   evt.waitUntil(
-    fetch('/asset-manifest.json')
+    fetch('/asset-manifest.json', getFetchOptions)
       .then(resp => resp.json())
       .then(manifest => {
         caches.open(CACHE_NAME).then(cache => {
@@ -42,20 +48,18 @@ const STRATEGIES = {
   identity: () => async evt => evt,
   use: (pattern, strategy) => evt => {
     if (evt instanceof Response) return evt
-
-    if (evt.request.url.match(pattern)) {
-      return strategy(evt)
-    }
-
+    if (evt.request.url.match(pattern)) return strategy(evt)
     return evt
   },
   networkOnly: () => async evt => {
-    return fetch(evt.request)
+    return fetch(evt.request, getFetchOptions)
   },
   cacheFirst: ({ttl} = {ttl: 0}) => async evt => {
     const now = Date.now()
+    const cache = await caches.open(CACHE_NAME)
     const response = await cache.match(evt.request)
     const timestamp = TTL_CACHE.get(evt.request.url) || now
+    const index = await cache.match('index.html')
 
     // TTL no ha exprirado
     if (response !== undefined && now - timestamp < ttl) {
@@ -63,21 +67,32 @@ const STRATEGIES = {
     }
 
     try {
-      const res = await fetch(evt.request)
+      const res = await fetch(evt.request, getFetchOptions)
       const resCloned = res.clone()
 
-      if (resCloned.status === 0 || resCloned.ok) {
-        const cache = await caches.open(CACHE_NAME)
+      if (resCloned.ok) {
         TTL_CACHE.set(evt.request.url, Date.now())
         cache.put(evt.request, resCloned)
       }
 
       return res
     } catch (e) {
-      if (!isOnline && response) {
-        return response
-      }
-      return new Response('Ooops, algo salió mal!!', {status: 404})
+      if (!isOnline && response) return response
+      if (
+        !isOnline &&
+        !response &&
+        index &&
+        // Exclude any URLs whose last part seems to be a file extension
+        // as they're likely a resource and not a SPA route.
+        // URLs containing a "?" character won't be blacklisted as they're likely
+        // a route with query params (e.g. auth callbacks).
+        !evt.request.url.match(new RegExp('/[^/?]+\\.[^/]+$'))
+      )
+        return index
+
+      return new Response(`Ooops, service worker is failing here!! ${e}`, {
+        status: 404
+      })
     }
   }
 }
@@ -104,7 +119,7 @@ function onMessage(evt) {
 
   switch (type) {
     case 'connectivity': {
-      isOnline = payload.online
+      isOnline = payload.isOnline
       break
     }
     case 'cache_version': {
@@ -112,7 +127,6 @@ function onMessage(evt) {
       break
     }
   }
-
   console.log('ahora estamos', isOnline)
 }
 
