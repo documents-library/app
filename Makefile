@@ -18,7 +18,7 @@ spa: clean ## Build a static site
 	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
 
 ssr: ## Build a SSR version of our SPA
-	#npx sui-ssr build -C
+	echo "Aquí iría el -> npx sui-ssr build -C"
 
 ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
@@ -36,10 +36,10 @@ deploy: clean build ## deploy new app
 
 release:
 	git pull --unshallow
-	git config --global user.email "carlosvillu@gmail.com"
-	git config --global user.name "carlosvillu"
+	git config --global user.email "ggsalas@gmail.com"
+	git config --global user.name "ggsalas"
 	git remote rm origin
-	git remote add origin https://carlosvillu:${GH_TOKEN}@github.com/carlosvillu/UABTexthandler.git > /dev/null 2>&1
+	git remote add origin https://ggsalas:${GH_TOKEN}@github.com/documents-library/app.git > /dev/null 2>&1
 	git checkout master
 	git pull origin master
 	rm -Rf package-lock.js

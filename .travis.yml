@@ -1,0 +1,46 @@
+language: node_js
+
+branches:
+  only:
+    - master
+
+node_js:
+  - "12"
+
+install:
+  - npm install -g surge
+  - npm install --force-online
+  - npm install --only=dev --force-online
+
+jobs:
+  include:
+    - stage: Deploy DEV
+      if: type = pull_request
+      env:
+        - NODE_ENV=production
+        - STAGE=development
+      script:
+        - make deploy
+
+    - stage: Release
+      if: branch = master AND NOT type = pull_request
+      before_install:
+        - set -e
+        - 'if [ ! -z $(git tag --points-at $TRAVIS_COMMIT) ]; then travis_terminate 0; fi'
+      script:
+        - make release
+
+    - stage: Deploy PRO
+      if: branch = master AND NOT type = pull_request
+      before_install:
+        - set -e
+        - 'if [ -z $(git tag --points-at $TRAVIS_COMMIT) ]; then travis_terminate 0; fi'
+      install:
+        - npm install -g surge
+        - npm ci --dev
+      env:
+        - NODE_ENV=production
+        - STAGE=production
+      script:
+        - make deploy
+

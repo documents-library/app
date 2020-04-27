@@ -6,7 +6,8 @@
   "scripts": {
     "co": "npx sui-mono commit",
     "start": "API_URL=http://localhost:8080 npx sui-bundler dev",
-    "build": "API_URL=https://api.documents.li NODE_ENV=production STAGE=production make build"
+    "deploy:production": "API_URL=https://api.documents.li NODE_ENV=production STAGE=production make deploy",
+    "deploy:development": "API_URL=https://api.documents.li NODE_ENV=production STAGE=development make deploy"
   },
   "keywords": [
     "google",
@@ -27,7 +28,7 @@
     "@s-ui/react-context": "1",
     "@s-ui/react-head": "1",
     "@s-ui/react-initial-props": "beta",
-    "@s-ui/react-router": "beta",
+    "@s-ui/react-router": "1.0.0-beta.6",
     "@s-ui/ssr": "beta",
     "axios": "0.19.2",
     "cookie-universal": "2.1.1",
