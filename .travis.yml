@@ -11,6 +11,7 @@ install:
 jobs:
   include:
     - stage: Deploy DEV
+      if: branch = pull_request
       env:
         - NODE_ENV=production
         - STAGE=development
