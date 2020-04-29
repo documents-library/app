@@ -44,7 +44,7 @@ export default function File({site, file, isCrawler}) {
 
   useEffect(() => {
     if (!isOnline && file?.html) setEmbedHtml(true)
-  }, [file, file?.html, isOnline])
+  }, [file, file.html, isOnline])
 
   function fileViewer() {
     // on a crawler the shadow dom not work
