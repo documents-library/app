@@ -1,4 +1,3 @@
-import {EntryPointFactory} from '@s-ui/domain'
 import axios from 'axios'
 import {API_URL} from '../helpers/constants'
 
@@ -85,9 +84,15 @@ const useCases = {
   get_info_file_use_case: getFileInfo
 }
 
-const EntryPoint = EntryPointFactory({config, useCases})
+export default class {
+  constructor() {
+    this._useCases = useCases
+  }
 
-export default EntryPoint
+  get(useCase) {
+    return this._useCases[useCase]
+  }
+}
 
 function getPreviousPathname({
   isRepoHomePage,
