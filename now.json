@@ -1,20 +1,14 @@
 {
   "version": 2,
-  "name": "documentslibrary-app",
-  "builds": [
-    {
-      "src": "./public/**",
-      "use": "@now/static"
+  "name": "documentslibrary-app-cvz",
+  "functions": {
+    "api/webapp.js": {
+      "maxDuration": 10
     }
-  ],
+  },
   "routes": [
     {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "public/$1.$2"},
-    {"src": "^/img/(.+)$", "dest": "public/img/$1"},
-    {"src": ".*", "dest": "public/index.html"}
-  ],
-  "build": {
-    "env": {
-      "API_URL": "@api_url"
-    }
-  }
+    {"src": "^/img/(.+)$", "dest": "/public/img/$1"},
+    {"src": ".*", "dest": "/api/webapp.js"}
+  ]
 }

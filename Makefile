@@ -18,7 +18,7 @@ spa: clean ## Build a static site
 	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
 
 ssr: ## Build a SSR version of our SPA
-	echo "Aquí iría el -> npx sui-ssr build -C"
+	echo "Aquí va -> npx sui-ssr build -C"
 
 ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
@@ -32,7 +32,8 @@ sw_dev: spa ## Start dev env
 build: clean spa ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
-	surge public/ -d https://documentsly-$(STAGE).surge.sh
+	# surge public/ -d https://documentsly-$(STAGE).surge.sh
+	now
 
 release:
 	git pull --unshallow
