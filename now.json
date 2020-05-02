@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "documentslibrary-app-cvz",
+  "name": "documentslibrary-app",
   "functions": {
     "api/webapp.js": {
       "maxDuration": 10
