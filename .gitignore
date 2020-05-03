@@ -64,3 +64,5 @@ yarn.lock
 **/public/sw.js
 public
 server/
+
+.now
