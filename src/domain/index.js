@@ -1,5 +1,5 @@
-import axios from 'axios'
-import {API_URL} from '../helpers/constants'
+const axios = require('axios')
+const {API_URL} = require('../helpers/constants')
 
 const request = async url => (await axios(url)).data
 
@@ -73,8 +73,6 @@ const getFileInfo = {
     }
   }
 }
-
-const config = {}
 
 const useCases = {
   get_info_organization_use_case: getOrganizationInfo,
