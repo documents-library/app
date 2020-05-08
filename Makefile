@@ -33,7 +33,7 @@ build: clean spa ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
 	# surge public/ -d https://documentsly-$(STAGE).surge.sh
-	now
+	# now
 
 release:
 	git pull --unshallow

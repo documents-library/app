@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "documentslibrary-app",
   "functions": {
     "api/webapp.js": {
       "maxDuration": 10
@@ -9,6 +8,6 @@
   "routes": [
     {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "public/$1.$2"},
     {"src": "^/img/(.+)$", "dest": "/public/img/$1"},
-    {"src": ".*", "dest": "/api/webapp.js"}
+    {"src": "/(.*)", "dest": "/api/webapp.js"}
   ]
 }

@@ -113,11 +113,13 @@ module.exports = async (req, res) => {
     return onSend(createIndexHtml(indexHTML, htmlTags))
   }
 
+  return onSend()
+
   function onSend(newHtml) {
     res.setHeader('Content-Type', 'text/html')
     const html = newHtml || indexHTML
 
-    return res.send(html)
+    return res.status(200).send(html)
   }
 }
 
@@ -161,6 +163,7 @@ function createHtmlTags({
 function spliceString(string, idx, rem, newStr) {
   return string.slice(0, idx) + newStr + string.slice(idx + Math.abs(rem))
 }
+
 function getPreview({thumbnailLink, size = 's150'}) {
   const sliceTo = thumbnailLink.indexOf('=')
   const baseLink = thumbnailLink.slice(0, sliceTo)

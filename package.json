@@ -6,6 +6,7 @@
   "scripts": {
     "co": "npx sui-mono commit",
     "start": "API_URL=http://localhost:8080 npx sui-bundler dev",
+    "build": "API_URL=https://api.documents.li NODE_ENV=production STAGE=production make deploy",
     "deploy:production": "API_URL=https://api.documents.li NODE_ENV=production STAGE=production make deploy",
     "deploy:development": "API_URL=https://api.documents.li NODE_ENV=production STAGE=development make deploy"
   },
