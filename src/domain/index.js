@@ -1,7 +1,15 @@
-const axios = require('axios')
 const {API_URL} = require('../helpers/constants')
+const fetch = require('isomorphic-unfetch')
 
-const request = async url => (await axios(url)).data
+const request = async url => {
+  const res = await fetch(url)
+
+  if (!res.ok) {
+    throw new Error(res.statusText)
+  } else {
+    return res.json()
+  }
+}
 
 const getOrganizationInfo = {
   execute: async ({name}) => {
