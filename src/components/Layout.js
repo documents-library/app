@@ -64,7 +64,6 @@ const BackButton = styled(IconButton)`
     color: white;
   }
 `
-
 export default function Layout({
   title,
   goBackTo,
@@ -144,6 +143,43 @@ function ElevationScroll({children, elvateOnScroll}) {
   return React.cloneElement(children, {
     elevation: elevation()
   })
+}
+
+function BackButton({onGoBack}) {
+  const [prevPage, setPrevPage] = useState()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const prevPage =
+        document.referrer !== document.location.href &&
+        document.referrer.match(/fileId/)
+          ? document.referrer
+          : null
+
+      setPrevPage(prevPage)
+    }
+  }, [])
+
+  if (onGoBack) {
+    return (
+      <IconButton
+        edge="start"
+        className="Layout-Appbar-MenuButton"
+        color="inherit"
+        aria-label="go back"
+        onClick={prevPage ? router.back : onGoBack}
+      >
+        <Icon>arrow_back</Icon>
+      </IconButton>
+    )
+  }
+
+  return null
+}
+
+BackButton.propTypes = {
+  onGoBack: PropTypes.func
 }
 
 ElevationScroll.propTypes = {
