@@ -24,7 +24,9 @@ const getOrganizationInfo = {
 
 const getAllRepository = {
   execute: async () => {
+    console.log(`${API_URL}/sites`) // eslint-disable-line
     const repositoriesListValueObject = await request(`${API_URL}/sites`)
+    console.log('repositoriesListValueObject ', repositoriesListValueObject) // eslint-disable-line
     return repositoriesListValueObject
   }
 }

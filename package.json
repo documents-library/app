@@ -5,10 +5,8 @@
   "main": "index.js",
   "scripts": {
     "co": "npx sui-mono commit",
-    "start": "npx sui-bundler dev",
-    "build": "make deploy",
-    "deploy:production": "API_URL=https://api.documents.li NODE_ENV=production STAGE=production make deploy",
-    "deploy:development": "API_URL=https://api.documents.li NODE_ENV=production STAGE=development make deploy"
+    "start": "make spa_dev",
+    "build": "make deploy"
   },
   "keywords": [
     "google",
@@ -52,7 +50,8 @@
   "sui-bundler": {
     "env": [
       "API_URL",
-      "STAGE"
+      "STAGE",
+      "NODE_ENV"
     ]
   },
   "eslintConfig": {

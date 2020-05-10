@@ -1,5 +1,5 @@
-export NODE_ENV?=development
-export STAGE?=development
+export NODE_ENV?=development  ## manage code like minification
+export STAGE?=development ## manage on what stage we are
 export API_URL?=http://localhost:8080
 
 COMMIT = `git rev-parse --short HEAD`
@@ -15,10 +15,13 @@ spa: clean ## Build a static site
 	npx sui-bundler build -C
 	cp -R ./statics/ ./public/
 	# cp ./public/index.html ./public/200.html
-	# sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
+	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
 
 ssr: ## Build a SSR version of our SPA
 	echo "Aquí va -> npx sui-ssr build -C"
+
+spa_dev: spa
+	npx sui-bundler dev
 
 ssr_dev: ssr ## Build a SSR server and start it in dev mode
 	node --inspect server/index.js
@@ -27,12 +30,11 @@ sw_dev: spa ## Start dev env
 	# https://unix.stackexchange.com/a/204619
 	trap "kill %1" SIGINT
 	npx serve public -s & \
-		npx nodemon -w statics/service-worker.js --exec 'cp ./statics/service-worker.js ./public/service-worker.js'
+	npx nodemon -w statics/service-worker.js --exec 'cp ./statics/service-worker.js ./public/service-worker.js'
 
 build: clean spa ## ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
-	# surge public/ -d https://documentsly-$(STAGE).surge.sh
 	now
 
 release:

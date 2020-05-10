@@ -1,7 +1,4 @@
-const API_URL =
-  process.env.STAGE === 'development'
-    ? 'http://localhost:8080'
-    : process.env.API_URL
+const API_URL = (process.env.API_URL || 'http://localhost:8080').trim()
 
 module.exports = {
   DOMAIN: 'https://documents.li',

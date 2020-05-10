@@ -13,7 +13,6 @@ export default function Link({to, children, ...rest}) {
   //
   //   async function hasLinkInCache() {
   //     try {
-  //       debugger // eslint-disable-line
   //       const cache = await caches.open(window.documentsLi?.cacheName ?? '')
   //       const cachedLink = await cache.match(to.pathname)
   //       const hasCachedLink = Boolean(cachedLink)
