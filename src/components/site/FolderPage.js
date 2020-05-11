@@ -1,44 +1,56 @@
 import React from 'react'
-import Router from 'next/router'
-import PropTypes from 'prop-types'
+import {organization, site, folder} from '../../helpers/prop-types'
 
 import Layout from '../../components/Layout'
-import Folder, { FolderWrapper } from '../../components/Folder'
-import { capitalizeFirstLetter } from '../../helpers/format'
-import { CopyUrlButton } from '../../components/site/FilePage'
+import Folder, {FolderWrapper} from '../../components/Folder'
+import {capitalizeFirstLetter} from '../../helpers/format'
+import {CopyUrlButton} from '../../components/site/FilePage'
+import WelcomeSection from './WelcomeSection'
 
-export default function FolderPage({ site, folder }) {
-  const { files, currentFolder } = folder
+export default function FolderPage({organization, site, folder = {}}) {
+  const {files, currentFolder, isRepoHomePage, previousPagePathname} = folder
+
+  const title = isRepoHomePage
+    ? `${capitalizeFirstLetter(currentFolder?.name)} | Documents Library`
+    : `${capitalizeFirstLetter(currentFolder?.name)} | ${site?.name ||
+        'Documents Library'}`
 
   return (
     <Layout
-      title={capitalizeFirstLetter(currentFolder.name)}
-      onGoBack={() =>
-        Router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: currentFolder.parents[0] }
-        })
-      }
+      title={capitalizeFirstLetter(currentFolder?.name)}
+      goBackTo={previousPagePathname}
       meta={{
         ogType: 'website',
-        title: `${currentFolder.name} | ${site.name || 'Documents Library'}`,
-        description: `${site.organizationName}`,
+        title,
+        description: `${site?.organizationName}`,
         siteName: 'documents.li'
       }}
-      actions={<CopyUrlButton />}
+      actions={isRepoHomePage ? <CopyUrlButton /> : null}
+      elvateOnScroll={isRepoHomePage}
     >
-      {files.length > 0 ? (
-        <Folder site={site} folder={folder} />
-      ) : (
-        <FolderWrapper>
-          <p>Esta sección está vacía. Vuelve a intentarlo más tarde.</p>
-        </FolderWrapper>
-      )}
+      <>
+        {isRepoHomePage && (
+          <WelcomeSection title={site?.longName} subtitle={site?.description} />
+        )}
+
+        {files?.length > 0 ? (
+          <Folder organization={organization} site={site} folder={folder} />
+        ) : (
+          <FolderWrapper>
+            {window.navigator.onLine ? (
+              <p>No hay contenidos todavía. Vuelve a intentarlo más tarde.</p>
+            ) : (
+              <p>Debes tner conexión a internet para ver este contenido</p>
+            )}
+          </FolderWrapper>
+        )}
+      </>
     </Layout>
   )
 }
 
 FolderPage.propTypes = {
-  site: PropTypes.object,
-  folder: PropTypes.object
+  organization,
+  site,
+  folder
 }

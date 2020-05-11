@@ -6,11 +6,11 @@ import IconButton from '@material-ui/core/IconButton'
 import CloudDownloadIcon from '@material-ui/icons/CloudDownload'
 import Icon from '@material-ui/core/Icon'
 
-import { downloadLinks } from '../../../helpers/files'
+import {downloadLinks} from '../../../helpers/files'
 
-export default function DownloadButton({ file }) {
+export default function DownloadButton({file, ...rest}) {
   const [anchorEl, setAnchorEl] = React.useState(null)
-  const links = downloadLinks({ file })
+  const links = downloadLinks({file})
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -30,7 +30,7 @@ export default function DownloadButton({ file }) {
 
   const manyDownloadOptions = (
     <>
-      <IconButton color="inherit" onClick={handleClick}>
+      <IconButton color="inherit" onClick={handleClick} {...rest}>
         <Icon>cloud_download</Icon>
       </IconButton>
       <Menu
@@ -41,8 +41,8 @@ export default function DownloadButton({ file }) {
         onClose={handleClose}
       >
         {links.map(link => (
-          <MenuItem key={link.id} onClick={() => onDownload(link.url)}>
-            {link.label}
+          <MenuItem key={link?.id} onClick={() => onDownload(link?.url)}>
+            {link?.label}
           </MenuItem>
         ))}
       </Menu>
@@ -50,13 +50,17 @@ export default function DownloadButton({ file }) {
   )
 
   const singleDownloadOption = (
-    <IconButton color="inherit" onClick={() => onDownload(links[0].url)}>
+    <IconButton
+      color="inherit"
+      onClick={() => onDownload(links[0]?.url)}
+      {...rest}
+    >
       <CloudDownloadIcon />
     </IconButton>
   )
 
-  if (links.length > 1) return manyDownloadOptions
-  else if (links.length === 1) return singleDownloadOption
+  if (links?.length > 1) return manyDownloadOptions
+  else if (links?.length === 1) return singleDownloadOption
 
   return null
 }

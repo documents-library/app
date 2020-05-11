@@ -121,8 +121,8 @@ export const filetype = {
   }
 }
 
-export function isFileType({ file, typeNames }) {
-  const type = getFileType({ file })
+export function isFileType({file, typeNames}) {
+  const type = getFileType({file})
 
   if (type) {
     return typeNames.includes(type)
@@ -130,38 +130,40 @@ export function isFileType({ file, typeNames }) {
   return null
 }
 
-export function canReadOnline({ file }) {
+export function canReadOnline({file}) {
   const typeNames = [filetype.doc.name, filetype.pres.name, filetype.img.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function isCalc({ file }) {
+export function isCalc({file}) {
   const typeNames = [filetype.calc.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function isPDF({ file }) {
+export function isPDF({file}) {
   const typeNames = [filetype.pdf.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function isVideo({ file }) {
+export function isVideo({file}) {
   const typeNames = [filetype.video.name]
 
-  return isFileType({ file, typeNames })
+  return isFileType({file, typeNames})
 }
 
-export function isGarbageFile({ file }) {
-  const { name } = file
+export function isGarbageFile({file}) {
+  const {name} = file
 
   if (name.charAt(0) === '~') return true
   return false
 }
 
-export function downloadLinks({ file }) {
+export function downloadLinks({file}) {
+  if (!file || !file.id) return []
+
   const exportPdf = {
     id: 'exportPdf',
     label: 'Descargar PDF',
@@ -183,56 +185,59 @@ export function downloadLinks({ file }) {
     url: file.webContentLink
   }
 
-  if (isCalc({ file })) {
+  if (isCalc({file})) {
     return [exportXls, copyCalcOnUserDrive]
   }
 
-  if (isPDF({ file }) && file.webContentLink) return [downloadPdf]
+  if (isPDF({file}) && file.webContentLink) return [downloadPdf]
 
   // if file can't download
-  if (isVideo({ file }) || (isPDF({ file }) && !file.webContentLink)) return []
+  if (isVideo({file}) || (isPDF({file}) && !file.webContentLink)) return []
 
   return [exportPdf]
 }
 
-export function getFileIcon({ file }) {
-  const type = getFileType({ file })
+export function getFileIcon({file}) {
+  const type = getFileType({file})
 
-  if (type) return filetype[type].icon
+  if (type) return filetype[type]?.icon
   else return '/img/file.svg'
 }
 
 // size values: 'w200', 'h200', 's200'
-export function getPreview({ thumbnailLink, size = 's150' }) {
-  const sliceTo = thumbnailLink.indexOf('=')
-  const baseLink = thumbnailLink.slice(0, sliceTo)
+export function getPreview({thumbnailLink, size = 's150'}) {
+  const sliceTo = thumbnailLink?.indexOf('=')
+  const baseLink = thumbnailLink?.slice(0, sliceTo)
 
   return `${baseLink}=${size}`
 }
 
-export function formatFileName({ name }) {
-  const sliceTo = name.indexOf('.')
-  const fileName = sliceTo !== -1 ? name.slice(0, sliceTo) : name
+export function formatFileName({name}) {
+  if (name) {
+    const sliceTo = name.indexOf('.')
+    const fileName = sliceTo !== -1 ? name.slice(0, sliceTo) : name
 
-  return fileName.charAt(0).toUpperCase() + fileName.slice(1)
+    return fileName.charAt(0).toUpperCase() + fileName.slice(1)
+  }
+  return ''
 }
 
-function getFileType({ file }) {
-  const { fileExtension, mimeType } = file
+function getFileType({file = {}}) {
+  const {fileExtension, mimeType} = file
   let currentFileType = null
 
   if (fileExtension) {
     Object.keys(filetype).forEach(type => {
-      const { extensions } = filetype[type]
+      const {extensions} = filetype[type]
 
       if (extensions.includes(fileExtension.toLowerCase()))
         currentFileType = filetype[type].name
     })
   } else if (mimeType) {
     Object.keys(filetype).forEach(type => {
-      const { mimeTypes } = filetype[type]
+      const {mimeTypes} = filetype[type]
 
-      if (mimeTypes.includes(mimeType)) currentFileType = filetype[type].name
+      if (mimeTypes.includes(mimeType)) currentFileType = filetype[type]?.name
     })
   }
 

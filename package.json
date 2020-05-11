@@ -1,24 +1,12 @@
 {
   "name": "@documentslibrary/app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next --port 3010",
-    "build": "next build",
-    "start": "next start",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "./src/*.{js,jsx,ts,tsx}": [
-      "npx prettier --write",
-      "eslint src/*.js --fix-dry-run"
-    ]
+    "co": "npx sui-mono commit",
+    "start": "make spa_dev",
+    "build": "make deploy"
   },
   "keywords": [
     "google",
@@ -31,32 +19,48 @@
   "author": "Gabriel Germán Salas",
   "license": "GPL-2.0-or-later",
   "dependencies": {
-    "@material-ui/core": "4.8",
-    "@material-ui/icons": "4.5",
-    "cookie-universal": "2.1",
-    "date-fns": "2.9",
-    "isomorphic-unfetch": "3.0",
-    "next": "9.3",
-    "next-pwa": "2.0",
-    "prop-types": "15.7",
-    "react": "16.12",
-    "react-copy-to-clipboard": "5.0",
-    "react-dom": "16.12",
-    "styled-components": "4.4"
+    "@material-ui/core": "4.9.5",
+    "@material-ui/icons": "4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.46",
+    "@s-ui/domain": "1",
+    "@s-ui/polyfills": "1",
+    "@s-ui/react-context": "1",
+    "@s-ui/react-head": "1",
+    "@s-ui/react-initial-props": "beta",
+    "@s-ui/react-router": "1.0.0-beta.6",
+    "@s-ui/ssr": "beta",
+    "axios": "0.19.2",
+    "cookie-universal": "2.1.1",
+    "date-fns": "2.11.0",
+    "isomorphic-unfetch": "3.0.0",
+    "path-to-regexp": "6.1.0",
+    "prop-types": "15.7.2",
+    "react": "16",
+    "react-copy-to-clipboard": "5.0.2",
+    "react-dom": "16",
+    "react-orphanage": "1.1.1",
+    "styled-components": "4.4.1"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.6",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-config-standard": "^14.1.0",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-react": "^7.17.0",
-    "eslint-plugin-standard": "^4.0.1",
-    "husky": "^3.1.0",
-    "lint-staged": "^9.5.0",
-    "prettier": "1.19.1"
+    "@s-ui/bundler": "5",
+    "@s-ui/lint": "3",
+    "@s-ui/mono": "1",
+    "husky": "4.2.3"
+  },
+  "sui-bundler": {
+    "env": [
+      "API_URL",
+      "STAGE",
+      "NODE_ENV"
+    ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/@s-ui/lint/eslintrc.js"
+    ]
+  },
+  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
+  "stylelint": {
+    "extends": "./node_modules/@s-ui/lint/stylelint.config.js"
   }
 }

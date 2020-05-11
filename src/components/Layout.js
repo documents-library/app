@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Router, { useRouter } from 'next/router'
 import styled from 'styled-components'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
-import { withTheme } from '@material-ui/core/styles'
+import {withTheme} from '@material-ui/core/styles'
 import useScrollTrigger from '@material-ui/core/useScrollTrigger'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Head from 'next/head'
+import Head from '@s-ui/react-head'
+import Skeleton from '@material-ui/lab/Skeleton'
 
-import { capitalizeFirstLetter } from '../helpers/format'
-import { DOMAIN } from '../helpers/constants'
+import {capitalizeFirstLetter} from '../helpers/format'
+import {theme} from '../helpers/theme'
+import Link from './Link'
 
 const AppBarWrapper = withTheme(styled(AppBar)`
   .Layout-Appbar-MenuButton {
-    margin-right: ${({ theme }) => theme.spacing(2)};
+    margin-right: ${({theme}) => theme.spacing(2)};
   }
 
   .Layout-Appbar-Actions {
@@ -31,7 +31,7 @@ const AppBarWrapper = withTheme(styled(AppBar)`
 
 const AppBarOffset = withTheme(styled.div`
   & {
-    ${({ theme }) => theme.mixins.toolbar}
+    ${({theme}) => theme.mixins.toolbar}
   }
 `)
 
@@ -47,63 +47,43 @@ const LayoutWrapper = styled.section`
       return props.background ? props.background : 'transparent'
     }};
   }
+
+  a {
+    text-decoration: none;
+    color: ${theme.palette.text.primary};
+  }
 `
-const LinearProgressWrapper = styled(LinearProgress)`
-  &.MuiLinearProgress-root {
-    width: 100%;
-    position: fixed;
-    z-index: 99999;
-    top: 0px;
+
+const H6 = styled(Skeleton)`
+  ${theme.typography.h6}
+`
+
+const BackButton = styled(IconButton)`
+  &.Layout-Appbar-MenuButton {
+    ${props => (props.disabled ? 'opacity: .5;' : '')}
+    color: white;
   }
 `
 export default function Layout({
   title,
-  onGoBack,
+  goBackTo,
   actions,
   children,
   elvateOnScroll = false,
   background,
   meta = {}
 }) {
-  const { asPath } = useRouter()
-  const pageLoading = useLoadingRoute()
-  const url = `${DOMAIN}${asPath}`
-  const defaultTitle = 'Documents Librería'
-  const description = 'Librería de documentos'
-  const siteName = 'documents.li'
-  const image = 'https://documents.li/img/favicon/documentsLi-ogImage.png'
-  const ogType = 'website'
-  const twitterCard = 'summary'
+  const defaultTitle = 'Documents Library'
+  const defaultDescription = 'Librería de documentos'
 
   return (
     <>
       <Head>
-        <meta name="twitter:card" content={meta.twitterCard || twitterCard} />
-        <meta name="twitter:url" content={url} />
-        <meta name="twitter:title" content={meta.title || defaultTitle} />
+        <title>{meta.title || defaultTitle}</title>
         <meta
-          name="twitter:description"
-          content={meta.description || description}
+          name="description"
+          content={meta.description || defaultDescription}
         />
-        <meta name="twitter:image" content={meta.image || image} />
-        <meta name="twitter:creator" content="@ggsalas" />
-        <meta property="og:type" content={meta.ogType || ogType} />
-        <meta property="og:title" content={meta.title || defaultTitle} />
-        <meta
-          property="og:description"
-          content={meta.description || description}
-        />
-        <meta property="og:site_name" content={meta.siteName || siteName} />
-        <meta property="og:url" content={url} />
-        <meta property="og:image" content={meta.image || image} />
-        <meta property="og:image:type" content="image/png" />
-
-        {!meta.image && (
-          <>
-            <meta property="og:image:width" content="1080" />
-            <meta property="og:image:height" content="1382" />
-          </>
-        )}
       </Head>
 
       <LayoutWrapper background={background}>
@@ -111,10 +91,25 @@ export default function Layout({
           <ElevationScroll elvateOnScroll={elvateOnScroll}>
             <AppBarWrapper position="fixed">
               <Toolbar>
-                <BackButton onGoBack={onGoBack} />
-                <Typography variant="h6" noWrap>
-                  {capitalizeFirstLetter(title)}
-                </Typography>
+                {goBackTo && (
+                  <Link to={{pathname: goBackTo}}>
+                    <BackButton
+                      edge="start"
+                      className="Layout-Appbar-MenuButton"
+                      color="inherit"
+                      aria-label="go back"
+                    >
+                      <Icon>arrow_back</Icon>
+                    </BackButton>
+                  </Link>
+                )}
+                {title ? (
+                  <Typography variant="h6" noWrap>
+                    {capitalizeFirstLetter(title)}
+                  </Typography>
+                ) : (
+                  <H6 animation="wave" width={200} />
+                )}
 
                 <div className="Layout-Appbar-Grow" />
 
@@ -125,7 +120,6 @@ export default function Layout({
             </AppBarWrapper>
           </ElevationScroll>
           <AppBarOffset />
-          {pageLoading ? <LinearProgressWrapper color="primary" /> : null}
         </>
 
         <section className="Layout-Main">{children}</section>
@@ -134,7 +128,7 @@ export default function Layout({
   )
 }
 
-function ElevationScroll({ children, elvateOnScroll }) {
+function ElevationScroll({children, elvateOnScroll}) {
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0
@@ -151,43 +145,6 @@ function ElevationScroll({ children, elvateOnScroll }) {
   })
 }
 
-function BackButton({ onGoBack }) {
-  const [prevPage, setPrevPage] = useState()
-  const router = useRouter()
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const prevPage =
-        document.referrer !== document.location.href &&
-        document.referrer.match(/fileId/)
-          ? document.referrer
-          : null
-
-      setPrevPage(prevPage)
-    }
-  }, [])
-
-  if (onGoBack) {
-    return (
-      <IconButton
-        edge="start"
-        className="Layout-Appbar-MenuButton"
-        color="inherit"
-        aria-label="go back"
-        onClick={prevPage ? router.back : onGoBack}
-      >
-        <Icon>arrow_back</Icon>
-      </IconButton>
-    )
-  }
-
-  return null
-}
-
-BackButton.propTypes = {
-  onGoBack: PropTypes.func
-}
-
 ElevationScroll.propTypes = {
   children: PropTypes.element.isRequired,
   elvateOnScroll: PropTypes.bool
@@ -195,7 +152,7 @@ ElevationScroll.propTypes = {
 
 Layout.propTypes = {
   title: PropTypes.string.isRequired,
-  onGoBack: PropTypes.func,
+  goBackTo: PropTypes.func,
   actions: PropTypes.node,
   children: PropTypes.node,
   elvateOnScroll: PropTypes.bool,
@@ -207,16 +164,4 @@ Layout.propTypes = {
     siteName: PropTypes.string,
     image: PropTypes.string
   })
-}
-
-function useLoadingRoute() {
-  const [pageLoading, setPageLoading] = useState(false)
-
-  useEffect(() => {
-    Router.events.on('routeChangeStart', () => setPageLoading(true))
-    Router.events.on('routeChangeComplete', () => setPageLoading(false))
-    Router.events.on('routeChangeError', () => setPageLoading(false))
-  }, [])
-
-  return pageLoading
 }

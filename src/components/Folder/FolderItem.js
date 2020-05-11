@@ -1,37 +1,41 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import {organization, site, file} from '../../helpers/prop-types'
+
 import Icon from '@material-ui/core/Icon'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
-import Router from 'next/router'
+import Link from '../Link'
 
-import { capitalizeFirstLetter } from '../../helpers/format'
+import {capitalizeFirstLetter} from '../../helpers/format'
 
-export default function FolderItem({ site, data }) {
-  const { id, name } = data
+const FolerItemWrapper = styled(ListItem)`
+  ${props => (props.disabled ? 'opacity: .5;' : '')}
+`
+
+export default function FolderItem({organization, site, data}) {
+  const {id, name} = data
 
   return (
-    <ListItem
-      onClick={() =>
-        Router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: id }
-        })
-      }
-      divider
-      button
+    <Link
+      to={{
+        pathname: `/${organization.name}/${site.name}/${id}`
+      }}
     >
-      <ListItemText primary={capitalizeFirstLetter(name)} />
+      <FolerItemWrapper divider button>
+        <ListItemText primary={capitalizeFirstLetter(name)} />
 
-      <ListItemSecondaryAction>
-        <Icon color="action">keyboard_arrow_right</Icon>
-      </ListItemSecondaryAction>
-    </ListItem>
+        <ListItemSecondaryAction>
+          <Icon color="action">keyboard_arrow_right</Icon>
+        </ListItemSecondaryAction>
+      </FolerItemWrapper>
+    </Link>
   )
 }
 
 FolderItem.propTypes = {
-  site: PropTypes.object,
-  data: PropTypes.object
+  organization,
+  site,
+  data: file
 }

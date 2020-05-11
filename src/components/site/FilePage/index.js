@@ -1,24 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Router from 'next/router'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
+import {site, file} from '../../../helpers/prop-types'
 import styled from 'styled-components'
-import { createPortal } from 'react-dom'
+import {createPortal} from 'react-dom'
 import IconButton from '@material-ui/core/IconButton'
 import Container from '@material-ui/core/Container'
 import Cookie from 'cookie-universal'
 import Tooltip from '@material-ui/core/Tooltip'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
+import {CopyToClipboard} from 'react-copy-to-clipboard'
 import Chip from '@material-ui/core/Chip'
 import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'
 
 import Layout from '../../../components/Layout'
-import { theme } from '../../../helpers/theme'
-import { formatFileName, getPreview } from '../../../helpers/files'
+import {theme} from '../../../helpers/theme'
+import {formatFileName, getPreview} from '../../../helpers/files'
 import DownloadButton from './DownloadButton'
 
-const FileHtmlContainer = styled(Container)`
+export const FileHtmlContainer = styled(Container)`
   width: 100%;
+  height: 100%;
 `
 
 const IframeWrapper = styled.iframe`
@@ -28,42 +29,60 @@ const IframeWrapper = styled.iframe`
   flex-grow: 1;
 `
 
-export default function File({ site, file, isCrawler }) {
+export default function File({site, file, isCrawler}) {
   const cookies = Cookie()
   const [embedHtml, setEmbedHtml] = useState(cookies.get('embedHtml'))
-  const viewerUrl = `https://docs.google.com/file/d/${file.id}/preview`
-  const image =
-    file && file.thumbnailLink
-      ? getPreview({ thumbnailLink: file.thumbnailLink, size: `w600` })
-      : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
+  const viewerUrl = `https://docs.google.com/file/d/${file?.id}/preview`
+  const image = file?.thumbnailLink
+    ? getPreview({thumbnailLink: file?.thumbnailLink, size: `w600`})
+    : 'https://documents.li/img/favicon/documentsLi-ogImage.png'
+  const isOnline = window.navigator.onLine
 
   useEffect(() => {
     cookies.set('embedHtml', embedHtml)
-  }, [embedHtml])
+  }, [cookies, embedHtml])
+
+  useEffect(() => {
+    if (!isOnline && file?.html) setEmbedHtml(true)
+  }, [file, file.html, isOnline])
+
+  function fileViewer() {
+    // on a crawler the shadow dom not work
+    if (file?.html && isCrawler) {
+      return (
+        <div
+          className="filehtml-wrapper"
+          dangerouslySetInnerHTML={createMarkup(file?.html)}
+        />
+      )
+    } else if (file?.html && embedHtml) {
+      return <FileHtml html={file?.html} styles={fileHtmlStyles()} />
+    } else if (isOnline) {
+      return <IframeWrapper src={viewerUrl} />
+    }
+
+    return <p>Este documento no puede mostrarse sin conexión a internet</p>
+  }
 
   return (
     <Layout
-      title={formatFileName({ name: file.name })}
-      onGoBack={() =>
-        Router.push({
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: { folderId: file.parents[0] }
-        })
-      }
+      title={formatFileName({name: file?.name})}
+      goBackTo={file?.previousPagePathname}
       meta={{
         ogType: 'article',
         twitterCard: 'summary_large_image',
-        title: `${file.name} | ${site.name || 'Documents Library'}`,
-        description: `${site.organizationName}`,
+        title: `${file?.name} | ${site?.name || 'Documents Library'}`,
+        description: `${site?.organizationName}`,
         siteName: 'documents.li',
         image
       }}
       actions={
         <>
-          {file.html && (
+          {file?.html && (
             <IconButton
               color="inherit"
               onClick={() => setEmbedHtml(!embedHtml)}
+              disabled={!navigator?.onLine}
             >
               {embedHtml ? (
                 <Tooltip
@@ -84,32 +103,23 @@ export default function File({ site, file, isCrawler }) {
           )}
 
           <CopyUrlButton />
-          <DownloadButton file={file} />
+          <DownloadButton file={file} disabled={!navigator?.onLine} />
         </>
       }
       background="#fafafa"
     >
-      {file.html && isCrawler ? (
-        <div
-          className="filehtml-wrapper"
-          dangerouslySetInnerHTML={createMarkup(file.html)}
-        />
-      ) : file.html && embedHtml ? (
-        <FileHtml html={file.html} styles={fileHtmlStyles()} />
-      ) : (
-        <IframeWrapper src={viewerUrl} />
-      )}
+      {fileViewer()}
     </Layout>
   )
 }
 
 // Implement shadow dom to isolate the styles of the html
-function FileHtml({ styles, html }) {
+function FileHtml({styles, html}) {
   const ref = useRef()
   const [shadowDom, setShadowDom] = useState()
 
   useEffect(() => {
-    setShadowDom(ref.current.attachShadow({ mode: 'open' }))
+    setShadowDom(ref.current.attachShadow({mode: 'open'}))
   }, [])
 
   const nodeToRender = (
@@ -157,12 +167,12 @@ export function CopyUrlButton() {
 }
 
 function createMarkup(html) {
-  return { __html: html }
+  return {__html: html}
 }
 
 File.propTypes = {
-  site: PropTypes.object,
-  file: PropTypes.object,
+  site,
+  file,
   isCrawler: PropTypes.bool
 }
 
@@ -294,7 +304,7 @@ function fileHtmlStyles() {
       border-bottom: none;
     }
 
-    .filehtml-wrapper td p, 
+    .filehtml-wrapper td p,
     .filehtml-wrapper td p span {
       font-size: 1.2rem;
       margin: .2em 0;

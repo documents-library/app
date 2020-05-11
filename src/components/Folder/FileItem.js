@@ -1,6 +1,7 @@
 import React from 'react'
-import Link from 'next/link'
 import PropTypes from 'prop-types'
+import {organization, site, file, folderID} from '../../helpers/prop-types'
+
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -9,10 +10,12 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import styled from 'styled-components'
-import { withTheme } from '@material-ui/core/styles'
+import {withTheme} from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
-import { dateRelativeFormat } from '../../helpers/format'
+import Link from '../Link'
+
+import {dateRelativeFormat} from '../../helpers/format'
 import {
   canReadOnline,
   getFileIcon,
@@ -26,10 +29,10 @@ const IconImage = styled.img`
   width: auto;
 `
 
-const CardPreview = withTheme(styled(CardMedia)`
-  padding-top: ${({ theme }) => theme.spacing(4)}px;
-  padding-left: ${({ theme }) => theme.spacing(6)}px;
-  padding-right: ${({ theme }) => theme.spacing(6)}px;
+export const CardPreview = withTheme(styled(CardMedia)`
+  padding-top: ${({theme}) => theme.spacing(4)}px;
+  padding-left: ${({theme}) => theme.spacing(6)}px;
+  padding-right: ${({theme}) => theme.spacing(6)}px;
   padding-bottom: 50%;
   overflow: hidden;
   justify-content: center;
@@ -56,38 +59,41 @@ const CardPreview = withTheme(styled(CardMedia)`
 
   .filePreview-image {
     position: absolute;
-    width: calc(100% - ${({ theme }) => theme.spacing(6) * 2}px);
+    width: calc(100% - ${({theme}) => theme.spacing(6) * 2}px);
     height: auto;
-    box-shadow: ${({ theme }) => theme.shadows[6]};
+    box-shadow: ${({theme}) => theme.shadows[6]};
   }
 
   @media (max-width: 500px) {
-    padding-left: ${({ theme }) => theme.spacing(4)}px;
-    padding-right: ${({ theme }) => theme.spacing(4)}px;
+    padding-left: ${({theme}) => theme.spacing(4)}px;
+    padding-right: ${({theme}) => theme.spacing(4)}px;
 
     .filePreview-image {
-      width: calc(100% - ${({ theme }) => theme.spacing(4) * 2}px);
+      width: calc(100% - ${({theme}) => theme.spacing(4) * 2}px);
     }
   }
 `)
 
-const CardWrapper = withTheme(styled(Card)`
-  margin-bottom: ${({ theme }) => theme.spacing(2)}px;
+export const CardWrapper = withTheme(styled(Card)`
+  margin-bottom: ${({theme}) => theme.spacing(2)}px;
 `)
 
-export default function FileItem({ site, file }) {
-  const { id, name, thumbnailLink } = file
-  const fileName = formatFileName({ name })
+const FileActionArea = styled(CardActionArea)`
+  ${props => (props.disabled ? 'opacity: .5;' : '')}
+`
+
+export default function FileItem({organization, site, file, folderID}) {
+  const {id: fileID, name, thumbnailLink} = file
+  const fileName = formatFileName({name})
 
   return (
     <CardWrapper>
       <Link
-        href={{
-          pathname: `/${site.organizationName}/${site.name}/`,
-          query: { fileId: id }
+        to={{
+          pathname: `/${organization.name}/${site.name}/${folderID}/${fileID}`
         }}
       >
-        <CardActionArea>
+        <FileActionArea>
           {thumbnailLink && (
             <FilePreview
               src={getPreview({
@@ -114,22 +120,23 @@ export default function FileItem({ site, file }) {
                   <CardContentText data={file} />
                 </Grid>
                 <Grid item>
-                  <IconImage src={getFileIcon({ file: file })} alt={fileName} />
+                  <IconImage src={getFileIcon({file: file})} alt={fileName} />
                 </Grid>
               </Grid>
             )}
           </CardContent>
-        </CardActionArea>
+        </FileActionArea>
       </Link>
 
-      {!canReadOnline({ file: file }) ? (
+      {!canReadOnline({file: file}) ? (
         <CardActions>
-          {downloadLinks({ file }).map(link => (
+          {downloadLinks({file}).map(link => (
             <Button
               href={link.url}
               key={link.id}
               rel="noopener"
               target="_blank"
+              disabled={!navigator.onLine}
             >
               {link.label}
             </Button>
@@ -140,21 +147,21 @@ export default function FileItem({ site, file }) {
   )
 }
 
-function CardContentText({ data }) {
-  const { name, modifiedTime } = data
+function CardContentText({data}) {
+  const {name, modifiedTime} = data
   return (
     <>
       <Typography variant="h5" component="h2">
-        {formatFileName({ name })}
+        {formatFileName({name})}
       </Typography>
       <Typography color="textSecondary" gutterBottom>
-        {dateRelativeFormat({ date: modifiedTime })}
+        {dateRelativeFormat({date: modifiedTime})}
       </Typography>
     </>
   )
 }
 
-function FilePreview({ src, alt = 'Image preview' }) {
+function FilePreview({src, alt = 'Image preview', ...rest}) {
   // TODO: find a better way to hide the card preview if the image fails to load
   // const imgRef = createRef()
   // const [disabled, setDisabled] = useState(false)
@@ -166,11 +173,12 @@ function FilePreview({ src, alt = 'Image preview' }) {
   //   if (!img.complete || img.naturalWidth === 0) {
   //     setDisabled(true)
   //   }
-  // }, [])
+  // }, [imgRef])
   //
   // if (disabled) return false
+
   return (
-    <CardPreview>
+    <CardPreview {...rest}>
       <img
         // ref={imgRef}
         // onError={() => setDisabled(true)}
@@ -184,16 +192,17 @@ function FilePreview({ src, alt = 'Image preview' }) {
 }
 
 FileItem.propTypes = {
-  site: PropTypes.object,
-  file: PropTypes.object
+  organization,
+  site,
+  file,
+  folderID
 }
 
 CardContentText.propTypes = {
-  data: PropTypes.object
+  data: file
 }
 
 FilePreview.propTypes = {
-  height: PropTypes.number,
   src: PropTypes.string,
   alt: PropTypes.string
 }

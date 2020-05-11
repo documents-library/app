@@ -7,13 +7,13 @@ import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
-import Link from 'next/link'
 
 import Layout from '../../components/Layout'
 import WelcomeSection from './WelcomeSection'
-import { theme } from '../../helpers/theme'
+import {theme} from '../../helpers/theme'
+import Link from '../Link'
 
-const SiteItemWrapper = styled(Grid)`
+export const SiteItemWrapper = styled(Grid)`
   margin-bottom: ${theme.spacing(2)}px;
 
   .siteItem-card {
@@ -22,34 +22,38 @@ const SiteItemWrapper = styled(Grid)`
   }
 `
 
-const SiteListWrapper = styled.section`
+export const SiteListWrapper = styled.section`
   margin-top: -${theme.spacing(6)}px;
 `
 
-export default function OrganizationHomePage({ organization, sites }) {
+const SiteItemActionArea = styled(CardActionArea)`
+  ${props => (props.disabled ? 'opacity: .5;' : '')}
+`
+
+export default function OrganizationHomePage({organization, sites}) {
   return (
     <Layout
-      title={organization.name}
+      title={organization?.name}
       elvateOnScroll
       meta={{
         ogType: 'website',
-        title: `${organization.name} | Documents Library`,
-        description: organization.description || 'Librería de documentos',
+        title: `${organization?.name} | Documents Library`,
+        description: organization?.description || 'Librería de documentos',
         siteName: 'documents.li'
       }}
     >
       <>
         <WelcomeSection
-          title={organization.longName}
-          subtitle={organization.description}
+          title={organization?.longName}
+          subtitle={organization?.description}
         />
-        <SiteList sites={sites} organizationName={organization.name} />
+        <SiteList sites={sites} organizationName={organization?.name} />
       </>
     </Layout>
   )
 }
 
-function SiteList({ sites, organizationName }) {
+function SiteList({sites, organizationName}) {
   return (
     <SiteListWrapper>
       <Container maxWidth="md">
@@ -60,11 +64,11 @@ function SiteList({ sites, organizationName }) {
           justify="center"
           alignItems="stretch"
         >
-          {sites.map(site => (
+          {sites?.map(site => (
             <SiteItem
               site={site}
               organizationName={organizationName}
-              key={site._id}
+              key={site?._id}
             />
           ))}
         </Grid>
@@ -73,25 +77,25 @@ function SiteList({ sites, organizationName }) {
   )
 }
 
-function SiteItem({ site, organizationName }) {
-  const { longName, name, description } = site
+function SiteItem({site, organizationName}) {
+  const {longName, name, description} = site
 
   return (
     <SiteItemWrapper item xs={12} sm={6}>
       <Card className="siteItem-card">
         <Link
-          href={{
+          to={{
             pathname: `/${organizationName}/${name}/`
           }}
         >
-          <CardActionArea>
+          <SiteItemActionArea>
             <CardContent>
               <Typography variant="h5" component="h2" gutterBottom>
                 {longName}
               </Typography>
               <Typography color="textSecondary">{description}</Typography>
             </CardContent>
-          </CardActionArea>
+          </SiteItemActionArea>
         </Link>
       </Card>
     </SiteItemWrapper>

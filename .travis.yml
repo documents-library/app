@@ -4,7 +4,7 @@ node_js:
   - "8"
 
 install:
-  - npm install -g surge
+  - npm install -g now
   - npm install --force-online
   - npm install --only=dev --force-online
 
@@ -39,4 +39,3 @@ jobs:
         - STAGE=production
       script:
         - make deploy
-

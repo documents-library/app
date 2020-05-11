@@ -1,15 +1,13 @@
 {
   "version": 2,
-  "name": "documentslibrary-app",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@now/next"
+  "functions": {
+    "api/webapp.js": {
+      "maxDuration": 10
     }
-  ],
-  "build": {
-    "env": {
-      "API_URL": "@api_url"
-    }
-  }
+  },
+  "routes": [
+    {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "/$1.$2"},
+    {"src": "^/img/(.+)$", "dest": "/img/$1"},
+    {"src": ".*", "dest": "/api/webapp.js"}
+  ]
 }

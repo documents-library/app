@@ -62,3 +62,8 @@ yarn.lock
 .next
 **/public/precache.*.js
 **/public/sw.js
+public
+server/
+
+.now
+.vercel
