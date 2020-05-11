@@ -35,7 +35,7 @@ sw_dev: spa ## Start dev env
 build: clean spa ## ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
-	now
+	now --token VERCEL_GGSALAS_TOKEN
 
 release:
 	git pull --unshallow
