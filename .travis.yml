@@ -12,6 +12,8 @@ jobs:
   include:
     - stage: Deploy DEV
       if: branch = pull_request
+      install:
+        - npm install -g now
       env:
         - NODE_ENV=production
         - STAGE=production
@@ -32,7 +34,7 @@ jobs:
         - set -e
         - 'if [ -z $(git tag --points-at $TRAVIS_COMMIT) ]; then travis_terminate 0; fi'
       install:
-        - npm install -g surge
+        - npm install -g now
         - npm ci --dev
       env:
         - NODE_ENV=production
