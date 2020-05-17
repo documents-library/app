@@ -6,7 +6,7 @@
   "scripts": {
     "co": "npx sui-mono commit",
     "start": "make spa_dev",
-    "build": "make deploy"
+    "deploy": "make deploy"
   },
   "keywords": [
     "google",
