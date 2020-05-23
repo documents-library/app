@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.5.0 (2020-05-23)
+# 1.6.0 (2020-05-23)
+
+
+### Features
+
+* **Root:** back --prod for now command ([8117973](https://github.com/documents-library/app/commit/811797325633c3af1b5b1a61261482f1d8db2f17))
+
+
+
+# [1.5.0](https://github.com/documents-library/app/compare/1.4.0...1.5.0) (2020-05-23)
 
 
 ### Features
