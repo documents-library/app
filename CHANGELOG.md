@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.1.0 (2020-05-17)
+# 1.2.0 (2020-05-23)
+
+
+### Features
+
+* **META:** bump version ([47047bd](https://github.com/documents-library/app/commit/47047bd9d5a75a52f8f63eb5472aeb4ebe97e72d))
+* **META:** travis fix ([0c96ddf](https://github.com/documents-library/app/commit/0c96ddff6c40b79fe7e81092dc47dc263b549851))
+* **Root:** bump version ([cc6517c](https://github.com/documents-library/app/commit/cc6517c76e74b50bc5b1a10f579b695e5e67f74f))
+
+
+
+# [1.1.0](https://github.com/documents-library/app/compare/7c2a5bef75e0d9a5986186cf1358103d74069bfb...1.1.0) (2020-05-17)
 
 
 ### Bug Fixes
