@@ -6,7 +6,6 @@ import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardContent from '@material-ui/core/CardContent'
 import styled from 'styled-components'
-import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import Container from '@material-ui/core/Container'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -129,19 +128,16 @@ export default function LoadingSkeleton({
               ))}
             </Grid>
 
-            <List subheader={<ListItem animation="wave" width={150} />}>
-              <Grid item xs={12} sm={5}>
-                <>
-                  <Divider />
-                  <ListItem animation="wave" />
-                  <Divider />
-                  <ListItem animation="wave" />
-                  <Divider />
-                  <ListItem animation="wave" />
-                  <Divider />
-                </>
-              </Grid>
-            </List>
+            <Grid item xs={12} sm={5}>
+              <ListItem animation="wave" />
+              <Divider />
+              <ListItem animation="wave" />
+              <Divider />
+              <ListItem animation="wave" />
+              <Divider />
+              <ListItem animation="wave" />
+              <Divider />
+            </Grid>
           </FolderGrid>
         </FolderWrapper>
       )}
