@@ -11,7 +11,7 @@ install:
 jobs:
   include:
     - stage: Deploy DEV
-      if: branch = pull_request
+      if: type = pull_request
       install:
         - npm install -g now
       env:
