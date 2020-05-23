@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.2.0 (2020-05-23)
+# 1.3.0 (2020-05-23)
+
+
+### Features
+
+* **Root:** add vercel token on makefile ([eb2d0d6](https://github.com/documents-library/app/commit/eb2d0d6a2fca0c3f8a141870ad2e243b73bf55fc))
+
+
+
+# [1.2.0](https://github.com/documents-library/app/compare/1.1.0...1.2.0) (2020-05-23)
 
 
 ### Features
