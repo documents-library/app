@@ -9,6 +9,6 @@
     {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "/$1.$2"},
     {"src": "^/img/(.+)$", "dest": "/img/$1"},
     {"src": "/robots.txt", "dest": "/robots.txt"},
-    {"src": ".*", "dest": "/api/webapp.js"}
+    {"src": ".*", "dest": "/index.html"}
   ]
 }

@@ -19,11 +19,11 @@ module.exports = async (req, res) => {
   if (mapUrl) return onSend()
 
   const url = DOMAIN + req.url
-  const match = p2r.match('/:org?/:repo?/:folderID?/:fileID?')
+  const match = p2r.match('/:org?/:repo?/:kind/:id?')
   const {params} = match(req.url)
-  const {org, repo, folderID, fileID} = params || {}
+  const {org, repo, kind, id} = params || {}
 
-  if (fileID) {
+  if (kind === 'file' && id) {
     const organization = await domain
       .get('get_info_organization_use_case')
       .execute({name: org})
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
 
     const file = await domain
       .get('get_info_file_use_case')
-      .execute({organizationName: org, repository, fileID})
+      .execute({organizationName: org, repository, id})
 
     const {name: orgName} = organization
     const {name: repoName, description} = repository
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
     return onSend(createIndexHtml(indexHTML, htmlTags))
   }
 
-  if (folderID) {
+  if (kind === 'folder' && id) {
     const organization = await domain
       .get('get_info_organization_use_case')
       .execute({name: org})
@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
       .execute({name: repo})
     const folder = await domain
       .get('get_info_folder_use_case')
-      .execute({organizationName: org, repository, folderID})
+      .execute({organizationName: org, repository, id})
 
     const {name: orgName} = organization
     const {name: repoName, description} = repository
