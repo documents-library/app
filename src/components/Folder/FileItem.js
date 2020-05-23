@@ -90,7 +90,7 @@ export default function FileItem({organization, site, file, folderID}) {
     <CardWrapper>
       <Link
         to={{
-          pathname: `/${organization.name}/${site.name}/${folderID}/${fileID}`
+          pathname: `/${organization.name}/${site.name}/file/${fileID}`
         }}
       >
         <FileActionArea>

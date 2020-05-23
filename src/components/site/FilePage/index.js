@@ -20,6 +20,9 @@ import DownloadButton from './DownloadButton'
 export const FileHtmlContainer = styled(Container)`
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
 `
 
 const IframeWrapper = styled.iframe`

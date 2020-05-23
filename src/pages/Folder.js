@@ -66,9 +66,9 @@ function redirectOldUrls({params, location}) {
   const {organization: organizationName, repository: repositoryName} = params
 
   if (folderId) {
-    return `/${organizationName}/${repositoryName}/${folderId}`
+    return `/${organizationName}/${repositoryName}/section/${folderId}`
   }
   if (fileId) {
-    return `/${organizationName}/${repositoryName}/f/${fileId}`
+    return `/${organizationName}/${repositoryName}/file/${fileId}`
   }
 }

@@ -30,6 +30,8 @@ export const folder = PropTypes.shape({
   })
 })
 
+export const photos = PropTypes.arrayOf(file)
+
 export const site = PropTypes.shape({
   _id: PropTypes.string,
   desciption: PropTypes.string,
