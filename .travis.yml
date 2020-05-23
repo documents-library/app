@@ -12,8 +12,6 @@ jobs:
   include:
     - stage: Deploy DEV
       if: type = pull_request
-      install:
-        - npm install -g now
       env:
         - NODE_ENV=production
         - STAGE=production
