@@ -7,7 +7,7 @@
   },
   "routes": [
     {"src": "^/(.+).(js|json|webmanifest|css)$", "dest": "/$1.$2"},
-    {"src": "^/img/(.+)$", "dest": "/statics/img/$1"},
+    {"src": "^/img/(.+)$", "dest": "/img/$1"},
     {"src": ".*", "dest": "/api/webapp.js"}
   ]
 }
