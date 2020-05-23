@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.4.0 (2020-05-23)
+# 1.5.0 (2020-05-23)
+
+
+### Features
+
+* **Root:** fix lambda urls and remove now prod ([2ae1200](https://github.com/documents-library/app/commit/2ae120030a299b399c3514d19542c721171fb166))
+* **Root:** remove lambda ([5d2ebe2](https://github.com/documents-library/app/commit/5d2ebe2bfea1cacf4bc3bddb017333e7d193f059))
+
+
+
+# [1.4.0](https://github.com/documents-library/app/compare/1.3.0...1.4.0) (2020-05-23)
 
 
 ### Features
