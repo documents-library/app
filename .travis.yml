@@ -38,4 +38,4 @@ jobs:
         - NODE_ENV=production
         - STAGE=production
       script:
-        - make deploy
+        - make deploy_prod

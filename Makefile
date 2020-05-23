@@ -36,6 +36,10 @@ deploy: clean build ## deploy new app
 	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
 	now --token ${VERCEL_GGSALAS_TOKEN}
 
+deploy_prod: clean build ## deploy new app
+	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
+	now --prod --token ${VERCEL_GGSALAS_TOKEN}
+
 release:
 	git pull --unshallow
 	git config --global user.email "ggsalas@gmail.com"
