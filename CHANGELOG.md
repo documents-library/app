@@ -2,7 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.3.0 (2020-05-23)
+# 1.4.0 (2020-05-23)
+
+
+### Features
+
+* **Root:** add deploy prod ([688e766](https://github.com/documents-library/app/commit/688e76699e8ea5b42100866ad8653561cb312794))
+* **Root:** add google analytics script ([11cfd0f](https://github.com/documents-library/app/commit/11cfd0f1d0988988e56b1a8a9afbfb3a78d3814e))
+* **Root:** add robots.txt & undo img fix ([9c4657e](https://github.com/documents-library/app/commit/9c4657e7258bdaee147d6bd2c0403eec275e5f49))
+* **Root:** add robots.txt route on now config ([4632b26](https://github.com/documents-library/app/commit/4632b264cddc684229251a80d49ac2facb27943b))
+* **Root:** change routes without folderId ([e336219](https://github.com/documents-library/app/commit/e33621950661182baad7c34aad924223d92a73db))
+* **Root:** fix Deploy DEV on travis ([55637f2](https://github.com/documents-library/app/commit/55637f2f615fd7180094c1df1418214eb0562dae))
+* **Root:** fix now config for img route ([5c4c659](https://github.com/documents-library/app/commit/5c4c65937c239c0c76de34f5cd719d5b97637b16))
+* **Root:** fix styles of skeleton ([7f94203](https://github.com/documents-library/app/commit/7f942031bb4c67ba3f1b02f363a5fb1c2ba2281c))
+* **Root:** fix travis dev ([835f348](https://github.com/documents-library/app/commit/835f348ca7d6eda62b52c51d02fe8a8d43e98efb))
+
+
+
+# [1.3.0](https://github.com/documents-library/app/compare/1.2.0...1.3.0) (2020-05-23)
 
 
 ### Features
