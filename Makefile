@@ -35,7 +35,7 @@ build: clean spa ## ssr ## Build a SPA app
 
 deploy: clean build ## deploy new app
 	sed 's/DEV/'"`git rev-parse --short HEAD`"'/' statics/service-worker.js > public/service-worker.js
-	now
+	now --token ${VERCEL_GGSALAS_TOKEN}
 
 release:
 	git pull --unshallow
