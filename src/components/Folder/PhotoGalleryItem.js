@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
@@ -9,6 +8,7 @@ import Link from '@s-ui/react-router/lib/Link'
 import Button from '@material-ui/core/Button'
 
 import {getPreview} from '../../helpers/files'
+import {organization, site, photos} from '../../helpers/prop-types'
 
 const PHOTO_PADDING = 16
 
@@ -75,7 +75,7 @@ const Gallery = styled.div`
   }
 `
 
-export default function PhotoGalleryItem({site, photos}) {
+export default function PhotoGalleryItem({organization, site, photos}) {
   return (
     <CardWrapper>
       <CardPreview>
@@ -83,8 +83,7 @@ export default function PhotoGalleryItem({site, photos}) {
           {photos.map(photo => (
             <Link
               to={{
-                pathname: `/${site.organizationName}/${site.name}/`,
-                query: {fileId: photo.id}
+                pathname: `/${organization.name}/${site.name}/file/${photo.id}`
               }}
               key={photo.id}
             >
@@ -118,6 +117,7 @@ export default function PhotoGalleryItem({site, photos}) {
 }
 
 PhotoGalleryItem.propTypes = {
-  site: PropTypes.object,
-  photos: PropTypes.array
+  organization,
+  site,
+  photos
 }

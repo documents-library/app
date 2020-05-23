@@ -72,7 +72,13 @@ export default function Folder({organization, site, folder}) {
 
   const PhotoFiles = () => {
     if (photos.length > 1)
-      return <PhotoGalleryItem site={site} photos={photos} />
+      return (
+        <PhotoGalleryItem
+          organization={organization}
+          site={site}
+          photos={photos}
+        />
+      )
     if (photos.length === 1)
       return (
         <Files

@@ -110,5 +110,5 @@ function getPreviousPathname({
   if (parentFolderID === repository.googleFolderId)
     return `/${organizationName}/${repository.name}`
 
-  return `/${organizationName}/${repository.name}/${parentFolderID}`
+  return `/${organizationName}/${repository.name}/section/${parentFolderID}`
 }

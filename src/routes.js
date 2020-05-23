@@ -26,11 +26,11 @@ export default (
       <Route path="/:organization" getComponent={LoadOrganizationPage} />
       <Route path="/:organization/:repository" getComponent={LoadFolderPage} />
       <Route
-        path="/:organization/:repository/:folderID"
+        path="/:organization/:repository/section/:folderID"
         getComponent={LoadFolderPage}
       />
       <Route
-        path="/:organization/:repository/:folderID/:fileID"
+        path="/:organization/:repository/file/:fileID"
         getComponent={LoadFilePage}
       />
     </Route>

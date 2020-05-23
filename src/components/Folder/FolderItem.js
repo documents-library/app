@@ -16,11 +16,10 @@ const FolerItemWrapper = styled(ListItem)`
 
 export default function FolderItem({organization, site, data}) {
   const {id, name} = data
-
   return (
     <Link
       to={{
-        pathname: `/${organization.name}/${site.name}/${id}`
+        pathname: `/${organization.name}/${site.name}/section/${id}`
       }}
     >
       <FolerItemWrapper divider button>
