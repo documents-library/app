@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.6.0 (2020-05-23)
+# 1.7.0 (2020-05-24)
+
+
+### Features
+
+* **Root:** add ganalytics for each page ([#10](https://github.com/documents-library/app/issues/10)) ([c5130b4](https://github.com/documents-library/app/commit/c5130b40af7a72fbaa819302cc530e79e51e0f9a))
+
+
+
+# [1.6.0](https://github.com/documents-library/app/compare/1.5.0...1.6.0) (2020-05-23)
 
 
 ### Features
