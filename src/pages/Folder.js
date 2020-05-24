@@ -4,15 +4,19 @@ import PropTypes from 'prop-types'
 import {organization, site, folder} from '../helpers/prop-types'
 import FolderPage from '../components/site/FolderPage'
 import LoadingSkeleton from '../components/LoadingSkeleton'
+import {useGAPageView} from '../helpers/analytics'
 
-export default function Folder({organization, site, folder}) {
+export default function Folder({organization, site, folder, pathname}) {
+  useGAPageView({pathname})
+
   return <FolderPage organization={organization} site={site} folder={folder} />
 }
 
 Folder.propTypes = {
   organization,
   site,
-  folder
+  folder,
+  pathname: PropTypes.string
 }
 
 Folder.renderLoading = ({routeInfo}) => (
@@ -32,7 +36,6 @@ Folder.getInitialProps = async ({context, routeInfo}) => {
     return window.location.replace(redirectTo)
   }
 
-  // TODO: change site by repository
   const {
     organization: organizationName,
     repository: repositoryName,
@@ -57,7 +60,8 @@ Folder.getInitialProps = async ({context, routeInfo}) => {
     organization,
     site: repository,
     folder,
-    folderID
+    folderID,
+    pathname: routeInfo.location.pathname
   }
 }
 
