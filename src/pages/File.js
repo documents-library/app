@@ -5,8 +5,11 @@ import {organization, file, site} from '../helpers/prop-types'
 import {getIsCrawler} from '../helpers/fetch'
 import FilePage from '../components/site/FilePage'
 import LoadingSkeleton from '../components/LoadingSkeleton'
+import {useGAPageView} from '../helpers/analytics'
 
-export default function File({organization, site, file, isCrawler}) {
+export default function File({organization, site, file, isCrawler, pathname}) {
+  useGAPageView({pathname})
+
   return (
     <FilePage
       organization={organization}
@@ -23,7 +26,8 @@ File.propTypes = {
   organization,
   site,
   file,
-  isCrawler: PropTypes.bool
+  isCrawler: PropTypes.bool,
+  pathname: PropTypes.string
 }
 
 File.getInitialProps = async ({context, routeInfo}) => {
@@ -51,6 +55,7 @@ File.getInitialProps = async ({context, routeInfo}) => {
     isCrawler: getIsCrawler({userAgent: device.userAgent}),
     organization,
     site: repository,
-    file
+    file,
+    pathname: routeInfo.location.pathname
   }
 }
