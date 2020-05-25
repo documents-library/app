@@ -1,12 +1,12 @@
 {
   "name": "@documentslibrary/app",
   "private": true,
-  "version": "1.7.0",
+  "version": "1.9.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "co": "npx sui-mono commit",
-    "start": "make spa_dev",
+    "start": "make spa",
     "deploy": "make deploy"
   },
   "keywords": [

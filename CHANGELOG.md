@@ -2,7 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.7.0 (2020-05-24)
+# 1.9.0 (2020-05-25)
+
+
+### Features
+
+* **Root:** fix lambda function ([#11](https://github.com/documents-library/app/issues/11)) ([2d4192f](https://github.com/documents-library/app/commit/2d4192f788cbbbe7bde985540e4a838f0ede6a35))
+
+
+
+# [1.8.0](https://github.com/documents-library/app/compare/1.7.0...1.8.0) (2020-05-25)
+
+
+### Features
+
+* **Root:** check gogole analytics has loaded ([a1fe33b](https://github.com/documents-library/app/commit/a1fe33bc0fe6065257e78979bffcce48b56c766f))
+
+
+
+# [1.7.0](https://github.com/documents-library/app/compare/1.6.0...1.7.0) (2020-05-24)
 
 
 ### Features
