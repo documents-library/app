@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.8.0 (2020-05-25)
+# 1.9.0 (2020-05-25)
+
+
+### Features
+
+* **Root:** fix lambda function ([#11](https://github.com/documents-library/app/issues/11)) ([2d4192f](https://github.com/documents-library/app/commit/2d4192f788cbbbe7bde985540e4a838f0ede6a35))
+
+
+
+# [1.8.0](https://github.com/documents-library/app/compare/1.7.0...1.8.0) (2020-05-25)
 
 
 ### Features
