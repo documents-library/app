@@ -14,10 +14,6 @@ const indexHTML = fs.readFileSync(
 )
 
 module.exports = async (req, res) => {
-  // TODO: map is the only filter I need?
-  const mapUrl = req.url.match('^/(.+).(map)$')
-  if (mapUrl) return onSend()
-
   const url = DOMAIN + req.url
   const match = p2r.match('/:org?/:repo?/:kind/:id?')
   const {params} = match(req.url)
@@ -34,7 +30,7 @@ module.exports = async (req, res) => {
 
     const file = await domain
       .get('get_info_file_use_case')
-      .execute({organizationName: org, repository, id})
+      .execute({organizationName: org, repository, fileID: id})
 
     const {name: orgName} = organization
     const {name: repoName, description} = repository
@@ -63,7 +59,7 @@ module.exports = async (req, res) => {
       .execute({name: repo})
     const folder = await domain
       .get('get_info_folder_use_case')
-      .execute({organizationName: org, repository, id})
+      .execute({organizationName: org, repository, folderID: id})
 
     const {name: orgName} = organization
     const {name: repoName, description} = repository
