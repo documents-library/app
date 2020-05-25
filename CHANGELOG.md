@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.9.0 (2020-05-25)
+# 1.10.0 (2020-05-25)
+
+
+### Features
+
+* **Root:** bump build with new env vars on vercel ([3a876f3](https://github.com/documents-library/app/commit/3a876f3f63f1f66cddcd599567a616c80f9e309a))
+
+
+
+# [1.9.0](https://github.com/documents-library/app/compare/1.8.0...1.9.0) (2020-05-25)
 
 
 ### Features
