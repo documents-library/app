@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-# 1.10.0 (2020-05-25)
+# 1.11.0 (2020-05-26)
+
+
+### Features
+
+* **Root:** bump ([dba550f](https://github.com/documents-library/app/commit/dba550ff08336c8195cd7f8a140b53a0578d61bd))
+
+
+
+# [1.10.0](https://github.com/documents-library/app/compare/1.9.0...1.10.0) (2020-05-25)
 
 
 ### Features
