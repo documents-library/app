@@ -103,9 +103,9 @@ function onFetch(evt) {
 
     const response = pipe(
       use(/chrome-extension/, networkOnly()),
-      use(/\/sites/, cacheFirst({ttl: 60 * 60 * 24 * 1000})),
-      use(/\/folders/, cacheFirst({ttl: 60 * 1000})),
-      use(/\/files/, cacheFirst({ttl: 60 * 1000})),
+      use(/\/sites/, networkOnly()),
+      use(/\/folders/, networkOnly()),
+      use(/\/files/, networkOnly()),
       use(/.*/, cacheFirst({ttl: Infinity}))
     )(evt)
 
