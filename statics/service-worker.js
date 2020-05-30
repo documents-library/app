@@ -1,17 +1,62 @@
 /* eslint-disable no-console */
-/* global fetch self caches Response clients MessageChannel */
+/* global fetch self caches clients MessageChannel */
 
 const pipe = (...fns) => arg =>
   fns.reduce((p, f) => p.then(f), Promise.resolve(arg))
 
 let isOnline = true
-const TTL_CACHE = new Map()
 const CACHE_NAME = 'DEV'
-
 const getFetchOptions = {
   method: 'GET',
   cache: 'no-cache',
   credentials: 'omit'
+}
+
+async function fromCache(request) {
+  const cache = await caches.open(CACHE_NAME)
+  const response = await cache.match(request)
+
+  return response
+}
+
+async function updateCacheAndReturn(request) {
+  const cache = await caches.open(CACHE_NAME)
+  const res = await fetch(request, getFetchOptions)
+
+  await cache.put(request, res.clone())
+  return res
+}
+
+const STRATEGIES = {
+  use: (pattern, strategy) => evt => {
+    if (evt.request.url.match(pattern)) return strategy(evt)
+    return evt
+  },
+  networkOnly: () => async evt => {
+    const response = await fetch(evt.request, getFetchOptions)
+    return response
+  },
+  cacheAndUpdate: async evt => {
+    const cachedResponse = await fromCache(evt.request)
+
+    if (cachedResponse) {
+      evt.waitUntil(updateCacheAndReturn(evt.request))
+      return cachedResponse
+    } else {
+      return updateCacheAndReturn(evt.request)
+    }
+  }
+}
+
+async function sendMessage(msg) {
+  var allClients = await clients.matchAll({includeUncontrolled: true})
+  await Promise.all(
+    allClients.map(function sendTo(client) {
+      var chan = new MessageChannel()
+      chan.port1.onmessage = onMessage
+      return client.postMessage(msg, [chan.port2])
+    })
+  )
 }
 
 function onInstall(evt) {
@@ -41,77 +86,6 @@ async function onActivate() {
     })
   )
   await clients.claim()
-  TTL_CACHE.clear()
-}
-
-const STRATEGIES = {
-  identity: () => async evt => evt,
-  use: (pattern, strategy) => evt => {
-    if (evt instanceof Response) return evt
-    if (evt.request.url.match(pattern)) return strategy(evt)
-    return evt
-  },
-  networkOnly: () => async evt => {
-    return fetch(evt.request, getFetchOptions)
-  },
-  cacheFirst: ({ttl} = {ttl: 0}) => async evt => {
-    const now = Date.now()
-    const cache = await caches.open(CACHE_NAME)
-    const response = await cache.match(evt.request)
-    const timestamp = TTL_CACHE.get(evt.request.url) || now
-    const index = await cache.match('index.html')
-
-    // TTL no ha exprirado
-    if (response !== undefined && now - timestamp < ttl) {
-      return response
-    }
-
-    try {
-      const res = await fetch(evt.request, getFetchOptions)
-      const resCloned = res.clone()
-
-      if (resCloned.ok) {
-        TTL_CACHE.set(evt.request.url, Date.now())
-        cache.put(evt.request, resCloned)
-      }
-
-      return res
-    } catch (e) {
-      if (!isOnline && response) return response
-      if (
-        !isOnline &&
-        !response &&
-        index &&
-        // Exclude any URLs whose last part seems to be a file extension
-        // as they're likely a resource and not a SPA route.
-        // URLs containing a "?" character won't be blacklisted as they're likely
-        // a route with query params (e.g. auth callbacks).
-        !evt.request.url.match(new RegExp('/[^/?]+\\.[^/]+$'))
-      )
-        return index
-
-      return new Response(`Ooops, service worker is failing here!! ${e}`, {
-        status: 404
-      })
-    }
-  }
-}
-
-function onFetch(evt) {
-  async function doRequest(evt) {
-    const {use, cacheFirst, networkOnly} = STRATEGIES
-
-    const response = pipe(
-      use(/chrome-extension/, networkOnly()),
-      use(/\/sites/, networkOnly()),
-      use(/\/folders/, networkOnly()),
-      use(/\/files/, networkOnly()),
-      use(/.*/, cacheFirst({ttl: Infinity}))
-    )(evt)
-
-    return response
-  }
-  evt.respondWith(doRequest(evt))
 }
 
 function onMessage(evt) {
@@ -130,18 +104,43 @@ function onMessage(evt) {
   console.log('ahora estamos', isOnline)
 }
 
-async function sendMessage(msg) {
-  var allClients = await clients.matchAll({includeUncontrolled: true})
-  await Promise.all(
-    allClients.map(function sendTo(client) {
-      var chan = new MessageChannel()
-      chan.port1.onmessage = onMessage
-      return client.postMessage(msg, [chan.port2])
-    })
-  )
+function onFetch(evt) {
+  // To allow use different strategies for different paths
+  async function doRequest(evt) {
+    const {use, cacheAndUpdate} = STRATEGIES
+    return pipe(use(self.location.hostname, cacheAndUpdate))(evt)
+  }
+
+  evt.respondWith(doRequest(evt))
 }
 
 self.addEventListener('install', onInstall)
 self.addEventListener('activate', onActivate)
 self.addEventListener('message', onMessage)
 self.addEventListener('fetch', onFetch)
+
+// The fetch handler serves responses for same-origin resources from a cache.
+// If no response is found, it populates the runtime cache with the response
+// from the network before returning it to the page.
+// self.addEventListener('fetch', async event => {
+//   // Skip cross-origin requests, like those for Google Analytics.
+//   if (event.request.url.match(self.location.hostname)) {
+//     event.respondWith(
+//       caches.match(event.request).then(cachedResponse => {
+//         if (cachedResponse) {
+//           if (isOnline) event.waitUntil(updateCacheAndReturn(event.request))
+//           return cachedResponse
+//         }
+//
+//         return caches.open(CACHE_NAME).then(cache => {
+//           return fetch(event.request).then(response => {
+//             // Put a copy of the response in the runtime cache.
+//             return cache.put(event.request, response.clone()).then(() => {
+//               return response
+//             })
+//           })
+//         })
+//       })
+//     )
+//   }
+// })
